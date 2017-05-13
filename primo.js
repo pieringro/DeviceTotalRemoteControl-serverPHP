@@ -60,11 +60,15 @@ function executePostRest(){
     var url = "https://fcm.googleapis.com/fcm/send";
     //var url = "https://localhost/nonesiste";
 
-    var dataParam = {"CommandId": "TAKE_PICTURE"};
+    var dataParam = {
+        "CommandId": "TAKE_PICTURE",
+        "FrontPic" : "3",
+        "BackPic" : "1"
+    };
 
     var params = {
         "data": dataParam,
-        "to": "dMLXIsr5gFM:APA91bFM1z5dP8hiJoX5QwcoT_OjuXbn8vHW6bQ78xiklz-H0ibj-ojiJYUrS4CqVD1rC8Qugko0tZUBZXJjrdt-6aroI1OdWtvaux_AcSxhIyKg8krgd43dgxwvmzXph7ma6O-B2l7d"
+        "to": "freCMa6J0IU:APA91bFmP-dfsO1wQ6pc1XGeCYJwcOCNU25nftlz75kwJSKLCSW11Vkz8lUkjBh9UI71AbGI77x44FYibrrkhBhqTmO6tobB6Z5WbrMufodxUBYcQvzVgoJ36-vezWLNsRZveuJokYnU"
     };
     
     postRest(url, params);
