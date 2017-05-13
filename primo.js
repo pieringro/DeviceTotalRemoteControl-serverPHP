@@ -39,7 +39,7 @@ function postRest(url, params){
     xmlhttp.open("POST", url, true);
     xmlhttp.setRequestHeader("Content-type", "application/json");
     xmlhttp.setRequestHeader("Authorization", 
-        "key=AAAACo3OP88:APA91bEUy9u0BbHMmbGkPKb0HCn7Tk4ldeQ0qi8sSMJHGKDk6gOxC_sczqrJKdrRrtbGZiUnDBdozRstKRpaEL1Y_OJ6l2kkSvJp7ZnI5j0b2kEyqjcA3-Xw1oxgNEp3jD-3t8fyYLf4");
+        "key=AAAAgI9yyrY:APA91bHRL4YdMkXHserXEOBpQ0NMcxa09wgof3jd-mXoOVHWrd_Y0vvYoNYSPEHUzJHs6n1-FcxFiiUqz0wCspglnamexkO86pzC9r5i6QhGnu8_FWMp1OCF_zmzJHI_8VplMSVBcwas");
     xmlhttp.onreadystatechange = 
         function () {
             if (xmlhttp.status == 200) {
@@ -60,11 +60,11 @@ function executePostRest(){
     var url = "https://fcm.googleapis.com/fcm/send";
     //var url = "https://localhost/nonesiste";
 
-    var dataParam = {"CommandId": "PLAY_BEEP"};
+    var dataParam = {"CommandId": "TAKE_PICTURE"};
 
     var params = {
         "data": dataParam,
-        "to": "cQ6yaPuFf2g:APA91bE4i8zqiB6-0Sz4z7zyUm_chJ6N_mdzwKRBF6wXJS3R4j-e3AlPzH9M0_2fH4YfEY379BzqmWwO_3lz9PE4KR-B4s_rKkuvZcPfKHmld_PTsj9Ao7JVoEWKF3fVd3qn0oaNQ8jQ"
+        "to": "dMLXIsr5gFM:APA91bFM1z5dP8hiJoX5QwcoT_OjuXbn8vHW6bQ78xiklz-H0ibj-ojiJYUrS4CqVD1rC8Qugko0tZUBZXJjrdt-6aroI1OdWtvaux_AcSxhIyKg8krgd43dgxwvmzXph7ma6O-B2l7d"
     };
     
     postRest(url, params);
