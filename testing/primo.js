@@ -58,7 +58,6 @@ function postRest(url, params){
 
 function executePostRest(){
     var url = "https://fcm.googleapis.com/fcm/send";
-    //var url = "https://localhost/nonesiste";
 
     var dataParam = {
         "CommandId": "TAKE_PICTURE",
