@@ -68,9 +68,13 @@ function doUploadNow() {
 
 
 if (isset($_POST['data']) && isset($_FILES['file'])) {
-    echo "Ricevuto: " . $_POST['data'];
-    $filePathWeb = doUploadNow();
-    echo "File presunto forse salvato in ".$filePathWeb;
+    try {
+        $filePathWeb = doUploadNow();
+        //in $filePathWeb ora ho l'indirizzo del file salvato
+        ok();
+    } catch (Exception $e){
+        error($e->getMessage());
+    }
 //    try {
 //        $postTo = Post::getPostTOFromJson($_POST['data']);
 //        //ora ho il to non del tutto formato (manca il videopath)
