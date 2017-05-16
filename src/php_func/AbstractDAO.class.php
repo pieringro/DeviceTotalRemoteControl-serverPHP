@@ -2,6 +2,7 @@
 
 require_once("ConnectToDB.class.php");
 
+require_once("DeviceDAO.class.php");
 
 /**
  * Questa classe è la root della gerarchia del package DAO. 
