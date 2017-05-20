@@ -6,7 +6,7 @@ require_once("AbstractDAO.class.php");
  * Entita del dispositivo.
  * Ogni dispositivo e' collegato all'account del proprietario
 */
-public class DeviceEntity extends AbstractDAO {
+class DeviceEntity extends AbstractDAO {
     private $table;
     private $fullFields;
     private $selectFields;

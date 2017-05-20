@@ -26,7 +26,6 @@
 
 require_once ("php_func/constants.php");
 
-
 function error($msg) {
     echo
     "{
