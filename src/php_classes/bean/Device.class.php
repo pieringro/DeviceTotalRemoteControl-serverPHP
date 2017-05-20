@@ -2,9 +2,13 @@
 
 require_once("AbstractDAO.class.php");
 
-
+//device_id, device_tokenFirebase
 class DeviceTO{
+    //dati in input dal dispositivo
+    public $device_id;
+    public $device_tokenFirebase;
 
+    public $userId;
 }
 
 
@@ -13,50 +17,37 @@ class DeviceTO{
 */
 class Device {
 
-
     /**
-     * Restituisce l'oggetto PostTO ottenuto dal parsing del json in input
+     * Restituisce l'oggetto DeviceTO ottenuto dal parsing del json in input
     */
-    public static function getPostTOFromJson($json) {
+    public static function getDeviceTOFromJson($json) {
         $thisObj = new DeviceTO($json);
-        return $thisObj->getPostTO();
+        return $thisObj->getDeviceTO();
     }
 
-
-
     private $data;
-    private $postTO;
+    private $deviceTO;
 
     function getDeviceTO() {
         if ($this->parsingJson()) {
-            return $this->postTO;
+            return $this->deviceTO;
         } else {
             throw new Exception("Error parsing json.");
         }
     }
 
     private function parsingJson() {
-        $lat = $this->data['lat'];
-        $lng = $this->data['lng'];
-        $accuracy = $this->data['accuracy'];
-        $title = $this->data['title'];
-        $description = $this->data['description'];
-        $timestamp = $this->data['timestamp'];
-        if (!(isset($lat) && isset($lng) && isset($accuracy) &&
-                isset($title) && isset($description) && isset($timestamp))) {
-
+        $device_id = $this->data['device_id'];
+        $device_tokenFirebase = $this->data['device_tokenFirebase'];
+        if (!(isset($device_id) && isset($device_tokenFirebase))) {
             return false;
-        } else {
-            $this->postTO->setLatitude($lat);
-            $this->postTO->setLongitude($lng);
-            $this->postTO->setAccuracy($accuracy);
-            $this->postTO->setTitle($title);
-            $this->postTO->setDescription($description);
-            $this->postTO->setTimestamp($timestamp);
+        }
+        else {
+            $this->deviceTO->device_id = $device_id;
+            $this->deviceTO->device_tokenFirebase = $device_tokenFirebase;
             return true;
         }
     }
-
 
 }
 

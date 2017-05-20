@@ -25,22 +25,8 @@
 */
 
 require_once ("php_func/constants.php");
+require_once("php_func/clientComunication.php");
 
-function error($msg) {
-    echo
-    "{
-        \"error\" : true,
-        \"message\" : \"$msg\"
-    }";
-    die();
-}
-
-function ok() {
-    echo
-    "{
-        \"error\" : false
-    }";
-}
 
 function doUploadNow() {
 
@@ -70,10 +56,19 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
     try {
         $filePathWeb = doUploadNow();
         //in $filePathWeb ora ho l'indirizzo del file salvato
+        //devo salvare sul db le informazioni $filePathWeb e associarle al device
+        
+
+
         ok();
     } catch (Exception $e){
         error($e->getMessage());
     }
+
+    
+
+
+
 //    try {
 //        $postTo = Post::getPostTOFromJson($_POST['data']);
 //        //ora ho il to non del tutto formato (manca il videopath)
