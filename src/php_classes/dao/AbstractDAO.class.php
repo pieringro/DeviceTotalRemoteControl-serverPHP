@@ -23,7 +23,7 @@ abstract class AbstractDAO{
     /**Inizializza nella matrice le corrispondenze nome -> classe dao*/
     private static function initMatrix(){
         AbstractDAO::$matrix = array(
-                              "device" => new DeviceEntity()
+            "device" => new DeviceDAO()
         );
     }
     
@@ -39,7 +39,6 @@ abstract class AbstractDAO{
         
         return AbstractDAO::$matrix[$string];
     }
-    
     
     
     

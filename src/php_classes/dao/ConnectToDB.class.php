@@ -12,14 +12,16 @@ class ConnectToDB{
     public function __construct(){
         $this->host = "localhost";
         $this->user = "root";
-        $this->password = "";
-        $this->database = "DTRC";
+        $this->password = "slipknot-123";
+        $this->database = "dtrc";
+        $this->port = 3320;
     }
     
     private $host;
     private $user;
     private $password;
     private $database;
+    private $port;
     
     private $mysqli;
     
@@ -29,7 +31,7 @@ class ConnectToDB{
     */
     public function connect(){
         
-        $this->mysqli = new mysqli( $this->host, $this->user, $this->password, $this->database );
+        $this->mysqli = new mysqli( $this->host, $this->user, $this->password, $this->database, $this->port);
         
         if( $this->mysqli->errno ){
             return false;
@@ -57,7 +59,6 @@ class ConnectToDB{
     */
     public function createDatabase(){
         $fullScript = "
-
 
 ";
         

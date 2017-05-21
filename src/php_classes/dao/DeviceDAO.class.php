@@ -6,23 +6,23 @@ require_once("AbstractDAO.class.php");
  * Entita del dispositivo.
  * Ogni dispositivo e' collegato all'account del proprietario
 */
-class DeviceEntity extends AbstractDAO {
+class DeviceDAO extends AbstractDAO {
     private $table;
     private $fullFields;
     private $selectFields;
     private $fakeValues;
 
     function __construct(){
-        $this->table = "";
-        $this->fullFields = "device_id, device_tokenFirebase";
-        $this->selectFields = "device_id, device_tokenFirebase";
-        $this->fakeValues = "?, ?";
+        $this->table = "dtrc_devices";
+        $this->fullFields = "id, tokenFirebase, emailuser";
+        $this->selectFields = "id, tokenFirebase, emailuser";
+        $this->fakeValues = "?, ?, ?";
     }
-
-        
+    
+    
     /**
      * Crea un nuovo record della tabella con i dati passati attraverso il to.
-     *
+     * @return true se la creazione ha successo
      * @throws Exception se si verifica qualche errore nel dialogo con il db
     */
     public function create($to){
@@ -33,18 +33,17 @@ class DeviceEntity extends AbstractDAO {
                 "INSERT INTO ".$this->table." ( ".$this->fullFields.
                     " ) VALUES ( ".$this->fakeValues." )");
             
-            $device_id = $to->getDeviceId();
-            $device_tokenFirebase = $to->getDeviceTokenFirebase();
+            $device_id = $to->device_id;
+            $device_tokenFirebase = $to->device_tokenFirebase;
+            $device_userId = $to->emailUser;
 
-            $stmt->bind_param("ss", $device_id, $device_tokenFirebase);
+            $stmt->bind_param("sss", $device_id, $device_tokenFirebase, $device_userId);
             
             $stmt->execute();
             
             if($stmt->errno || $stmt->error){
                 $this->disconnect();
-//              printf("Error: %s.\n", $stmt->error);
-                throw new Exception("Error place: ". $stmt->error);
-//              return false;
+                throw new Exception("Error device creation: ". $stmt->error); 
             }
             
             return true;
@@ -74,7 +73,8 @@ class DeviceEntity extends AbstractDAO {
         if($this->connect()){
             
             $stmt = $this->preparedStmt(
-                "SELECT ".$this->selectFields." FROM ".$this->table." WHERE device_id = ? and device_tokenFirebase = ?");
+                "SELECT ".$this->selectFields." FROM ".$this->table
+                    ." WHERE device_id = ? and device_tokenFirebase = ?");
             
             $stmt->bind_param("ss", $device_id, $device_tokenFirebase);
             

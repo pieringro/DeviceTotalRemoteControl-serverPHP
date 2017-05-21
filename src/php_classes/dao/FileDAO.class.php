@@ -11,13 +11,13 @@ class FileDAO extends AbstractDAO{
     private $fakeValues;
 
     function __construct(){
-        $this->table = "";
+        $this->table = "dtrc_files";
         $this->fullFields = "IDDevice, Path";
         $this->selectFields = "IDDevice, Path";
         $this->fakeValues = "?, ?";
     }
 
-        
+    
     /**
      * Crea un nuovo record della tabella con i dati passati attraverso il to.
      *
@@ -27,7 +27,17 @@ class FileDAO extends AbstractDAO{
         
     }
 
+    public function delete($to) {
+        
+    }
 
+    public function read($to) {
+        
+    }
+
+    public function update($oldTO, $newTO) {
+        
+    }
 
 }
 
