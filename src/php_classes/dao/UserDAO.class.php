@@ -5,7 +5,7 @@ require_once("AbstractDAO.class.php");
  * Entita del dispositivo.
  * Ogni dispositivo e' collegato all'account del proprietario
  */
-class DeviceDAO extends AbstractDAO {
+class UserDAO extends AbstractDAO {
 
     private $table;
     private $fullFields;
@@ -13,10 +13,10 @@ class DeviceDAO extends AbstractDAO {
     private $fakeValues;
 
     function __construct() {
-        $this->table = "dtrc_devices";
-        $this->fullFields = "id, tokenFirebase, emailuser";
-        $this->selectFields = "id, tokenFirebase, emailuser";
-        $this->fakeValues = "?, ?, ?";
+        $this->table = "dtrc_users";
+        $this->fullFields = "email, pass";
+        $this->selectFields = "email";
+        $this->fakeValues = "?, ?";
     }
 
     /**
@@ -32,17 +32,16 @@ class DeviceDAO extends AbstractDAO {
                     "INSERT INTO " . $this->table . " ( " . $this->fullFields .
                     " ) VALUES ( " . $this->fakeValues . " )");
 
-            $device_id = $to->device_id;
-            $device_tokenFirebase = $to->device_tokenFirebase;
-            $device_userId = $to->emailUser;
+            $email = $to->email;
+            $pass = $to->pass;
 
-            $stmt->bind_param("sss", $device_id, $device_tokenFirebase, $device_userId);
+            $stmt->bind_param("ss", $email, $pass);
 
             $stmt->execute();
 
             if ($stmt->errno || $stmt->error) {
                 $this->disconnect();
-                throw new Exception("Error device creation: " . $stmt->error);
+                throw new Exception("Error user creation: " . $stmt->error);
             }
 
             return true;
@@ -58,10 +57,10 @@ class DeviceDAO extends AbstractDAO {
      */
     public function read($to) {
 
-        $device_id = $to->getDeviceId();
-        $device_tokenFirebase = $to->getDeviceTokenFirebase();
+        $email = $to->email;
+        $pass = $to->pass;
 
-        if (!(isset($device_id) && isset($device_tokenFirebase))) {
+        if (!(isset($email) && isset($pass))) {
             return null;
         }
 
@@ -69,11 +68,11 @@ class DeviceDAO extends AbstractDAO {
 
             $stmt = $this->preparedStmt(
                     "SELECT " . $this->selectFields . " FROM " . $this->table
-                    . " WHERE device_id = ? and device_tokenFirebase = ?");
+                    . " WHERE email = ? and pass = ?");
 
-            $stmt->bind_param("ss", $device_id, $device_tokenFirebase);
+            $stmt->bind_param("ss", $email, $pass);
 
-            $stmt->bind_result($device_id, $device_tokenFirebase);
+            $stmt->bind_result($email);
 
             $stmt->execute();
 
@@ -85,11 +84,11 @@ class DeviceDAO extends AbstractDAO {
             $stmt->fetch();
             $this->disconnect();
 
-            if ($device_id == null || $device_tokenFirebase == null) {
+            if ($email == null || $pass == null) {
                 return null;
             } else {
-                $to->setDeviceId($device_id);
-                $to->setDeviceTokenFirebase($device_tokenFirebase);
+                $to->setDeviceId($email);
+                $to->setDeviceTokenFirebase($pass);
                 return $to;
             }
         } else {
@@ -101,13 +100,13 @@ class DeviceDAO extends AbstractDAO {
         if ($this->connect()) {
             
             $stmt = $this->preparedStmt(
-                    "UPDATE " . $this->table . " SET tokenFirebase = ? "
-                    . "WHERE emailUser = '" . $oldTO->emailUser . "' "
-                    . "and Id = '" . $oldTO->device_id . "'");
+                    "UPDATE " . $this->table . " SET pass = ? "
+                    . "WHERE email = '" . $oldTO->email . "' "
+                    . "and pass = '" . $oldTO->pass . "'");
 
-            $device_tokenFirebase = $newTO->device_tokenFirebase;
+            $newPass = $newTO->device_tokenFirebase;
             
-            $stmt->bind_param("s", $device_tokenFirebase);
+            $stmt->bind_param("s", $newPass);
 
             $stmt->execute();
 

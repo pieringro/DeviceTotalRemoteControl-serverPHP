@@ -3,6 +3,7 @@
 require_once("ConnectToDB.class.php");
 
 require_once("DeviceDAO.class.php");
+require_once("UserDAO.class.php");
 
 /**
  * Questa classe è la root della gerarchia del package DAO. 
@@ -23,7 +24,8 @@ abstract class AbstractDAO{
     /**Inizializza nella matrice le corrispondenze nome -> classe dao*/
     private static function initMatrix(){
         AbstractDAO::$matrix = array(
-            "device" => new DeviceDAO()
+            "device" => new DeviceDAO(),
+            "user" => new UserDAO()
         );
     }
     
