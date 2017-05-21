@@ -8,6 +8,7 @@ class DeviceTO{
     public $device_tokenFirebase;
 
     public $emailUser;
+    public $passUser;
     
     public function __toString(){
         return "DeviceTO : {"
@@ -65,6 +66,9 @@ class Device {
             
             if(isset($this->data['emailUser'])){
                 $this->deviceTO->emailUser = $this->data['emailUser'];
+            }
+            if(isset($this->data['passUser'])){
+                $this->deviceTO->passUser = $this->data['passUser'];
             }
             
             return true;

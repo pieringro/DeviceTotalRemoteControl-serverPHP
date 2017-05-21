@@ -23,10 +23,11 @@ require_once ("php_classes/BO/DeviceBO.class.php");
 //-------------- MAIN ---------------
 if (isset($_POST['data'])) {
     try {
+        
+        
+        
+        
         $deviceTO = Device::getDeviceTOFromJson($_POST['data']);
-
-        //echo 'Ottenuto '.$deviceTO;
-
         $deviceBO = new DeviceBO();
         $result = $deviceBO->newDevice($deviceTO);
 
