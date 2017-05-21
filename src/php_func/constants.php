@@ -2,6 +2,8 @@
 
     define('ROOT', "C:\\Apache24\\htdocs");
     
+    define('ROOT_WEB', $_SERVER['DOCUMENT_ROOT'].'/DTRC_src');
+    
     //cartella locale dove salvare i file ricevuti
     define('FILES_FOLDER', ROOT . "\\data");
     
