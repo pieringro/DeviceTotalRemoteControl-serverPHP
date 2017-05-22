@@ -87,8 +87,8 @@ class UserDAO extends AbstractDAO {
             if ($email == null || $pass == null) {
                 return null;
             } else {
-                $to->setDeviceId($email);
-                $to->setDeviceTokenFirebase($pass);
+                $to->email($email);
+                $to->pass($pass);
                 return $to;
             }
         } else {
