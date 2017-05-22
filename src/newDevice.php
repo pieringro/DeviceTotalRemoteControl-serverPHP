@@ -12,6 +12,9 @@
   "Email" : "<email_dell_utente">
   "Pass" : "<password_dell_utente">
   }
+
+  Il Device_tokenFirebase è opzionale, l'utente può associare il dispositivo anche se non ha ancora ottenuto
+  il token da firebase.
  */
 
 require_once ("php_func/constants.php");
@@ -24,14 +27,9 @@ require_once ("php_classes/BO/DeviceBO.class.php");
 //-------------- MAIN ---------------
 if (isset($_POST['data'])) {
     try {
-        
-        
-        
-        
         $deviceTO = Device::getDeviceTOFromJson($_POST['data']);
         $deviceBO = new DeviceBO();
         $result = $deviceBO->newDevice($deviceTO);
-
 
         if ($result) {
             ok();
