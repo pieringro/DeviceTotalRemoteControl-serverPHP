@@ -10,6 +10,7 @@
   "Device_tokenFirebase" : "<token_firebase_del_dispositivo>",
   "Device_id" : "<id_del_dispositivo>"
   "Email" : "<email_dell_utente">
+  "Pass" : "<password_dell_utente">
   }
  */
 
