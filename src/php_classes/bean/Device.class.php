@@ -55,15 +55,17 @@ class Device {
 
     private function parsingJson(&$message) {
         $device_id = $this->data['device_id'];
-        $device_tokenFirebase = $this->data['device_tokenFirebase'];
-        if (!(isset($device_id) && isset($device_tokenFirebase))) {
+
+        if (!(isset($device_id))) {
             $message = "Some required parameters are missing.";
             return false;
         }
         else {
             $this->deviceTO->device_id = $device_id;
-            $this->deviceTO->device_tokenFirebase = $device_tokenFirebase;
-            
+
+            if(isset($this->data['device_tokenFirebase'])){
+                $this->deviceTO->device_tokenFirebase = $this->data['device_tokenFirebase'];
+            }
             if(isset($this->data['emailUser'])){
                 $this->deviceTO->emailUser = $this->data['emailUser'];
             }
@@ -74,7 +76,6 @@ class Device {
             return true;
         }
     }
-
 }
 
 
