@@ -14,6 +14,7 @@ class DeviceBO {
     public function newDevice($deviceTO){
         if(($deviceTO instanceof DeviceTO)){
             if(isset($deviceTO->emailUser) && isset($deviceTO->passUser)){
+                //devo fare la login qui prima di creare il device
                 return $this->dao->create($deviceTO);
             }
         }
