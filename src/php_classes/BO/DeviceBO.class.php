@@ -1,16 +1,17 @@
 <?php
 require_once(ROOT_WEB . "/php_classes/dao/AbstractDAO.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
+require_once("UserBO.class.php");
 
 class DeviceBO {
 
     public function __construct() {
         $this->dao = AbstractDAO::getIstanceDAO("device");
-        $this->userDao = AbstractDAO::getIstanceDAO("user");
+        $this->userBO = new UserBO();
     }
 
     private $dao;
-    private $userDao;
+    private $userBO;
     
     
     public function newDevice($deviceTO){
@@ -20,7 +21,7 @@ class DeviceBO {
                 $userTO = new UserTO();
                 $userTO->email = $deviceTO->emailUser;
                 $userTO->pass = $deviceTO->passUser;
-                $loginSuccessful = $this->userDao->read($userTO);
+                $loginSuccessful = $this->userBO->loginUser($userTO);
                 if($loginSuccessful){
                     return $this->dao->create($deviceTO);
                 }
