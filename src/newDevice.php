@@ -7,10 +7,10 @@
  * Formato json richiesto in input
  *
   {
-  "Device_tokenFirebase" : "<token_firebase_del_dispositivo>",
-  "Device_id" : "<id_del_dispositivo>"
-  "Email" : "<email_dell_utente">
-  "Pass" : "<password_dell_utente">
+    "device_tokenFirebase" : "<token_firebase_del_dispositivo>",
+    "device_id" : "<id_del_dispositivo>",
+    "emailUser" : "ciccio@lina.cippa",
+    "passUser" : "cavallo"
   }
 
   Il Device_tokenFirebase è opzionale, l'utente può associare il dispositivo anche se non ha ancora ottenuto
@@ -35,10 +35,11 @@ if (isset($_POST['data'])) {
             ok();
         }
         else{
-            error($deviceBO->lastMessage);
+            error($deviceBO->lastErrorMessage);
         }
     } catch (Exception $e) {
         //meglio scrivere nel log il messaggio di eccezione $e->getMessage()
+        //error($e->getMessage());
         error("Unexpected server error.");
     }
 } else {

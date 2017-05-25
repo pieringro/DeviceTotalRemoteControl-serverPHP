@@ -10,6 +10,8 @@ class UserBO {
 
     private $dao;
     
+    public $lastErrorMessage;
+    
     
     public function newUser($userTO){
         if(($userTO instanceof UserTO)){
@@ -21,7 +23,16 @@ class UserBO {
     
     public function loginUser($userTO){
         if(($userTO instanceof UserTO)){
-            return $this->dao->read($userTO);
+            $queryResult = $this->dao->read($userTO);
+            if(!$queryResult){
+                $this->lastErrorMessage = "Login failed.";
+            }
+            else{
+                return true;
+            }
+        }
+        else{
+            $this->lastErrorMessage = "Input data error";
         }
         return false;
     }

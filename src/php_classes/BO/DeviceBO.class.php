@@ -28,15 +28,16 @@ class DeviceBO {
                     return $this->dao->create($deviceTO);
                 }
                 else{
-                    $lastErrorMessage = "Unable to perform login.";
+                    $this->lastErrorMessage = "Unable to perform login. "
+                            .$this->userBO->lastErrorMessage;
                 }
             }
             else{
-                $lastErrorMessage = "Unable to perform login.";
+                $this->lastErrorMessage = "Unable to perform login. Missing user data.";
             }
         }
-        if(!isset($lastErrorMessage)){
-            $lastErrorMessage = "Unable to add this new device.";
+        if(!isset($this->lastErrorMessage)){
+            $this->lastErrorMessage = "Unable to add this new device.";
         }
         return false;
     }
@@ -48,8 +49,8 @@ class DeviceBO {
                 return $this->dao->update($deviceTO, $deviceTO);
             }
         }
-        if(!isset($lastErrorMessage)){
-            $lastErrorMessage = "Unable to update token of this new device.";
+        if(!isset($this->lastErrorMessage)){
+            $this->lastErrorMessage = "Unable to update token of this new device.";
         }
         return false;
     }

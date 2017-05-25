@@ -14,7 +14,8 @@ class DeviceTO{
         return "DeviceTO : {"
                 .$this->device_id.", "
                 .$this->device_tokenFirebase.", "
-                .$this->emailUser
+                .$this->emailUser.", "
+                .$this->passUser
                 ."}";
     }
 }
@@ -57,7 +58,7 @@ class Device {
         $device_id = $this->data['device_id'];
 
         if (!(isset($device_id))) {
-            $message = "Some required parameters are missing.";
+            $message = "Device: Some required parameters are missing.";
             return false;
         }
         else {

@@ -1,32 +1,32 @@
 <?php
 
-class UserTO{
+class UserTO {
+
     public $email;
     public $pass;
-    
-        public function __toString(){
+
+    public function __toString() {
         return "UserTO : {"
-            .$this->email.", "
-            .$this->pass
-            ."}";
+                . $this->email . ", "
+                . $this->pass
+                . "}";
     }
+
 }
-
-
 
 /**
  * Decodifica il json per ottenere i dati relativi all'entita' User
-*/
+ */
 class User {
 
     /**
      * Restituisce l'oggetto UserTO ottenuto dal parsing del json in input
-    */
+     */
     public static function getUserTOFromJson($json) {
         $thisObj = new User($json);
         return $thisObj->getUserTO();
     }
-    
+
     /**
      * @param $json il json con i dati del Post
      */
@@ -43,7 +43,7 @@ class User {
         if ($result) {
             return $this->userTO;
         } else {
-            throw new Exception("Error parsing json. Message=".$message);
+            throw new Exception("Error parsing json. Message=" . $message);
         }
     }
 
@@ -53,8 +53,7 @@ class User {
         if (!(isset($email) && isset($pass))) {
             $message = "Some required parameters are missing.";
             return false;
-        }
-        else {
+        } else {
             $this->userTO->email = $email;
             $this->userTO->pass = $pass;
             return true;
@@ -62,9 +61,5 @@ class User {
     }
 
 }
-
-
-
-
 
 ?>

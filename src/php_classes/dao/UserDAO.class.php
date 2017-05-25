@@ -14,8 +14,8 @@ class UserDAO extends AbstractDAO {
 
     function __construct() {
         $this->table = "dtrc_users";
-        $this->fullFields = "email, pass";
-        $this->selectFields = "email";
+        $this->fullFields = "Email, Pass";
+        $this->selectFields = "Email";
         $this->fakeValues = "?, ?";
     }
 
@@ -68,11 +68,11 @@ class UserDAO extends AbstractDAO {
 
             $stmt = $this->preparedStmt(
                     "SELECT " . $this->selectFields . " FROM " . $this->table
-                    . " WHERE email = ? and pass = ?");
+                    . " WHERE Email = ? and Pass = ?");
 
             $stmt->bind_param("ss", $email, $pass);
 
-            $stmt->bind_result($email);
+            $stmt->bind_result($emailResult);
 
             $stmt->execute();
 
@@ -84,11 +84,11 @@ class UserDAO extends AbstractDAO {
             $stmt->fetch();
             $this->disconnect();
 
-            if ($email == null || $pass == null) {
+            if ($emailResult == null) {
                 return null;
             } else {
-                $to->email($email);
-                $to->pass($pass);
+                $to->email = $emailResult;
+                $to->pass = $pass;
                 return $to;
             }
         } else {
