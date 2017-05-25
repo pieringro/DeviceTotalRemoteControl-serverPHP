@@ -34,8 +34,12 @@ if (isset($_POST['data'])) {
         if ($result) {
             ok();
         }
+        else{
+            error($deviceBO->lastMessage);
+        }
     } catch (Exception $e) {
-        error($e->getMessage());
+        //meglio scrivere nel log il messaggio di eccezione $e->getMessage()
+        error("Unexpected server error.");
     }
 } else {
     error("No data passed.");
