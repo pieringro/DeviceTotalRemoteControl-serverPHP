@@ -20,7 +20,7 @@ class UserTO{
 class User {
 
     /**
-     * Restituisce l'oggetto DeviceTO ottenuto dal parsing del json in input
+     * Restituisce l'oggetto UserTO ottenuto dal parsing del json in input
     */
     public static function getUserTOFromJson($json) {
         $thisObj = new User($json);
