@@ -27,9 +27,17 @@ class DeviceBO {
                 if($loginSuccessful){
                     return $this->dao->create($deviceTO);
                 }
+                else{
+                    $lastErrorMessage = "Unable to perform login.";
+                }
+            }
+            else{
+                $lastErrorMessage = "Unable to perform login.";
             }
         }
-        $lastErrorMessage = "Unable to add this new device.";
+        if(!isset($lastErrorMessage)){
+            $lastErrorMessage = "Unable to add this new device.";
+        }
         return false;
     }
     
@@ -39,6 +47,9 @@ class DeviceBO {
             if(isset($deviceTO->emailUser)){
                 return $this->dao->update($deviceTO, $deviceTO);
             }
+        }
+        if(!isset($lastErrorMessage)){
+            $lastErrorMessage = "Unable to update token of this new device.";
         }
         return false;
     }
