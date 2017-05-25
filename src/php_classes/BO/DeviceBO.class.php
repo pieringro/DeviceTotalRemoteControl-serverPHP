@@ -12,6 +12,8 @@ class DeviceBO {
 
     private $dao;
     private $userBO;
+
+    public $lastErrorMessage;
     
     
     public function newDevice($deviceTO){
@@ -27,6 +29,7 @@ class DeviceBO {
                 }
             }
         }
+        $lastErrorMessage = "Unable to add this new device.";
         return false;
     }
     
