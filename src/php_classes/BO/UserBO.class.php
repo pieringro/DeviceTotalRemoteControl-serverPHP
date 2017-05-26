@@ -23,6 +23,13 @@ class UserBO {
     
     public function loginUser($userTO){
         if(($userTO instanceof UserTO)){
+
+            //la password dovrebbe essere gia' criptata!
+            
+            if (hash_equals($hashed_password, crypt($user_input, $hashed_password))) {
+                echo "Password verified!";
+            }
+
             $queryResult = $this->dao->read($userTO);
             if(!$queryResult){
                 $this->lastErrorMessage = "Login failed.";
