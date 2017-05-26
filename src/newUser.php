@@ -9,8 +9,8 @@ if (isset($_POST['data'])) {
     try {
         $userTO = User::getUserTOFromJson($_POST['data']);
 
-        //logica di criptazione della password
         if(isset($userTO->email) && isset($userTO->pass)){
+            //logica di criptazione della password
             $hashed_password = crypt($userTO->pass);
             $userTO->pass = $hashed_password;
 
