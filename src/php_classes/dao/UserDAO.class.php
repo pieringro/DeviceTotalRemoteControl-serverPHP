@@ -15,7 +15,7 @@ class UserDAO extends AbstractDAO {
     function __construct() {
         $this->table = "dtrc_users";
         $this->fullFields = "Email, Pass";
-        $this->selectFields = "Email";
+        $this->selectFields = "Email, Pass";
         $this->fakeValues = "?, ?";
     }
 
@@ -59,6 +59,8 @@ class UserDAO extends AbstractDAO {
 
         $email = $to->email;
         $pass = $to->pass;
+        $emailResult = null;
+        $passResult = null;
 
         if (!(isset($email) && isset($pass))) {
             return null;
@@ -68,12 +70,10 @@ class UserDAO extends AbstractDAO {
 
             $stmt = $this->preparedStmt(
                     "SELECT " . $this->selectFields . " FROM " . $this->table
-                    . " WHERE Email = ? and Pass = ?");
-
-            $stmt->bind_param("ss", $email, $pass);
-
-            $stmt->bind_result($emailResult);
-
+                    . " WHERE Email = ?");
+            
+            $stmt->bind_param("s", $email);
+            $stmt->bind_result($emailResult, $passResult);
             $stmt->execute();
 
             if ($stmt->errno || $stmt->error) {
@@ -83,15 +83,19 @@ class UserDAO extends AbstractDAO {
 
             $stmt->fetch();
             $this->disconnect();
-
+            
             if ($emailResult == null) {
                 return null;
             } else {
+                $to = new UserTO();
                 $to->email = $emailResult;
-                $to->pass = $pass;
+                $to->pass = $passResult;
                 return $to;
             }
-        } else {
+            
+            return null;
+        }
+        else {
             throw new Exception("Database connection error");
         }
     }

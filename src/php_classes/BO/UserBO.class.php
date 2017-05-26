@@ -15,6 +15,8 @@ class UserBO {
     
     public function newUser($userTO){
         if(($userTO instanceof UserTO)){
+            //logica di criptazione della password
+            $userTO->pass = crypt($userTO->pass);
             return $this->dao->create($userTO);
         }
         return false;
@@ -22,20 +24,20 @@ class UserBO {
     
     
     public function loginUser($userTO){
-        if(($userTO instanceof UserTO)){
-
-            //la password dovrebbe essere gia' criptata!
-            
-            if (hash_equals($hashed_password, crypt($user_input, $hashed_password))) {
-                echo "Password verified!";
-            }
-
+        if($userTO instanceof UserTO){
             $queryResult = $this->dao->read($userTO);
             if(!$queryResult){
                 $this->lastErrorMessage = "Login failed.";
             }
             else{
-                return true;
+                if($queryResult instanceof UserTO){
+                    if(hash_equals($queryResult->pass, crypt($userTO->pass, $queryResult->pass))){
+                        return true;
+                    }
+                    else{
+                        $this->lastErrorMessage = "Login failed.";
+                    }
+                }
             }
         }
         else{
