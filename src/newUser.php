@@ -9,12 +9,22 @@ if (isset($_POST['data'])) {
     try {
         $userTO = User::getUserTOFromJson($_POST['data']);
 
-        $userBO = new UserBO();
-        $result = $userBO->newUser($userTO);
+        //logica di criptazione della password
+        if(isset($userTO->email) && isset($userTO->pass)){
+            $hashed_password = crypt($userTO->pass);
+            $userTO->pass = $hashed_password;
 
-        if ($result) {
-            ok();
+            $userBO = new UserBO();
+            $result = $userBO->newUser($userTO);
+            
+            if ($result) {
+                ok();
+            }
+            else{
+                error("Unable to create new user.");
+            }
         }
+
     } catch (Exception $e) {
         error($e->getMessage());
     }
