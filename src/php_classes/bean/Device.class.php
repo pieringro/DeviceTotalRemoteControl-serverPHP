@@ -73,7 +73,6 @@ class Device {
             if(isset($this->data['passUser'])){
                 $this->deviceTO->passUser = $this->data['passUser'];
             }
-            
             return true;
         }
     }

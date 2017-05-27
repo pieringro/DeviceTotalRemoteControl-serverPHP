@@ -17,7 +17,7 @@ if (isset($_POST['data'])) {
                 ok();
             }
             else{
-                error("Unable to create new user.");
+                error("Unable to create new user. ".$userBO->lastErrorMessage);
             }
         }
 

@@ -5,10 +5,9 @@
  * associata a un determinato id device. In piu' il file inviato con multipart/form-data
  *
  * Formato json richiesto in input
- *
   {
-      "Device_tokenFirebase" : "<token_firebase_del_dispositivo>",
-      "Device_id" : "<id_del_dispositivo>"
+      "device_tokenFirebase" : "<token_firebase_del_dispositivo>",
+      "device_id" : "<id_del_dispositivo>"
   }
  *
  * Prima di salvare il file sul server, deve effettuare una validazione sui dati
@@ -57,32 +56,25 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
         $filePathWeb = doUploadNow();
         //in $filePathWeb ora ho l'indirizzo del file salvato
         //devo salvare sul db le informazioni $filePathWeb e associarle al device
+        $pictureTO = Picture::getPictureTOFromJson($_POST['data']);
         
-
-
+        if(isset($pictureTO->deviceId)){
+            $deviceBO = new DeviceBO();
+            $result = $pictureBO->newPicture($pictureTO);
+            
+            if ($result) {
+                ok();
+            }
+            else{
+                error("Unable to create new picture. ".$pictureBO->lastErrorMessage);
+            }
+        }
+        
         ok();
+        
     } catch (Exception $e){
         error($e->getMessage());
     }
-
-    
-
-
-
-//    try {
-//        $postTo = Post::getPostTOFromJson($_POST['data']);
-//        //ora ho il to non del tutto formato (manca il videopath)
-//        $filePathWeb = doUploadNow();
-//        $postTo->setVideopath($filePathWeb);
-//
-//        $postBO = new PostBO();
-//
-//        if ($postBO->newPost($postTo)) {
-//            ok();
-//        }
-//    } catch (Exception $e) {
-//        error($e->getMessage());
-//    }
 }
 else {
     if (isset($_SERVER["CONTENT_LENGTH"])){

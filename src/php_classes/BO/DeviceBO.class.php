@@ -2,16 +2,16 @@
 require_once(ROOT_WEB . "/php_classes/dao/AbstractDAO.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once("UserBO.class.php");
+require_once(QCODO_INCLUDE_FOLDER . "/prepend.inc.php");
+require_once(__DATA_CLASSES__ . "/DtrcDevices.class.php");
 
 class DeviceBO {
 
     public function __construct() {
-        $this->dao = AbstractDAO::getIstanceDAO("device");
-        $this->userBO = new UserBO();
+        $this->deviceBO = new UserBO();
     }
 
-    private $dao;
-    private $userBO;
+    private $deviceBO;
 
     public $lastErrorMessage;
     
@@ -23,13 +23,26 @@ class DeviceBO {
                 $userTO = new UserTO();
                 $userTO->email = $deviceTO->emailUser;
                 $userTO->pass = $deviceTO->passUser;
-                $loginSuccessful = $this->userBO->loginUser($userTO);
-                if($loginSuccessful){
-                    return $this->dao->create($deviceTO);
+                $loginResult = $this->deviceBO->loginUser($userTO);
+                if($loginResult){
+                    $qcodoEntity = new DtrcDevices();
+                    $qcodoEntity->InitDataWithTO($deviceTO);
+                    try{
+                        $saveResult = $qcodoEntity->Save();
+                        if(is_bool($saveResult) && !$saveResult){
+                            $this->lastErrorMessage = "Device already exists.";
+                            return false;
+                        }
+                        return true;
+                    } catch (Exception $e){
+                        //salvo il message dell'exception nel log
+                        $this->lastErrorMessage = "Exception while saving new user. ";
+                        return false;
+                    }
                 }
                 else{
                     $this->lastErrorMessage = "Unable to perform login. "
-                            .$this->userBO->lastErrorMessage;
+                            .$this->deviceBO->lastErrorMessage;
                 }
             }
             else{
@@ -46,7 +59,18 @@ class DeviceBO {
     public function updateTokenDevice($deviceTO){
         if(($deviceTO instanceof DeviceTO)){
             if(isset($deviceTO->emailUser)){
-                return $this->dao->update($deviceTO, $deviceTO);
+                $qcodoEntity = new DtrcDevices();
+                $qcodoEntity->InitDataWithTO($deviceTO);
+                
+                try{
+                    $qcodoEntity->Save(true, true);
+                    return true;
+                } catch(Exception $e){
+                    $this->lastErrorMessage = "Unable to update token.";
+                    return false;
+                }
+                
+                
             }
         }
         if(!isset($this->lastErrorMessage)){
