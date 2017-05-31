@@ -59,7 +59,7 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
         $pictureTO = Picture::getPictureTOFromJson($_POST['data']);
         
         if(isset($pictureTO->deviceId)){
-            $deviceBO = new DeviceBO();
+            $pictureBO = new PictureBO();
             $result = $pictureBO->newPicture($pictureTO);
             
             if ($result) {
