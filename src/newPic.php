@@ -62,7 +62,7 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
         
         if(isset($pictureTO->deviceId)){
             $pictureBO = new PictureBO();
-            
+
             $result = $pictureBO->newPicture($pictureTO);
             
             if ($result) {
