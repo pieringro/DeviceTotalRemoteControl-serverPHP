@@ -18,8 +18,7 @@ class UserBO {
             $userTO->pass = @crypt($userTO->pass);
             
             $qcodoEntity = new DtrcUsers();
-            $qcodoEntity->Email = $userTO->email;
-            $qcodoEntity->Pass = $userTO->pass;
+            $qcodoEntity->InitDataWithTO($userTO);
             
             try{
                 $qcodoEntity->Save();

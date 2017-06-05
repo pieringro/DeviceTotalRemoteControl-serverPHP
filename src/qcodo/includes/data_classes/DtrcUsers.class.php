@@ -39,6 +39,17 @@
                     return false;
                 }
 
+                
+                
+                public function InitDataWithTO($userTO){
+                    if($userTO instanceof UserTO){
+                        $this->Email = $userTO->email;
+                        $this->Pass = $userTO->pass;
+                    }
+                }
+                
+                
+                
 
 		// Override or Create New Load/Count methods
 		// (For obvious reasons, these methods are commented out...

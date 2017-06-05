@@ -26,6 +26,15 @@
 		public function __toString() {
 			return sprintf('DtrcFiles Object %s',  $this->intId);
 		}
+                
+                
+                public function InitDataWithPictureTO($pictureTO){
+                    if($pictureTO instanceof PictureTO){
+                        $this->IDDevices = $pictureTO->deviceId;
+                        $this->Path = $pictureTO->path;
+                    }
+                }
+                
 
 
 		// Override or Create New Load/Count methods

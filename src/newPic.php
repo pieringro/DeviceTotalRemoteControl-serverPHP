@@ -25,14 +25,15 @@
 
 require_once ("php_func/constants.php");
 require_once("php_func/clientComunication.php");
+require_once ("php_classes/bean/Picture.class.php");
+require_once ("php_classes/BO/PictureBO.class.php");
 
 
 function doUploadNow() {
 
-    // verifico che il file è stato caricato
+    // verifico che il file sia stato caricato
     if (!is_uploaded_file($_FILES['file']['tmp_name']) ||
             $_FILES['file']['error'] > 0) {
-
         throw new Exception("Error uploading file. error=".$_FILES['file']['error']);
     }
 
@@ -57,9 +58,11 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
         //in $filePathWeb ora ho l'indirizzo del file salvato
         //devo salvare sul db le informazioni $filePathWeb e associarle al device
         $pictureTO = Picture::getPictureTOFromJson($_POST['data']);
+        $pictureTO->path = $filePathWeb;
         
         if(isset($pictureTO->deviceId)){
-            $deviceBO = new DeviceBO();
+            $pictureBO = new PictureBO();
+            
             $result = $pictureBO->newPicture($pictureTO);
             
             if ($result) {

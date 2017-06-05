@@ -8,10 +8,10 @@ require_once(__DATA_CLASSES__ . "/DtrcDevices.class.php");
 class DeviceBO {
 
     public function __construct() {
-        $this->deviceBO = new UserBO();
+        $this->userBO = new UserBO();
     }
 
-    private $deviceBO;
+    private $userBO;
 
     public $lastErrorMessage;
     
@@ -23,7 +23,7 @@ class DeviceBO {
                 $userTO = new UserTO();
                 $userTO->email = $deviceTO->emailUser;
                 $userTO->pass = $deviceTO->passUser;
-                $loginResult = $this->deviceBO->loginUser($userTO);
+                $loginResult = $this->userBO->loginUser($userTO);
                 if($loginResult){
                     $qcodoEntity = new DtrcDevices();
                     $qcodoEntity->InitDataWithTO($deviceTO);
@@ -42,7 +42,7 @@ class DeviceBO {
                 }
                 else{
                     $this->lastErrorMessage = "Unable to perform login. "
-                            .$this->deviceBO->lastErrorMessage;
+                            .$this->userBO->lastErrorMessage;
                 }
             }
             else{
@@ -63,18 +63,20 @@ class DeviceBO {
                 $qcodoEntity->InitDataWithTO($deviceTO);
                 
                 try{
-                    $qcodoEntity->Save(true, true);
+                    $updateResult = $qcodoEntity->Save(false, true);
+                    if(is_bool($updateResult) && !$updateResult){
+                        $this->lastErrorMessage = "Device does not exist.";
+                        return false;
+                    }
                     return true;
                 } catch(Exception $e){
                     $this->lastErrorMessage = "Unable to update token.";
                     return false;
                 }
-                
-                
             }
         }
         if(!isset($this->lastErrorMessage)){
-            $this->lastErrorMessage = "Unable to update token of this new device.";
+            $this->lastErrorMessage = "Unable to update token for this device.";
         }
         return false;
     }
