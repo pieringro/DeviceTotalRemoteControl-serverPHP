@@ -6,7 +6,6 @@
  *
  * Formato json richiesto in input
   {
-      "device_tokenFirebase" : "<token_firebase_del_dispositivo>",
       "device_id" : "<id_del_dispositivo>"
   }
  *
@@ -24,23 +23,28 @@
 */
 
 require_once ("php_func/constants.php");
-require_once("php_func/clientComunication.php");
+require_once ("php_func/clientComunication.php");
 require_once ("php_classes/bean/Picture.class.php");
 require_once ("php_classes/BO/PictureBO.class.php");
 
 
-function doUploadNow() {
+function doUploadNow($userFolder) {
+    $completePath = FILES_FOLDER."\\".$userFolder;
 
+    if (!file_exists($completePath)) {
+        mkdir($completePath, 0777, true);
+    }
+    
     // verifico che il file sia stato caricato
     if (!is_uploaded_file($_FILES['file']['tmp_name']) ||
             $_FILES['file']['error'] > 0) {
         throw new Exception("Error uploading file. error=".$_FILES['file']['error']);
     }
 
-    $filePath = FILES_FOLDER."/".$_FILES['file']['name'];
+    $filePath = $completePath."\\".$_FILES['file']['name'];
     
     if (move_uploaded_file($_FILES['file']['tmp_name'], $filePath)) {
-        $filePathWeb = FILES_FOLDER_WEB."/".$_FILES['file']['name'];
+        $filePathWeb = FILES_FOLDER_WEB."/".$userFolder."/".$_FILES['file']['name'];
         return $filePathWeb;
     }
     else{
@@ -54,13 +58,15 @@ function doUploadNow() {
 
 if (isset($_POST['data']) && isset($_FILES['file'])) {
     try {
-        $filePathWeb = doUploadNow();
-        //in $filePathWeb ora ho l'indirizzo del file salvato
-        //devo salvare sul db le informazioni $filePathWeb e associarle al device
+        
         $pictureTO = Picture::getPictureTOFromJson($_POST['data']);
-        $pictureTO->path = $filePathWeb;
         
         if(isset($pictureTO->deviceId)){
+            
+            $filePathWeb = doUploadNow($pictureTO->deviceId);
+
+            $pictureTO->path = $filePathWeb;
+            
             $pictureBO = new PictureBO();
 
             $result = $pictureBO->newPicture($pictureTO);
@@ -72,9 +78,10 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
                 error("Unable to create new picture. ".$pictureBO->lastErrorMessage);
             }
         }
-        
-        ok();
-        
+        else{
+            error("Missing device identifier.");
+        }
+                
     } catch (Exception $e){
         error($e->getMessage());
     }
@@ -83,6 +90,7 @@ else {
     if (isset($_SERVER["CONTENT_LENGTH"])){
         if($_SERVER["CONTENT_LENGTH"]>((int)ini_get('post_max_size')*1024*1024)){
             error("File too big.");
+            die();
         }
     }
 

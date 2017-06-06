@@ -41,6 +41,11 @@ class UserBO {
             else{
                 if($queryResult instanceof UserTO){
                     if(hash_equals($queryResult->pass, crypt($userTO->pass, $queryResult->pass))){
+                        //login riuscita. Ora si inizializza la sessione
+                        //setto la lifetime del cookie di sessione
+                        session_set_cookie_params(0);
+                        @session_start();
+                        $_SESSION['user'] = serialize($queryResult);
                         return true;
                     }
                     else{

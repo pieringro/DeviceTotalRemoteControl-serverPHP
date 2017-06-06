@@ -6,7 +6,6 @@ function error($msg) {
         \"error\" : true,
         \"message\" : \"$msg\"
     }";
-    die();
 }
 
 function ok() {
