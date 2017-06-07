@@ -7,6 +7,7 @@ require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 session_start();
 if(isset($_SESSION['user'])){
     $to = unserialize(@$_SESSION['user']);
+    //inserira in session anche una variabile che identifica il token dei dispositivi di quest'utente
 }
 
 if(isset($to) && $to != false && $to instanceof UserTO){
