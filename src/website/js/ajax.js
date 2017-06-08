@@ -62,8 +62,21 @@ function getXMLHttpRequest(handler) {
 // Non sono tutti i gestori, per praticita' alcuni sono stati introdotti nei file script
 //stessi dove vengono chiamati.
 
+/**
+ * Funzione che cattura il risultato di una chiamata AJAX di invio.
+ * Chiamata di invio, cioe' abbiamo comunicato allo script php
+ * Non fa praticamente nulla.
+ */
+function getResponseUpdate() {
+    if (ajax.readyState == 4) {
+        alert('ajax.js: getResponseUpdate: Richiesta AJAX Ricevuto: ' + ajax.responseText);
+    }
+}
 
 
-
+/*
+func_ajax("POST", "urlfilephp_che_riceve_la_richiesta_ajax_asincrona.php",
+        "dato1=true&dato2=valore2", HandlerFunction);
+*/
 
 //-------------------------------------------------------------

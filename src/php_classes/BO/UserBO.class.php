@@ -34,7 +34,7 @@ class UserBO {
     
     public function loginUser($userTO){
         if($userTO instanceof UserTO){
-            $queryResult = DtrcUsers::Load($userTO->email);
+            $queryResult = DtrcUsers::LoadInTO($userTO->email);
             if(!$queryResult){
                 $this->lastErrorMessage = "Login failed. User does not exists.";
             }
@@ -46,6 +46,9 @@ class UserBO {
                         session_set_cookie_params(0);
                         @session_start();
                         $_SESSION['user'] = serialize($queryResult);
+                        
+                        
+                        
                         return true;
                     }
                     else{
@@ -59,6 +62,27 @@ class UserBO {
         }
         return false;
     }
+    
+    public function getDevicesToFromUser($userTO){
+        if($userTO instanceof UserTO){
+            $dtrcUser = DtrcUsers::Load($userTO->email);
+            if(isset($dtrcUser) && $dtrcUser instanceof DtrcUsers){
+                $dtrcDevicesList = $dtrcUser->GetDtrcDevicesAsEmailUserArray();
+                $dtrcDevicesToList = array();
+                foreach($dtrcDevicesList as $aDtrcDevice){
+                    $dtrcDeviceTO = new DeviceTO();
+                    $dtrcDeviceTO->device_id = $aDtrcDevice->Id;
+                    $dtrcDeviceTO->device_tokenFirebase = $aDtrcDevice->TokenFirebase;
+                    $dtrcDeviceTO->emailUser = $aDtrcDevice->EmailUser;
+                    $dtrcDevicesToList[] = $dtrcDeviceTO;
+                }
+                
+                return $dtrcDevicesToList;
+            }
+        }
+        return null;
+    }
+    
 }
     
 ?>

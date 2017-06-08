@@ -28,7 +28,7 @@
 		}
                 
                 
-                public static function Load($strEmail) {
+                public static function LoadInTO($strEmail) {
                     $result = parent::Load($strEmail);
                     if(isset($result)){
                         $userTo = new UserTO();
@@ -39,7 +39,6 @@
                     return false;
                 }
 
-                
                 
                 public function InitDataWithTO($userTO){
                     if($userTO instanceof UserTO){

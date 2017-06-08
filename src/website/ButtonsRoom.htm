@@ -10,20 +10,16 @@
         <!-- Pulsanti, form su script che legge dai cookie i token. da ButtonsRoom.php verranno passati gli id dei device
         cosi da generare una combobox e definire il device a cui dare ordini -->
 
-        <form action="" method="POST">
+        <input type=text list=iddevices >
+        <datalist id=iddevices >
+            @iddevices@
+            <option> Test 1 </option>
+            <option> Test 2 </option>
+        </datalist>
 
-            <input type=text list=iddevices >
-            <datalist id=iddevices >
-                @iddevices@
-                <option> Google </option>
-                <option> IE9 </option>
-            </datalist>
+        <input type="button" value="Send beep" onclick="PlayBeepCommand(@deviceToken@)" />
 
-            <input type="button" value="" />
 
-        </form>
-
-        @dato@
         
     </div>
     
