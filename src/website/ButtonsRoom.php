@@ -12,8 +12,8 @@ if(isset($_SESSION['user']) && isset($_SESSION['idDevicesList'])){
     //inserira in session anche una variabile che identifica i diversi token dei dispositivi di quest'utente
     $deviceToken = "Valore preso dalla sessione";
     
-    $userBo = new UserBO();
-    $devicesTOList = $userBo->getDevicesToFromUser($userTo);
+    $userBO = new UserBO();
+    $devicesTOList = $userBO->getDevicesToFromUser($userTo);
     $devicesIdsStringForHtml = "";
     foreach($devicesTO as $devicesTOList){
         $devicesIdsStringForHtml .= "<option>".$devicesTO->Id."</option>";
@@ -29,39 +29,59 @@ if(isset($_SESSION['user']) && isset($_SESSION['idDevicesList'])){
 //    $htmlString = str_replace("@iddevices@", $devicesIdsStringForHtml, $htmlString);
 //    echo $htmlString;
 }
-
-
-
-
-if($userLogged){
 ?>
 
-    <!DOCTYPE html>
-    <html>
+<!DOCTYPE html>
+<html>
+
+<?php
+if($userLogged){
+?>
     <head>
         <title>La stanza dei bottoni</title>
         <link href="css/buttons.css" rel="stylesheet" type="text/css">
+        <script language="text/javascript" src="js/SendCommands.js"></script>
     </head>
     <body>
         <div style="width:300px; margin:0 auto;">
             <!-- Pulsanti, form su script che legge dai cookie i token. da ButtonsRoom.php verranno passati gli id dei device
             cosi da generare una combobox e definire il device a cui dare ordini -->
 
-            <input type=text list=iddevices >
-            <datalist id=iddevices >
-                <?php echo $devicesIdsStringForHtml; ?>
-                <option> Test 1 </option>
-                <option> Test 2 </option>
-            </datalist>
-
-            <input type="button" value="Send beep" onclick="PlayBeepCommand(<?php echo $deviceToken; ?>)" />
-
+             <table style="width:100%">
+                <tr>
+                    <td>
+                        <input type=text list=iddevices >
+                        <datalist id=iddevices >
+                            <?php echo $devicesIdsStringForHtml; ?>
+                            <option> Test 1 </option>
+                            <option> Test 2 </option>
+                        </datalist>
+                    </td>
+                    <td>
+                        <input type="button" value="Send beep" onclick="PlayBeepCommand(<?php echo $deviceToken; ?>)" />
+                    </td>
+                    <td>
+                        <input type="button" value="Send beep" onclick="(<?php echo $deviceToken; ?>)" />
+                    </td>
+                </tr>
+             </table> 
         </div>
-
     </body>
     </html>
-
 <?php 
+}
+else{
+?>
+    <head></head>
+    <body>
+        <div style="width:300px; margin:0 auto;">
+            Utente non loggato
+        </div>
+    </body>
+
+<?php
 }
 ?>
 
+
+</html>
