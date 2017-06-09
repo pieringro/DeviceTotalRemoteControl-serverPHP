@@ -68,16 +68,16 @@ class UserBO {
             $dtrcUser = DtrcUsers::Load($userTO->email);
             if(isset($dtrcUser) && $dtrcUser instanceof DtrcUsers){
                 $dtrcDevicesList = $dtrcUser->GetDtrcDevicesAsEmailUserArray();
-                $dtrcDevicesToList = array();
+                $devicesTOList = array();
                 foreach($dtrcDevicesList as $aDtrcDevice){
-                    $dtrcDeviceTO = new DeviceTO();
-                    $dtrcDeviceTO->device_id = $aDtrcDevice->Id;
-                    $dtrcDeviceTO->device_tokenFirebase = $aDtrcDevice->TokenFirebase;
-                    $dtrcDeviceTO->emailUser = $aDtrcDevice->EmailUser;
-                    $dtrcDevicesToList[] = $dtrcDeviceTO;
+                    $deviceTO = new DeviceTO();
+                    $deviceTO->device_id = $aDtrcDevice->Id;
+                    $deviceTO->device_tokenFirebase = $aDtrcDevice->TokenFirebase;
+                    $deviceTO->emailUser = $aDtrcDevice->EmailUser;
+                    $devicesTOList[] = $deviceTO;
                 }
                 
-                return $dtrcDevicesToList;
+                return $devicesTOList;
             }
         }
         return null;
