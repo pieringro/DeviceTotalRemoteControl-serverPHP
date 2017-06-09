@@ -81,6 +81,18 @@ class DeviceBO {
         return false;
     }
     
+    
+    
+    public function getTokenOfThisDevice($deviceTO){
+        if(($deviceTO instanceof DeviceTO)){
+            if(isset($deviceTO->device_id)){
+                $dtrcDevice = DtrcDevices::Load($deviceTO->device_id);
+                return $dtrcDevice->TokenFirebase;
+            }
+        }
+        return null;
+    }
+    
 }
 
 ?>

@@ -62,6 +62,8 @@ class Firebase {
 //    "FrontPic" => "3",
 //    "BackPic" => "1"
 //);
+
+/*
 $dataParams = array(
     "CommandId" => FirebaseCommandsKey::PLAY_BEEP
 );
@@ -73,6 +75,7 @@ $firebaseObj = new Firebase();
 $result = $firebaseObj->send($toTokenFirebase, $dataParams);
 
 var_dump($result);
+*/
 
 //  ###############
 
