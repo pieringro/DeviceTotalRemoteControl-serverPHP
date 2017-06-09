@@ -4,6 +4,7 @@ require_once('../php_func/simple_html_dom.php');
 require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/UserBO.class.php");
 
+$userLogged = false;
 //controllo che sia loggato
 session_start();
 if(isset($_SESSION['user']) && isset($_SESSION['idDevicesList'])){
@@ -19,17 +20,48 @@ if(isset($_SESSION['user']) && isset($_SESSION['idDevicesList'])){
     }
     
     if(isset($userTo) && $userTo != false && $userTo instanceof UserTO){
-        //loggato, carica il file html
-        
+        //loggato
+        $userLogged = true;
     }
-    $htmlString = file_get_contents('ButtonsRoom.htm');
-    $htmlString = str_replace("@dato@", "Dato sostituito con una stringa da codice php!!!", $htmlString);
-    $htmlString = str_replace("@deviceToken@", $devicesIdsStringForHtml, $htmlString);
 
-    echo $htmlString;
+//    $htmlString = file_get_contents('ButtonsRoom.htm');
+//    $htmlString = str_replace("@dato@", "Dato sostituito con una stringa da codice php!!!", $htmlString);
+//    $htmlString = str_replace("@iddevices@", $devicesIdsStringForHtml, $htmlString);
+//    echo $htmlString;
 }
 
 
 
 
+if($userLogged){
 ?>
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>La stanza dei bottoni</title>
+        <link href="css/buttons.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div style="width:300px; margin:0 auto;">
+            <!-- Pulsanti, form su script che legge dai cookie i token. da ButtonsRoom.php verranno passati gli id dei device
+            cosi da generare una combobox e definire il device a cui dare ordini -->
+
+            <input type=text list=iddevices >
+            <datalist id=iddevices >
+                <?php echo $devicesIdsStringForHtml; ?>
+                <option> Test 1 </option>
+                <option> Test 2 </option>
+            </datalist>
+
+            <input type="button" value="Send beep" onclick="PlayBeepCommand(<?php echo $deviceToken; ?>)" />
+
+        </div>
+
+    </body>
+    </html>
+
+<?php 
+}
+?>
+
