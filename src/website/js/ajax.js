@@ -67,11 +67,11 @@ function getXMLHttpRequest(handler) {
  * Chiamata di invio, cioe' abbiamo comunicato allo script php
  * Non fa praticamente nulla.
  */
-function getResponseUpdate() {
-    if (ajax.readyState == 4) {
-        alert('ajax.js: getResponseUpdate: Richiesta AJAX Ricevuto: ' + ajax.responseText);
-    }
-}
+//function getResponseUpdate() {
+//    if (ajax.readyState == 4) {
+//        alert('ajax.js: getResponseUpdate: Richiesta AJAX Ricevuto: ' + ajax.responseText);
+//    }
+//}
 
 
 /*

@@ -13,11 +13,10 @@ if(isset($_SESSION['user'])){
     $userTo = unserialize(@$_SESSION['user']);
     
     if(isset($_POST['idDevice'])){
-        //in realta' in deviceToken c'e' l'id del device, qua devo fare la query per
-        //ottenere il token e metterlo in $deviceToken
+        $deviceId = $_POST['idDevice'];
         $deviceBO = new DeviceBO();
         $deviceTO = new DeviceTO();
-        $deviceTO->device_id = $_POST['idDevice'];
+        $deviceTO->device_id = $deviceId;
         $deviceToken = $deviceBO->getTokenOfThisDevice($deviceTO);
     }
     else{
@@ -26,7 +25,7 @@ if(isset($_SESSION['user'])){
         $devicesIdsStringForHtml = "";
         foreach($devicesTOList as $deviceTO){
             if($deviceTO instanceof DeviceTO){
-                $devicesIdsStringForHtml .= "<option>".$deviceTO->device_id."</option>";
+                $devicesIdsStringForHtml .= "<option>".$deviceTO->device_id."</option> ";
             }
         }
     }
@@ -36,10 +35,6 @@ if(isset($_SESSION['user'])){
         $userLogged = true;
     }
 
-//    $htmlString = file_get_contents('ButtonsRoom.htm');
-//    $htmlString = str_replace("@dato@", "Dato sostituito con una stringa da codice php!!!", $htmlString);
-//    $htmlString = str_replace("@iddevices@", $devicesIdsStringForHtml, $htmlString);
-//    echo $htmlString;
 }
 ?>
 
@@ -54,41 +49,50 @@ if($userLogged){
         <link href="css/buttons.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        
         <script type="text/javascript" src="js/ajax.js"></script>
         <script type="text/javascript" src="js/SendCommands.js"></script>
-        
-        
         
         <div style="width:300px; margin:0 auto;">
              <table style="width:100%">
                 <tr>
-                    <td>
+                    <td colspan="100">
                         <form method="POST" action="#">
                             <fieldset <?php echo (isset($deviceToken)) ? "disabled" : "" ?> >
-                                <input type=text list=iddevices name="idDevice">
+                                <input type=text list=iddevices name="idDevice" 
+                                    <?php echo (isset($deviceId)) ? "value=\"".$deviceId."\"" : "" ?>>
                                 <datalist id=iddevices >
                                     <?php echo (isset($devicesIdsStringForHtml)) ? $devicesIdsStringForHtml : "" ?>
-                                    <option> Test 1 </option>
-                                    <option> Test 2 </option>
                                 </datalist>
                                 <input type="submit" value="Select">
                             </fieldset>
                         </form>
                     </td>
                 </tr>
-                <tr>
+                
 <?php
     if(isset($deviceToken)){
 ?>
-                    <td>
+                <tr>
+                    <td colspan="100">
                         <input type="button" value="Send beep" 
                                onclick="PlayBeepCommand('<?php echo $deviceToken; ?>')" />
                     </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="FrontPic" style="width: 40px" type="number" min="1" title="Foto camera frontale" />
+                    </td>
+                    <td>
+                        <input id="BackPic" style="width: 40px" type="number" min="1" title="Foto camera posteriore" />
+                    </td>
+                    <td>
+                        <input type="button" value="Take Picture" 
+                               onclick="TakePicturesCommand('<?php echo $deviceToken; ?>')" />
+                    </td>
+                </tr>
 <?php
     }
 ?>
-                </tr>
              </table>
         </div>
     </body>
@@ -105,6 +109,5 @@ else{
 <?php
 }
 ?>
-
 
 </html>
