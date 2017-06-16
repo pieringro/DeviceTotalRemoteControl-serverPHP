@@ -35,7 +35,7 @@ if (isset($_POST['data'])) {
             ok();
         }
         else{
-            error("Unable to add new device. " . $deviceBO->lastErrorMessage);
+            error($deviceBO->lastErrorMessage);
         }
     } catch (Exception $e) {
         //meglio scrivere nel log il messaggio di eccezione $e->getMessage()

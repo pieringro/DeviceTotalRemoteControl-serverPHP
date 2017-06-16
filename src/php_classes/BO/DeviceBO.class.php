@@ -30,7 +30,7 @@ class DeviceBO {
                     try{
                         $saveResult = $qcodoEntity->Save();
                         if(is_bool($saveResult) && !$saveResult){
-                            $this->lastErrorMessage = "Device already exists.";
+                            $this->lastErrorMessage = DEVICE_EXISTS;
                             return false;
                         }
                         return true;

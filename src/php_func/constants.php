@@ -15,4 +15,8 @@
     define('QCODO_INCLUDE_FOLDER', ROOT_WEB . "/qcodo/includes");
     
     
+    
+    //---- Codici di errore condivisi con il client
+    define('DEVICE_EXISTS', "0");
+    
 ?>
