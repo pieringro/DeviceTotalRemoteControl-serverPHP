@@ -69,11 +69,11 @@ class Device {
             if(isset($this->data['device_tokenFirebase'])){
                 $this->deviceTO->device_tokenFirebase = $this->data['device_tokenFirebase'];
             }
-            if(isset($this->data['emailUser'])){
-                $this->deviceTO->emailUser = $this->data['emailUser'];
+            if(isset($this->data['email'])){
+                $this->deviceTO->emailUser = $this->data['email'];
             }
-            if(isset($this->data['passUser'])){
-                $this->deviceTO->passUser = $this->data['passUser'];
+            if(isset($this->data['pass'])){
+                $this->deviceTO->passUser = $this->data['pass'];
             }
             return true;
         }
