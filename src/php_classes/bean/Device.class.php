@@ -55,7 +55,9 @@ class Device {
     }
 
     private function parsingJson(&$message) {
-        $device_id = $this->data['device_id'];
+        if (isset($this->data['device_id'])) {
+            $device_id = $this->data['device_id'];
+        }
 
         if (!(isset($device_id))) {
             $message = "Device: Some required parameters are missing.";

@@ -48,8 +48,11 @@ class User {
     }
 
     private function parsingJson(&$message) {
-        $email = $this->data['email'];
-        $pass = $this->data['pass'];
+        if(isset($this->data['email']) && isset($this->data['pass'])){
+            $email = $this->data['email'];
+            $pass = $this->data['pass'];
+        }
+        
         if (!(isset($email) && isset($pass))) {
             $message = "Some required parameters are missing.";
             return false;

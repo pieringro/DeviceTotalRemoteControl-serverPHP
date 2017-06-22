@@ -47,7 +47,9 @@ class Picture {
     }
 
     private function parsingJson(&$message) {
-        $deviceId = $this->data['device_id'];
+        if (!(isset($this->data['device_id']))) {
+            $deviceId = $this->data['device_id'];
+        }
         
         if (!(isset($deviceId))) {
             $message = "Some required parameters are missing.";
