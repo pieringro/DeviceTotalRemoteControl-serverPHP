@@ -17,7 +17,7 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
             $result = $userBO->newUser($userTO);
             
             if ($result) {
-                header("Location: LoginPage.php");
+                header("Location: LoginPage.php?message=Registrazione avvenuta con successo, accedere con i nuovi dati.");
             }
             else{
                 error("Unable to create new user. ".$userBO->lastErrorMessage);
