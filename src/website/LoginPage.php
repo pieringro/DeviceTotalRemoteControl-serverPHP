@@ -8,11 +8,11 @@
     </head>
     <body>
         <?php
-        if(isset($_POST['message'])){
+        if(isset($_GET['message'])){
             echo 
             "
             <div>
-                \"$_POST['message']\"
+                \"$_GET['message']\"
             </div>
             ";
         }
