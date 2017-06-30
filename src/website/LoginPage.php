@@ -7,6 +7,16 @@
         <link href="css/login.css" rel="stylesheet" type="text/css">
     </head>
     <body>
+        <?php
+        if(isset($_POST['message'])){
+            echo 
+            "
+            <div>
+                \"$_POST['message']\"
+            </div>
+            ";
+        }
+        ?>
         <div class="login-page">
             <div class="form">
                 <form class="register-form">
