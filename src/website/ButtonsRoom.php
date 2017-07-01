@@ -1,6 +1,6 @@
 <?php
 require_once('../php_func/constants.php');
-require_once('../php_func/simple_html_dom.php');
+require_once(ROOT_WEB . "/php_func/simple_html_dom.php");
 require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/UserBO.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
@@ -14,6 +14,7 @@ if(isset($_SESSION['user'])){
     
     if(isset($_POST['idDevice'])){
         $deviceId = $_POST['idDevice'];
+        $_SESSION['idDevice'] = $deviceId;
         $deviceBO = new DeviceBO();
         $deviceTO = new DeviceTO();
         $deviceTO->device_id = $deviceId;
@@ -79,6 +80,16 @@ if($userLogged){
 <?php
     if(isset($deviceToken)){
 ?>
+                <tr>
+                    <td colspan="100">
+                        <a href="FilesFromDevicePage.php">File ricevuti dal dispositivo</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="100" style="text-align: center; font-weight: bold">
+                        Comandi
+                    </td>
+                </tr>
                 <tr>
                     <td colspan="100">
                         <input type="button" value="Send beep" 

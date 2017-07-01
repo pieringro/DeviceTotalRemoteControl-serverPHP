@@ -35,6 +35,23 @@
                     }
                 }
                 
+                
+                public static function LoadByIdDeviceInArrayTO($strIdDevice) {
+                    $picturesTosArray = array();
+                    
+                    $result = parent::LoadArrayByIDDevices($strIdDevice);
+                    if(isset($result)){
+                        foreach($result as $aResult ){
+                            $pictureTo = new PictureTO();
+                            $pictureTo->deviceId = $aResult->IDDevices;
+                            $pictureTo->path = $aResult->Path;
+                            $picturesTosArray[] = $pictureTo;
+                        }
+                        return $picturesTosArray;
+                    }
+                    return false;
+                }
+                
 
 
 		// Override or Create New Load/Count methods

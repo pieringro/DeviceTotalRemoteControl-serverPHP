@@ -1,8 +1,8 @@
 <?php
-require_once ("../php_func/constants.php");
-require_once ("../php_func/clientComunication.php");
-require_once ("../php_classes/bean/User.class.php");
-require_once ("../php_classes/BO/UserBO.class.php");
+require_once ("../../php_func/constants.php");
+require_once (ROOT_WEB . "/php_func/clientComunication.php");
+require_once (ROOT_WEB . "/php_classes/bean/User.class.php");
+require_once (ROOT_WEB . "/php_classes/BO/UserBO.class.php");
 
 
 if (isset($_POST['email']) && isset($_POST['pass'])) {
@@ -17,7 +17,7 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
             $result = $userBO->loginUser($userTO);
 
             if ($result) {
-                header("Location: ButtonsRoom.php");
+                header("Location: ../ButtonsRoom.php");
             }
             else{
                 error("Unable to perform login. ".$userBO->lastErrorMessage);

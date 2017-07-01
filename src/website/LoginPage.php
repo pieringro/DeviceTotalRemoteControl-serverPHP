@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login</title>
+        <title>Login e Registrazione</title>
         <link href="css/buttons.css" rel="stylesheet" type="text/css">
         <link href="css/login.css" rel="stylesheet" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -20,13 +20,13 @@
                     }
                     ?>
                 </div>
-                <form class="register-form" action="signUpFunction.php" method="POST">
+                <form class="register-form" action="php_func/signUpFunction.php" method="POST">
                     <input type="text" name="email" placeholder="email"/>
                     <input type="password" name="pass" placeholder="password"/>
                     <button>create</button>
                     <p class="message">Already registered? <a href="#">Sign In</a></p>
                 </form>
-                <form class="login-form" action="loginFunction.php" method="POST">
+                <form class="login-form" action="php_func/loginFunction.php" method="POST">
                     <input type="text" name="email" placeholder="email"/>
                     <input type="password" name="pass" placeholder="password"/>
                     <button>login</button>
