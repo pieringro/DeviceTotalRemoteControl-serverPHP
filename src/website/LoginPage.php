@@ -5,21 +5,22 @@
         <title>Login</title>
         <link href="css/buttons.css" rel="stylesheet" type="text/css">
         <link href="css/login.css" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/login.js"></script>
     </head>
     <body>
-        <?php
-        if(isset($_GET['message'])){
-            echo 
-            "
-            <div>
-                \"$_GET['message']\"
-            </div>
-            ";
-        }
-        ?>
+        
         <div class="login-page">
             <div class="form">
-                <form class="register-form">
+                <div>
+                    <?php
+                    if(isset($_GET['message'])){
+                        $message = $_GET['message'];
+                        echo "$message";
+                    }
+                    ?>
+                </div>
+                <form class="register-form" action="signUpFunction.php" method="POST">
                     <input type="text" name="email" placeholder="email"/>
                     <input type="password" name="pass" placeholder="password"/>
                     <button>create</button>

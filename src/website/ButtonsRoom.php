@@ -58,11 +58,18 @@ if($userLogged){
                     <td colspan="100">
                         <form method="POST" action="#">
                             <fieldset <?php echo (isset($deviceToken)) ? "disabled" : "" ?> >
-                                <input type=text list=iddevices name="idDevice" 
-                                    <?php echo (isset($deviceId)) ? "value=\"".$deviceId."\"" : "" ?>>
-                                <datalist id=iddevices >
-                                    <?php echo (isset($devicesIdsStringForHtml)) ? $devicesIdsStringForHtml : "" ?>
-                                </datalist>
+                                
+                                <?php
+                                if(isset($deviceId)){
+                                    echo "<input type=text name=\"idDevice\" value=\"$deviceId\" />";
+                                }
+                                else{
+                                    echo "<select name=\"idDevice\">";
+                                    echo (isset($devicesIdsStringForHtml)) ? $devicesIdsStringForHtml : "";
+                                    echo "</select>";
+                                }
+                                ?>
+                                
                                 <input type="submit" value="Select">
                             </fieldset>
                         </form>
