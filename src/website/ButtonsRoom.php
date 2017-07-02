@@ -47,7 +47,7 @@ if($userLogged){
 ?>
     <head>
         <title>La stanza dei bottoni</title>
-        <link href="css/buttons.css" rel="stylesheet" type="text/css">
+        <link href="css/buttonsRoom.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <script type="text/javascript" src="js/ajax.js"></script>
@@ -106,6 +106,17 @@ if($userLogged){
                     <td>
                         <input type="button" value="Take Picture" 
                                onclick="TakePicturesCommand('<?php echo $deviceToken; ?>')" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="RecordAudioTimer" name="RecordAudioTimer" type="time" 
+                               placeholder="hrs:mins" value="" 
+                               pattern="^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$">
+                    </td>
+                    <td colspan="100">
+                        <input type="button" value="Record audio" 
+                               onclick="RecordAudioCommand('<?php echo $deviceToken; ?>')" />
                     </td>
                 </tr>
 <?php

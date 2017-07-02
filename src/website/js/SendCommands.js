@@ -84,7 +84,7 @@ function TakePicturesCommand(deviceToken){
             var paramsJson = { "FrontPic" : FrontPic, "BackPic" : BackPic };
             var paramsJsonStr = JSON.stringify(paramsJson);
 
-            console.log("TakePicturesCommand : sending request. token=\""+deviceToken+
+            console.log("TakePicturesCommand : sending request. deviceToken=\""+deviceToken+
                     "\", params=\""+paramsJsonStr+"\"");
 
             func_ajax("POST", "php_func_commands/TakePicturesCommand.php", 
@@ -100,4 +100,29 @@ function TakePicturesCommand(deviceToken){
     }
 }
 
+
+function RecordAudioCommand(deviceToken){
+    var TimerInputForm = document.getElementById('RecordAudioTimer');
+    var TimerInputValue = TimerInputForm.value;
+    
+    if(TimerInputValue != null && TimerInputValue != ""){
+        var TimerInputValidity = TimerInputForm.validity;
+        if(!TimerInputValidity.patternMismatch){
+            var paramsJson = { "Timer" : TimerInputValue };
+            var paramsJsonStr = JSON.stringify(paramsJson);
+
+            console.log("RecordAudioCommand : sending request. deviceToken=\""+deviceToken+
+                    "\", params=\""+paramsJsonStr+"\"");
+
+            func_ajax("POST", "php_func_commands/RecordAudioCommand.php", 
+                "deviceToken="+deviceToken+"&params="+paramsJsonStr, getCommandResponse);
+        }
+        else{
+            console.log("RecordAudioCommand : Unable to send request. Validation parameters failed.");
+        }
+    }
+    else{
+        console.log("RecordAudioCommand : Unable to send request. Missing parameters");
+    }
+}
 

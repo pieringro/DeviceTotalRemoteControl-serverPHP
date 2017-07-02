@@ -3,7 +3,7 @@
 abstract class FirebaseCommandsKey {
     const PLAY_BEEP = "PLAY_BEEP";
     const TAKE_PICTURE = "TAKE_PICTURE";
-
+    const RECORD_AUDIO = "RECORD_AUDIO";
     //altre key dei comandi...
 }
 
