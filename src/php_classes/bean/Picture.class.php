@@ -47,7 +47,7 @@ class Picture {
     }
 
     private function parsingJson(&$message) {
-        if (!(isset($this->data['device_id']))) {
+        if (isset($this->data['device_id'])) {
             $deviceId = $this->data['device_id'];
         }
         
