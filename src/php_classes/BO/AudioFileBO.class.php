@@ -1,12 +1,12 @@
 <?php
 
 require_once(ROOT_WEB . "/php_classes/dao/AbstractDAO.class.php");
-require_once(ROOT_WEB . "/php_classes/bean/Picture.class.php");
+require_once(ROOT_WEB . "/php_classes/bean/AudioFile.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once(QCODO_INCLUDE_FOLDER . "/prepend.inc.php");
 require_once(__DATA_CLASSES__ . "/DtrcUsers.class.php");
 
-class PictureBO {
+class AudioFileBO {
 
     public function __construct() {
         
@@ -14,10 +14,10 @@ class PictureBO {
 
     public $lastErrorMessage;
 
-    public function newPicture($pictureTO) {
-        if (($pictureTO instanceof PictureTO)) {
+    public function newAudioFile($audioFileTO) {
+        if (($audioFileTO instanceof AudioFileTO)) {
             $qcodoEntity = new DtrcFiles();
-            $qcodoEntity->InitDataWithPictureTO($pictureTO);
+            $qcodoEntity->InitDataWithAudioFileTO($audioFileTO);
 
             try {
                 $qcodoEntity->Save();
@@ -31,7 +31,7 @@ class PictureBO {
     }
     
     
-    public function getPicturesOfDevice($deviceTO) {
+    public function getAudioFileOfDevice($deviceTO) {
         if ($deviceTO instanceof DeviceTO) {
             $device_id = $deviceTO->device_id;
         } else if (is_string($deviceTO)) {
@@ -39,10 +39,11 @@ class PictureBO {
         }
 
         if (isset($device_id)) {
-            $pictureTOsArray = DtrcFiles::LoadByIdDeviceInArrayPictureTO($device_id);
-            return $pictureTOsArray;
+            $audioFileTOsArray = DtrcFiles::LoadByIdDeviceInArrayAudioFileTO($device_id);
+            return $audioFileTOsArray;
         }
         return false;
     }
 
 }
+

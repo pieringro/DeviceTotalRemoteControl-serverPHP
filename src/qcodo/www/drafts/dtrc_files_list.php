@@ -58,6 +58,7 @@
 			$this->dtgDtrcFileses->MetaAddColumn('Id');
 			$this->dtgDtrcFileses->MetaAddColumn(QQN::DtrcFiles()->IDDevicesObject);
 			$this->dtgDtrcFileses->MetaAddColumn('Path');
+			$this->dtgDtrcFileses->MetaAddColumn('Type');
 		}
 	}
 

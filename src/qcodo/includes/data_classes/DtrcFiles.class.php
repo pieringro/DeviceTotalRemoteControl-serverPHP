@@ -32,11 +32,20 @@
                     if($pictureTO instanceof PictureTO){
                         $this->IDDevices = $pictureTO->deviceId;
                         $this->Path = $pictureTO->path;
+                        $this->Type = PictureTO::$type;
+                    }
+                }
+                
+                public function InitDataWithAudioFileTO($audioFileTO){
+                    if($audioFileTO instanceof AudioFileTO){
+                        $this->IDDevices = $audioFileTO->deviceId;
+                        $this->Path = $audioFileTO->path;
+                        $this->Type = AudioFileTO::$type;
                     }
                 }
                 
                 
-                public static function LoadByIdDeviceInArrayTO($strIdDevice) {
+                public static function LoadByIdDeviceInArrayPictureTO($strIdDevice) {
                     $picturesTosArray = array();
                     
                     $result = parent::LoadArrayByIDDevices($strIdDevice);
@@ -48,6 +57,23 @@
                             $picturesTosArray[] = $pictureTo;
                         }
                         return $picturesTosArray;
+                    }
+                    return false;
+                }
+                
+                
+                public static function LoadByIdDeviceInArrayAudioFileTO($strIdDevice) {
+                    $audioFileTosArray = array();
+                    
+                    $result = parent::LoadArrayByIDDevices($strIdDevice);
+                    if(isset($result)){
+                        foreach($result as $aResult ){
+                            $audioFileTo = new AudioFileTO();
+                            $audioFileTo->deviceId = $aResult->IDDevices;
+                            $audioFileTo->path = $aResult->Path;
+                            $audioFileTosArray[] = $audioFileTo;
+                        }
+                        return $audioFileTosArray;
                     }
                     return false;
                 }

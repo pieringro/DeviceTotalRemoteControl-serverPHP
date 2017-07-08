@@ -135,13 +135,14 @@
 		 * 
 		 * @param mixed $objParentObject QForm or QPanel which will be using this DtrcDevicesMetaControl
 		 * @param string $strId primary key value
+		 * @param string $strEmailUser primary key value
 		 * @param QMetaControlCreateType $intCreateType rules governing DtrcDevices object creation - defaults to CreateOrEdit
  		 * @return DtrcDevicesMetaControl
 		 */
-		public static function Create($objParentObject, $strId = null, $intCreateType = QMetaControlCreateType::CreateOrEdit) {
+		public static function Create($objParentObject, $strId = null, $strEmailUser = null, $intCreateType = QMetaControlCreateType::CreateOrEdit) {
 			// Attempt to Load from PK Arguments
-			if (strlen($strId)) {
-				$objDtrcDevices = DtrcDevices::Load($strId);
+			if (strlen($strId) && strlen($strEmailUser)) {
+				$objDtrcDevices = DtrcDevices::Load($strId, $strEmailUser);
 
 				// DtrcDevices was found -- return it!
 				if ($objDtrcDevices)
@@ -149,7 +150,7 @@
 
 				// If CreateOnRecordNotFound not specified, throw an exception
 				else if ($intCreateType != QMetaControlCreateType::CreateOnRecordNotFound)
-					throw new QCallerException('Could not find a DtrcDevices object with PK arguments: ' . $strId);
+					throw new QCallerException('Could not find a DtrcDevices object with PK arguments: ' . $strId . ', ' . $strEmailUser);
 
 			// If EditOnly is specified, throw an exception
 			} else if ($intCreateType == QMetaControlCreateType::EditOnly)
@@ -168,7 +169,8 @@
 		 */
 		public static function CreateFromPathInfo($objParentObject, $intCreateType = QMetaControlCreateType::CreateOrEdit) {
 			$strId = QApplication::PathInfo(0);
-			return DtrcDevicesMetaControl::Create($objParentObject, $strId, $intCreateType);
+			$strEmailUser = QApplication::PathInfo(1);
+			return DtrcDevicesMetaControl::Create($objParentObject, $strId, $strEmailUser, $intCreateType);
 		}
 
 		/**
@@ -180,7 +182,8 @@
 		 */
 		public static function CreateFromQueryString($objParentObject, $intCreateType = QMetaControlCreateType::CreateOrEdit) {
 			$strId = QApplication::QueryString('strId');
-			return DtrcDevicesMetaControl::Create($objParentObject, $strId, $intCreateType);
+			$strEmailUser = QApplication::QueryString('strEmailUser');
+			return DtrcDevicesMetaControl::Create($objParentObject, $strId, $strEmailUser, $intCreateType);
 		}
 
 

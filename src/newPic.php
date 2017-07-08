@@ -24,36 +24,11 @@
 
 require_once ("php_func/constants.php");
 require_once ("php_func/clientComunication.php");
+require_once ("php_func/receiveFileUploaded.php");
 require_once ("php_classes/bean/Picture.class.php");
 require_once ("php_classes/BO/PictureBO.class.php");
 
 
-function doUploadNow($userFolder) {
-    $completePath = FILES_FOLDER."\\".$userFolder;
-
-    if (!file_exists($completePath)) {
-        mkdir($completePath, 0777, true);
-    }
-    
-    // verifico che il file sia stato caricato
-    if (!is_uploaded_file($_FILES['file']['tmp_name']) ||
-            $_FILES['file']['error'] > 0) {
-        throw new Exception("Error uploading file. error=".$_FILES['file']['error']);
-    }
-
-    $filePath = $completePath."\\".$_FILES['file']['name'];
-    
-    if (move_uploaded_file($_FILES['file']['tmp_name'], $filePath)) {
-        $filePathWeb = FILES_FOLDER_WEB."/".$userFolder."/".$_FILES['file']['name'];
-        return $filePathWeb;
-    }
-    else{
-        throw new Exception("Unable to upload file.");
-    }
-}
-
-
-//-------------- MAIN ---------------
 
 
 if (isset($_POST['data']) && isset($_FILES['file'])) {

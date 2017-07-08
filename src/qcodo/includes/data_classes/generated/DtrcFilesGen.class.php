@@ -18,6 +18,7 @@
 	 * @property integer $Id the value for intId (Read-Only PK)
 	 * @property string $IDDevices the value for strIDDevices (Not Null)
 	 * @property string $Path the value for strPath 
+	 * @property string $Type the value for strType 
 	 * @property DtrcDevices $IDDevicesObject the value for the DtrcDevices object referenced by strIDDevices (Not Null)
 	 * @property boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
 	 */
@@ -51,6 +52,15 @@
 		protected $strPath;
 		const PathMaxLength = 128;
 		const PathDefault = null;
+
+
+		/**
+		 * Protected member variable that maps to the database column dtrc_files.Type
+		 * @var string strType
+		 */
+		protected $strType;
+		const TypeMaxLength = 64;
+		const TypeDefault = null;
 
 
 		/**
@@ -398,6 +408,7 @@
 			$objBuilder->AddSelectItem($strTableName, 'ID', $strAliasPrefix . 'ID');
 			$objBuilder->AddSelectItem($strTableName, 'IDDevices', $strAliasPrefix . 'IDDevices');
 			$objBuilder->AddSelectItem($strTableName, 'Path', $strAliasPrefix . 'Path');
+			$objBuilder->AddSelectItem($strTableName, 'Type', $strAliasPrefix . 'Type');
 		}
 
 
@@ -435,6 +446,8 @@
 			$objToReturn->strIDDevices = $objDbRow->GetColumn($strAliasName, 'VarChar');
 			$strAliasName = array_key_exists($strAliasPrefix . 'Path', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Path'] : $strAliasPrefix . 'Path';
 			$objToReturn->strPath = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'Type', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Type'] : $strAliasPrefix . 'Type';
+			$objToReturn->strType = $objDbRow->GetColumn($strAliasName, 'VarChar');
 
 			// Instantiate Virtual Attributes
 			foreach ($objDbRow->GetColumnNameArray() as $strColumnName => $mixValue) {
@@ -606,10 +619,12 @@
 					$objDatabase->NonQuery('
 						INSERT INTO `dtrc_files` (
 							`IDDevices`,
-							`Path`
+							`Path`,
+							`Type`
 						) VALUES (
 							' . $objDatabase->SqlVariable($this->strIDDevices) . ',
-							' . $objDatabase->SqlVariable($this->strPath) . '
+							' . $objDatabase->SqlVariable($this->strPath) . ',
+							' . $objDatabase->SqlVariable($this->strType) . '
 						)
 					');
 
@@ -630,7 +645,8 @@
 							`dtrc_files`
 						SET
 							`IDDevices` = ' . $objDatabase->SqlVariable($this->strIDDevices) . ',
-							`Path` = ' . $objDatabase->SqlVariable($this->strPath) . '
+							`Path` = ' . $objDatabase->SqlVariable($this->strPath) . ',
+							`Type` = ' . $objDatabase->SqlVariable($this->strType) . '
 						WHERE
 							`ID` = ' . $objDatabase->SqlVariable($this->intId) . '
 					');
@@ -717,6 +733,7 @@
 			// Update $this's local variables to match
 			$this->IDDevices = $objReloaded->IDDevices;
 			$this->strPath = $objReloaded->strPath;
+			$this->strType = $objReloaded->strType;
 		}
 
 		/**
@@ -732,6 +749,7 @@
 					`ID`,
 					`IDDevices`,
 					`Path`,
+					`Type`,
 					__sys_login_id,
 					__sys_action,
 					__sys_date
@@ -739,6 +757,7 @@
 					' . $objDatabase->SqlVariable($this->intId) . ',
 					' . $objDatabase->SqlVariable($this->strIDDevices) . ',
 					' . $objDatabase->SqlVariable($this->strPath) . ',
+					' . $objDatabase->SqlVariable($this->strType) . ',
 					' . (($objDatabase->JournaledById) ? $objDatabase->JournaledById : 'NULL') . ',
 					' . $objDatabase->SqlVariable($strJournalCommand) . ',
 					NOW()
@@ -803,6 +822,11 @@
 					// Gets the value for strPath 
 					// @return string
 					return $this->strPath;
+
+				case 'Type':
+					// Gets the value for strType 
+					// @return string
+					return $this->strType;
 
 
 				///////////////////
@@ -871,6 +895,17 @@
 					// @return string
 					try {
 						return ($this->strPath = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Type':
+					// Sets the value for strType 
+					// @param string $mixValue
+					// @return string
+					try {
+						return ($this->strType = QType::Cast($mixValue, QType::String));
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -950,6 +985,7 @@
 			$strToReturn .= '<element name="Id" type="xsd:int"/>';
 			$strToReturn .= '<element name="IDDevicesObject" type="xsd1:DtrcDevices"/>';
 			$strToReturn .= '<element name="Path" type="xsd:string"/>';
+			$strToReturn .= '<element name="Type" type="xsd:string"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -980,6 +1016,8 @@
 				$objToReturn->IDDevicesObject = DtrcDevices::GetObjectFromSoapObject($objSoapObject->IDDevicesObject);
 			if (property_exists($objSoapObject, 'Path'))
 				$objToReturn->strPath = $objSoapObject->Path;
+			if (property_exists($objSoapObject, 'Type'))
+				$objToReturn->strType = $objSoapObject->Type;
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -1021,6 +1059,7 @@
 	 * @property-read QQNode $IDDevices
 	 * @property-read QQNodeDtrcDevices $IDDevicesObject
 	 * @property-read QQNode $Path
+	 * @property-read QQNode $Type
 	 */
 	class QQNodeDtrcFiles extends QQNode {
 		protected $strTableName = 'dtrc_files';
@@ -1036,6 +1075,8 @@
 					return new QQNodeDtrcDevices('IDDevices', 'IDDevicesObject', 'string', $this);
 				case 'Path':
 					return new QQNode('Path', 'Path', 'string', $this);
+				case 'Type':
+					return new QQNode('Type', 'Type', 'string', $this);
 
 				case '_PrimaryKeyNode':
 					return new QQNode('ID', 'Id', 'integer', $this);
@@ -1055,6 +1096,7 @@
 	 * @property-read QQNode $IDDevices
 	 * @property-read QQNodeDtrcDevices $IDDevicesObject
 	 * @property-read QQNode $Path
+	 * @property-read QQNode $Type
 	 * @property-read QQNode $_PrimaryKeyNode
 	 */
 	class QQReverseReferenceNodeDtrcFiles extends QQReverseReferenceNode {
@@ -1071,6 +1113,8 @@
 					return new QQNodeDtrcDevices('IDDevices', 'IDDevicesObject', 'string', $this);
 				case 'Path':
 					return new QQNode('Path', 'Path', 'string', $this);
+				case 'Type':
+					return new QQNode('Type', 'Type', 'string', $this);
 
 				case '_PrimaryKeyNode':
 					return new QQNode('ID', 'Id', 'integer', $this);

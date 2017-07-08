@@ -16,9 +16,9 @@
 	 * @package My Application
 	 * @subpackage GeneratedDataObjects
 	 * @property string $Id the value for strId (PK)
-	 * @property string $EmailUser the value for strEmailUser (Not Null)
+	 * @property string $EmailUser the value for strEmailUser (PK)
 	 * @property string $TokenFirebase the value for strTokenFirebase 
-	 * @property DtrcUsers $EmailUserObject the value for the DtrcUsers object referenced by strEmailUser (Not Null)
+	 * @property DtrcUsers $EmailUserObject the value for the DtrcUsers object referenced by strEmailUser (PK)
 	 * @property DtrcFiles $_DtrcFilesAsIDDevices the value for the private _objDtrcFilesAsIDDevices (Read-Only) if set due to an expansion on the dtrc_files.IDDevices reverse relationship
 	 * @property DtrcFiles[] $_DtrcFilesAsIDDevicesArray the value for the private _objDtrcFilesAsIDDevicesArray (Read-Only) if set due to an ExpandAsArray on the dtrc_files.IDDevices reverse relationship
 	 * @property boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
@@ -46,7 +46,7 @@
 		protected $__strId;
 
 		/**
-		 * Protected member variable that maps to the database column dtrc_devices.EmailUser
+		 * Protected member variable that maps to the database PK column dtrc_devices.EmailUser
 		 * @var string strEmailUser
 		 */
 		protected $strEmailUser;
@@ -55,11 +55,18 @@
 
 
 		/**
+		 * Protected internal member variable that stores the original version of the PK column value (if restored)
+		 * Used by Save() to update a PK column during UPDATE
+		 * @var string __strEmailUser;
+		 */
+		protected $__strEmailUser;
+
+		/**
 		 * Protected member variable that maps to the database column dtrc_devices.TokenFirebase
 		 * @var string strTokenFirebase
 		 */
 		protected $strTokenFirebase;
-		const TokenFirebaseMaxLength = 128;
+		const TokenFirebaseMaxLength = 1024;
 		const TokenFirebaseDefault = null;
 
 
@@ -130,12 +137,16 @@
 		/**
 		 * Load a DtrcDevices from PK Info
 		 * @param string $strId
+		 * @param string $strEmailUser
 		 * @return DtrcDevices
 		 */
-		public static function Load($strId) {
+		public static function Load($strId, $strEmailUser) {
 			// Use QuerySingle to Perform the Query
 			return DtrcDevices::QuerySingle(
-				QQ::Equal(QQN::DtrcDevices()->Id, $strId)
+				QQ::AndCondition(
+				QQ::Equal(QQN::DtrcDevices()->Id, $strId),
+				QQ::Equal(QQN::DtrcDevices()->EmailUser, $strEmailUser)
+				)
 			);
 		}
 
@@ -450,38 +461,6 @@
 			if (!$objDbRow)
 				return null;
 
-			// See if we're doing an array expansion on the previous item
-			$strAlias = $strAliasPrefix . 'ID';
-			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
-			if (($strExpandAsArrayNodes) && ($objPreviousItem) &&
-				($objPreviousItem->strId == $objDbRow->GetColumn($strAliasName, 'VarChar'))) {
-
-				// We are.  Now, prepare to check for ExpandAsArray clauses
-				$blnExpandedViaArray = false;
-				if (!$strAliasPrefix)
-					$strAliasPrefix = 'dtrc_devices__';
-
-
-				$strAlias = $strAliasPrefix . 'dtrcfilesasiddevices__ID';
-				$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
-				if ((array_key_exists($strAlias, $strExpandAsArrayNodes)) &&
-					(!is_null($objDbRow->GetColumn($strAliasName)))) {
-					if ($intPreviousChildItemCount = count($objPreviousItem->_objDtrcFilesAsIDDevicesArray)) {
-						$objPreviousChildItem = $objPreviousItem->_objDtrcFilesAsIDDevicesArray[$intPreviousChildItemCount - 1];
-						$objChildItem = DtrcFiles::InstantiateDbRow($objDbRow, $strAliasPrefix . 'dtrcfilesasiddevices__', $strExpandAsArrayNodes, $objPreviousChildItem, $strColumnAliasArray);
-						if ($objChildItem)
-							$objPreviousItem->_objDtrcFilesAsIDDevicesArray[] = $objChildItem;
-					} else
-						$objPreviousItem->_objDtrcFilesAsIDDevicesArray[] = DtrcFiles::InstantiateDbRow($objDbRow, $strAliasPrefix . 'dtrcfilesasiddevices__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
-					$blnExpandedViaArray = true;
-				}
-
-				// Either return false to signal array expansion, or check-to-reset the Alias prefix and move on
-				if ($blnExpandedViaArray)
-					return false;
-				else if ($strAliasPrefix == 'dtrc_devices__')
-					$strAliasPrefix = null;
-			}
 
 			// Create a new instance of the DtrcDevices object
 			$objToReturn = new DtrcDevices();
@@ -492,6 +471,7 @@
 			$objToReturn->__strId = $objDbRow->GetColumn($strAliasName, 'VarChar');
 			$strAliasName = array_key_exists($strAliasPrefix . 'EmailUser', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'EmailUser'] : $strAliasPrefix . 'EmailUser';
 			$objToReturn->strEmailUser = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$objToReturn->__strEmailUser = $objDbRow->GetColumn($strAliasName, 'VarChar');
 			$strAliasName = array_key_exists($strAliasPrefix . 'TokenFirebase', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'TokenFirebase'] : $strAliasPrefix . 'TokenFirebase';
 			$objToReturn->strTokenFirebase = $objDbRow->GetColumn($strAliasName, 'VarChar');
 
@@ -599,13 +579,17 @@
 			
 		/**
 		 * Load a single DtrcDevices object,
-		 * by Id Index(es)
+		 * by Id, EmailUser Index(es)
 		 * @param string $strId
+		 * @param string $strEmailUser
 		 * @return DtrcDevices
 		*/
-		public static function LoadById($strId, $objOptionalClauses = null) {
+		public static function LoadByIdEmailUser($strId, $strEmailUser, $objOptionalClauses = null) {
 			return DtrcDevices::QuerySingle(
-				QQ::Equal(QQN::DtrcDevices()->Id, $strId)
+				QQ::AndCondition(
+				QQ::Equal(QQN::DtrcDevices()->Id, $strId),
+				QQ::Equal(QQN::DtrcDevices()->EmailUser, $strEmailUser)
+				)
 			, $objOptionalClauses
 			);
 		}
@@ -703,7 +687,8 @@
 							`EmailUser` = ' . $objDatabase->SqlVariable($this->strEmailUser) . ',
 							`TokenFirebase` = ' . $objDatabase->SqlVariable($this->strTokenFirebase) . '
 						WHERE
-							`ID` = ' . $objDatabase->SqlVariable($this->__strId) . '
+							`ID` = ' . $objDatabase->SqlVariable($this->__strId) . ' AND
+							`EmailUser` = ' . $objDatabase->SqlVariable($this->__strEmailUser) . '
 					');
 
 					// Journaling
@@ -718,6 +703,7 @@
 			// Update __blnRestored and any Non-Identity PK Columns (if applicable)
 			$this->__blnRestored = true;
 			$this->__strId = $this->strId;
+			$this->__strEmailUser = $this->strEmailUser;
 
 
 			// Return 
@@ -729,7 +715,7 @@
 		 * @return void
 		 */
 		public function Delete() {
-			if ((is_null($this->strId)))
+			if ((is_null($this->strId)) || (is_null($this->strEmailUser)))
 				throw new QUndefinedPrimaryKeyException('Cannot delete this DtrcDevices with an unset primary key.');
 
 			// Get the Database Object for this Class
@@ -741,7 +727,8 @@
 				DELETE FROM
 					`dtrc_devices`
 				WHERE
-					`ID` = ' . $objDatabase->SqlVariable($this->strId) . '');
+					`ID` = ' . $objDatabase->SqlVariable($this->strId) . ' AND
+					`EmailUser` = ' . $objDatabase->SqlVariable($this->strEmailUser) . '');
 
 			// Journaling
 			if ($objDatabase->JournalingDatabase) $this->Journal('DELETE');
@@ -784,12 +771,13 @@
 				throw new QCallerException('Cannot call Reload() on a new, unsaved DtrcDevices object.');
 
 			// Reload the Object
-			$objReloaded = DtrcDevices::Load($this->strId);
+			$objReloaded = DtrcDevices::Load($this->strId, $this->strEmailUser);
 
 			// Update $this's local variables to match
 			$this->strId = $objReloaded->strId;
 			$this->__strId = $this->strId;
 			$this->EmailUser = $objReloaded->EmailUser;
+			$this->__strEmailUser = $this->strEmailUser;
 			$this->strTokenFirebase = $objReloaded->strTokenFirebase;
 		}
 
@@ -869,7 +857,7 @@
 					return $this->strId;
 
 				case 'EmailUser':
-					// Gets the value for strEmailUser (Not Null)
+					// Gets the value for strEmailUser (PK)
 					// @return string
 					return $this->strEmailUser;
 
@@ -883,7 +871,7 @@
 				// Member Objects
 				///////////////////
 				case 'EmailUserObject':
-					// Gets the value for the DtrcUsers object referenced by strEmailUser (Not Null)
+					// Gets the value for the DtrcUsers object referenced by strEmailUser (PK)
 					// @return DtrcUsers
 					try {
 						if ((!$this->objEmailUserObject) && (!is_null($this->strEmailUser)))
@@ -951,7 +939,7 @@
 					}
 
 				case 'EmailUser':
-					// Sets the value for strEmailUser (Not Null)
+					// Sets the value for strEmailUser (PK)
 					// @param string $mixValue
 					// @return string
 					try {
@@ -978,7 +966,7 @@
 				// Member Objects
 				///////////////////
 				case 'EmailUserObject':
-					// Sets the value for the DtrcUsers object referenced by strEmailUser (Not Null)
+					// Sets the value for the DtrcUsers object referenced by strEmailUser (PK)
 					// @param DtrcUsers $mixValue
 					// @return DtrcUsers
 					if (is_null($mixValue)) {
@@ -1045,11 +1033,11 @@
 		 * @return DtrcFiles[]
 		*/ 
 		public function GetDtrcFilesAsIDDevicesArray($objOptionalClauses = null) {
-			if ((is_null($this->strId)))
+			if ((is_null($this->strId)) || (is_null($this->strEmailUser)))
 				return array();
 
 			try {
-				return DtrcFiles::LoadArrayByIDDevices($this->strId, $objOptionalClauses);
+				return DtrcFiles::LoadArrayByIDDevices($this->strId, $this->strEmailUser, $objOptionalClauses);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
 				throw $objExc;
@@ -1061,10 +1049,10 @@
 		 * @return int
 		*/ 
 		public function CountDtrcFilesesAsIDDevices() {
-			if ((is_null($this->strId)))
+			if ((is_null($this->strId)) || (is_null($this->strEmailUser)))
 				return 0;
 
-			return DtrcFiles::CountByIDDevices($this->strId);
+			return DtrcFiles::CountByIDDevices($this->strId, $this->strEmailUser);
 		}
 
 		/**
@@ -1073,7 +1061,7 @@
 		 * @return void
 		*/ 
 		public function AssociateDtrcFilesAsIDDevices(DtrcFiles $objDtrcFiles) {
-			if ((is_null($this->strId)))
+			if ((is_null($this->strId)) || (is_null($this->strEmailUser)))
 				throw new QUndefinedPrimaryKeyException('Unable to call AssociateDtrcFilesAsIDDevices on this unsaved DtrcDevices.');
 			if ((is_null($objDtrcFiles->Id)))
 				throw new QUndefinedPrimaryKeyException('Unable to call AssociateDtrcFilesAsIDDevices on this DtrcDevices with an unsaved DtrcFiles.');
@@ -1104,7 +1092,7 @@
 		 * @return void
 		*/ 
 		public function UnassociateDtrcFilesAsIDDevices(DtrcFiles $objDtrcFiles) {
-			if ((is_null($this->strId)))
+			if ((is_null($this->strId)) || (is_null($this->strEmailUser)))
 				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcFilesAsIDDevices on this unsaved DtrcDevices.');
 			if ((is_null($objDtrcFiles->Id)))
 				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcFilesAsIDDevices on this DtrcDevices with an unsaved DtrcFiles.');
@@ -1135,7 +1123,7 @@
 		 * @return void
 		*/ 
 		public function UnassociateAllDtrcFilesesAsIDDevices() {
-			if ((is_null($this->strId)))
+			if ((is_null($this->strId)) || (is_null($this->strEmailUser)))
 				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcFilesAsIDDevices on this unsaved DtrcDevices.');
 
 			// Get the Database Object for this Class
@@ -1166,7 +1154,7 @@
 		 * @return void
 		*/ 
 		public function DeleteAssociatedDtrcFilesAsIDDevices(DtrcFiles $objDtrcFiles) {
-			if ((is_null($this->strId)))
+			if ((is_null($this->strId)) || (is_null($this->strEmailUser)))
 				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcFilesAsIDDevices on this unsaved DtrcDevices.');
 			if ((is_null($objDtrcFiles->Id)))
 				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcFilesAsIDDevices on this DtrcDevices with an unsaved DtrcFiles.');
@@ -1194,7 +1182,7 @@
 		 * @return void
 		*/ 
 		public function DeleteAllDtrcFilesesAsIDDevices() {
-			if ((is_null($this->strId)))
+			if ((is_null($this->strId)) || (is_null($this->strEmailUser)))
 				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcFilesAsIDDevices on this unsaved DtrcDevices.');
 
 			// Get the Database Object for this Class

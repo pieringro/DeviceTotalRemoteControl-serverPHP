@@ -23,6 +23,8 @@
 
 		<?php $this->txtPath->RenderWithName(); ?>
 
+		<?php $this->txtType->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

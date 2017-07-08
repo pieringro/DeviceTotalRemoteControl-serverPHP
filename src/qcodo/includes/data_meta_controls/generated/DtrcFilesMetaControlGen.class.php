@@ -22,6 +22,8 @@
 	 * property-read QLabel $IDDevicesLabel
 	 * property QTextBox $PathControl
 	 * property-read QLabel $PathLabel
+	 * property QTextBox $TypeControl
+	 * property-read QLabel $TypeLabel
 	 * property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -71,6 +73,12 @@
          */
 		protected $txtPath;
 
+        /**
+         * @var QTextBox txtType;
+         * @access protected
+         */
+		protected $txtType;
+
 
 		// Controls that allow the viewing of DtrcFiles's individual data fields
         /**
@@ -84,6 +92,12 @@
          * @access protected
          */
 		protected $lblPath;
+
+        /**
+         * @var QLabel lblType
+         * @access protected
+         */
+		protected $lblType;
 
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
@@ -266,6 +280,31 @@
 			return $this->lblPath;
 		}
 
+		/**
+		 * Create and setup QTextBox txtType
+		 * @param string $strControlId optional ControlId to use
+		 * @return QTextBox
+		 */
+		public function txtType_Create($strControlId = null) {
+			$this->txtType = new QTextBox($this->objParentObject, $strControlId);
+			$this->txtType->Name = QApplication::Translate('Type');
+			$this->txtType->Text = $this->objDtrcFiles->Type;
+			$this->txtType->MaxLength = DtrcFiles::TypeMaxLength;
+			return $this->txtType;
+		}
+
+		/**
+		 * Create and setup QLabel lblType
+		 * @param string $strControlId optional ControlId to use
+		 * @return QLabel
+		 */
+		public function lblType_Create($strControlId = null) {
+			$this->lblType = new QLabel($this->objParentObject, $strControlId);
+			$this->lblType->Name = QApplication::Translate('Type');
+			$this->lblType->Text = $this->objDtrcFiles->Type;
+			return $this->lblType;
+		}
+
 
 
 		/**
@@ -296,6 +335,9 @@
 			if ($this->txtPath) $this->txtPath->Text = $this->objDtrcFiles->Path;
 			if ($this->lblPath) $this->lblPath->Text = $this->objDtrcFiles->Path;
 
+			if ($this->txtType) $this->txtType->Text = $this->objDtrcFiles->Type;
+			if ($this->lblType) $this->lblType->Text = $this->objDtrcFiles->Type;
+
 		}
 
 
@@ -321,6 +363,7 @@
 				// Update any fields for controls that have been created
 				if ($this->lstIDDevicesObject) $this->objDtrcFiles->IDDevices = $this->lstIDDevicesObject->SelectedValue;
 				if ($this->txtPath) $this->objDtrcFiles->Path = $this->txtPath->Text;
+				if ($this->txtType) $this->objDtrcFiles->Type = $this->txtType->Text;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -381,6 +424,12 @@
 				case 'PathLabel':
 					if (!$this->lblPath) return $this->lblPath_Create();
 					return $this->lblPath;
+				case 'TypeControl':
+					if (!$this->txtType) return $this->txtType_Create();
+					return $this->txtType;
+				case 'TypeLabel':
+					if (!$this->lblType) return $this->lblType_Create();
+					return $this->lblType;
 				default:
 					try {
 						return parent::__get($strName);
@@ -409,6 +458,8 @@
 						return ($this->lstIDDevicesObject = QType::Cast($mixValue, 'QControl'));
 					case 'PathControl':
 						return ($this->txtPath = QType::Cast($mixValue, 'QControl'));
+					case 'TypeControl':
+						return ($this->txtType = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

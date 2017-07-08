@@ -1,0 +1,52 @@
+<?php
+
+
+class FileTO {
+    public $path;
+    public $deviceId;
+    public function __toString() {
+        return "FileTO : {"
+                . $this->path.','
+                . $this->deviceId.''
+                . "}";
+    }
+}
+
+
+class File {
+    
+
+    /**
+     * @param $json il json con i dati del Post
+     */
+    protected function __construct($json) {
+        $this->data = json_decode($json, TRUE);
+    }
+
+    protected $data;
+    protected $fileTO;
+
+    function getFileTO() {
+        $message = "";
+        $result = $this->parsingJson($message);
+        if ($result) {
+            return $this->fileTO;
+        } else {
+            throw new Exception("Error parsing json. Message=" . $message);
+        }
+    }
+
+    protected function parsingJson(&$message) {
+        if (isset($this->data['device_id'])) {
+            $deviceId = $this->data['device_id'];
+        }
+        
+        if (!(isset($deviceId))) {
+            $message = "Some required parameters are missing.";
+            return false;
+        } else {
+            $this->fileTO->deviceId = $deviceId;
+            return true;
+        }
+    }
+}

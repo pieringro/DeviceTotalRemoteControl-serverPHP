@@ -77,7 +77,7 @@
 
 		public function pxyEdit_Click($strFormId, $strControlId, $strParameter) {
 			$strParameterArray = explode(',', $strParameter);
-			$objEditPanel = new DtrcDevicesEditPanel($this, $this->strCloseEditPanelMethod, $strParameterArray[0]);
+			$objEditPanel = new DtrcDevicesEditPanel($this, $this->strCloseEditPanelMethod, $strParameterArray[0], $strParameterArray[1]);
 
 			$strMethodName = $this->strSetEditPanelMethod;
 			$this->objForm->$strMethodName($objEditPanel);

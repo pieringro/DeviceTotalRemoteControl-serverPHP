@@ -68,6 +68,7 @@
 			$this->dtgDtrcFileses->MetaAddColumn('Id');
 			$this->dtgDtrcFileses->MetaAddColumn(QQN::DtrcFiles()->IDDevicesObject);
 			$this->dtgDtrcFileses->MetaAddColumn('Path');
+			$this->dtgDtrcFileses->MetaAddColumn('Type');
 
 			// Setup the Create New button
 			$this->btnCreateNew = new QButton($this);

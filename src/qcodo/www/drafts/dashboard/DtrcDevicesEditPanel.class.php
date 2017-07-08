@@ -34,7 +34,7 @@
 		// Callback
 		protected $strClosePanelMethod;
 
-		public function __construct($objParentObject, $strClosePanelMethod, $strId = null, $strControlId = null) {
+		public function __construct($objParentObject, $strClosePanelMethod, $strId = null, $strEmailUser = null, $strControlId = null) {
 			// Call the Parent
 			try {
 				parent::__construct($objParentObject, $strControlId);
@@ -49,7 +49,7 @@
 
 			// Construct the DtrcDevicesMetaControl
 			// MAKE SURE we specify "$this" as the MetaControl's (and thus all subsequent controls') parent
-			$this->mctDtrcDevices = DtrcDevicesMetaControl::Create($this, $strId);
+			$this->mctDtrcDevices = DtrcDevicesMetaControl::Create($this, $strId, $strEmailUser);
 
 			// Call MetaControl's methods to create qcontrols based on DtrcDevices's data fields
 			$this->txtId = $this->mctDtrcDevices->txtId_Create();

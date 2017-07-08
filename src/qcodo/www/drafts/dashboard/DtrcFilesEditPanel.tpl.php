@@ -11,6 +11,8 @@
 
 		<?php $_CONTROL->txtPath->RenderWithName(); ?>
 
+		<?php $_CONTROL->txtType->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">
