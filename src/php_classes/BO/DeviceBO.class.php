@@ -86,7 +86,7 @@ class DeviceBO {
     public function getTokenOfThisDevice($deviceTO){
         if(($deviceTO instanceof DeviceTO)){
             if(isset($deviceTO->device_id)){
-                $dtrcDevice = DtrcDevices::Load($deviceTO->device_id);
+                $dtrcDevice = DtrcDevices::LoadFromId($deviceTO->device_id);
                 return $dtrcDevice->TokenFirebase;
             }
         }

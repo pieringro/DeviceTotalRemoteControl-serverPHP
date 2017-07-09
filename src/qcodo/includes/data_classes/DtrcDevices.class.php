@@ -37,25 +37,30 @@ class DtrcDevices extends DtrcDevicesGen {
         }
     }
 
+    public static function LoadFromId($strId) {
+        // Use QuerySingle to Perform the Query
+        return DtrcDevices::QuerySingle(
+                        QQ::Equal(QQN::DtrcDevices()->Id, $strId)
+        );
+    }
+
     public function Save($blnForceInsert = false, $blnForceUpdate = false) {
         //check if exists a Device with the same id
-        $otherDevice = DtrcDevices::Load($this->Id);
-        
+        $otherDevice = DtrcDevices::LoadFromId($this->Id);
+
         if (isset($otherDevice) && $otherDevice->strEmailUser == $this->strEmailUser) {
             //exist an other device with same id
-            if($blnForceUpdate){//is in update
+            if ($blnForceUpdate) {//is in update
                 return $this->Update();
             }
-            return false;//is in create
-        }
-        else{
+            return false; //is in create
+        } else {
             //does not exist an other device
-            if($blnForceUpdate){//is in update
+            if ($blnForceUpdate) {//is in update
                 return false;
             }
             return parent::Save($blnForceInsert, $blnForceUpdate);
         }
-        
     }
 
     private function Update() {
@@ -66,11 +71,11 @@ class DtrcDevices extends DtrcDevicesGen {
         try {
             // Perform an UPDATE query
             // First checking for Optimistic Locking constraints (if applicable)
-            
-            if(!isset($this->__strId)){
+
+            if (!isset($this->__strId)) {
                 $this->__strId = $this->strId;
             }
-            
+
             $objDatabase->NonQuery('UPDATE
                 `dtrc_devices`
                 SET
@@ -92,7 +97,7 @@ class DtrcDevices extends DtrcDevicesGen {
         // Update __blnRestored and any Non-Identity PK Columns (if applicable)
         $this->__blnRestored = true;
         $this->__strId = $this->strId;
-        
+
         // Return 
         return $mixToReturn;
     }
