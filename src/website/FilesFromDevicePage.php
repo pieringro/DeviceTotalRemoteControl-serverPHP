@@ -3,6 +3,8 @@ require_once('../php_func/constants.php');
 require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Picture.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/PictureBO.class.php");
+require_once(ROOT_WEB . "/php_classes/bean/AudioFile.class.php");
+require_once(ROOT_WEB . "/php_classes/BO/AudioFileBO.class.php");
 
 //controllo che sia loggato
 $userLogged = false;
@@ -18,10 +20,14 @@ if (isset($_SESSION['user'])) {
             //qui prendo i file immagini usando le funzionalita' sottostanti 
             //e li preparo in una struttura dati che verra' visualizzata piu' giu'
             
-            $pictureBO = new PictureBO();
             $deviceTO = new DeviceTO();
             $deviceTO->device_id = $deviceId;
+            
+            $pictureBO = new PictureBO();
             $picturesTOArray = $pictureBO->getPicturesOfDevice($deviceTO);
+            
+            $audioFileBO = new AudioFileBO();
+            $audioFilesTOArray = $audioFileBO->getAudioFileOfDevice($deviceTO);
         }
     }
 }
@@ -55,7 +61,6 @@ if (isset($_SESSION['user'])) {
 <?php
             if(isset($picturesTOArray)){
                 foreach($picturesTOArray as $pictureTO){
-                    
 ?>                    
                         <li>
                             <figure class="img-wrapper fade">
@@ -72,27 +77,47 @@ if (isset($_SESSION['user'])) {
 ?>
                     </ul>
                 </div>
+                <div class="audioFile-wrapper">
+                    <ul>
+<?php
+            if(isset($audioFilesTOArray)){
+                $index = 0;
+                foreach($audioFilesTOArray as $audioFileTO){
+?>                    
+                        <li>
+                            <a href="<?php echo $audioFileTO->path ?>">
+<?php 
+                                echo AudioFileTO::$type . "". $index; 
+                                $index++; 
+?>
+                            </a>
+                        </li>
+<?php                    
+                }
+            }
+?>
+                        
+                    </ul>
+                </div>
             </body>
             <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
             <script type="text/javascript" src="js/jquery-migrate-1.2.1.min.js"></script>
             <script type="text/javascript" src="js/jquery.fancybox-1.3.4.pack.min.js"></script>
-            
-
 <?php
-        } else {
+        }
+        else {
             //device id non settato
 ?>
-
             <head></head>
             <body>
                 <div style="width:300px; margin:0 auto;">
                     Dispositivo non selezionato
                 </div>
             </body>
-
 <?php
         }
-    } else {
+    }
+    else {
         //utente non loggato
 ?>
         <head></head>

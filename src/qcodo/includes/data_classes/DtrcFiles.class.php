@@ -51,10 +51,12 @@
                     $result = parent::LoadArrayByIDDevices($strIdDevice);
                     if(isset($result)){
                         foreach($result as $aResult ){
-                            $pictureTo = new PictureTO();
-                            $pictureTo->deviceId = $aResult->IDDevices;
-                            $pictureTo->path = $aResult->Path;
-                            $picturesTosArray[] = $pictureTo;
+                            if($aResult->Type == "Picture"){
+                                $pictureTo = new PictureTO();
+                                $pictureTo->deviceId = $aResult->IDDevices;
+                                $pictureTo->path = $aResult->Path;
+                                $picturesTosArray[] = $pictureTo;
+                            }
                         }
                         return $picturesTosArray;
                     }
@@ -68,10 +70,12 @@
                     $result = parent::LoadArrayByIDDevices($strIdDevice);
                     if(isset($result)){
                         foreach($result as $aResult ){
-                            $audioFileTo = new AudioFileTO();
-                            $audioFileTo->deviceId = $aResult->IDDevices;
-                            $audioFileTo->path = $aResult->Path;
-                            $audioFileTosArray[] = $audioFileTo;
+                            if($aResult->Type == "AudioFile"){
+                                $audioFileTo = new AudioFileTO();
+                                $audioFileTo->deviceId = $aResult->IDDevices;
+                                $audioFileTo->path = $aResult->Path;
+                                $audioFileTosArray[] = $audioFileTo;
+                            }
                         }
                         return $audioFileTosArray;
                     }

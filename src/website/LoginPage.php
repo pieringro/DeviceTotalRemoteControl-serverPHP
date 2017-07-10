@@ -1,3 +1,16 @@
+<?php
+
+
+$userLogged = false;
+//controllo che sia loggato
+@session_start();
+if(isset($_SESSION['user'])){
+    $userLogged = true;
+    header("Location: ButtonsRoom.php");
+    die();
+}
+?>
+
 
 <!DOCTYPE html>
 <html>
