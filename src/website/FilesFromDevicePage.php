@@ -14,8 +14,13 @@ if (isset($_SESSION['user'])) {
     if (isset($userTo) && $userTo != false && $userTo instanceof UserTO) {
         //loggato
         $userLogged = true;
-        if (isset($_SESSION['idDevice'])) {
-            $deviceId = $_SESSION['idDevice'];
+        if (isset($_SESSION['idDevice']) || isset($_GET['idDevice'])) {
+            if(isset($_SESSION['idDevice'])){
+                $deviceId = $_SESSION['idDevice'];
+            }
+            else if (isset($_GET['idDevice'])){
+                $deviceId = $_GET['idDevice'];
+            }
             
             //qui prendo i file immagini usando le funzionalita' sottostanti 
             //e li preparo in una struttura dati che verra' visualizzata piu' giu'
