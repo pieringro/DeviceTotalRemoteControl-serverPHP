@@ -20,3 +20,15 @@ function parseJsonCommandResponse(commandResponseJsonStr){
 }
 
 
+var waitingAlert = null;
+function HandlingWaitingAlert(toOpen){
+    if(waitingAlert == null){
+        waitingAlert = document.getElementById("waiting");
+    }
+    if(toOpen){
+        waitingAlert.style.display = "block";
+    }
+    else{
+        waitingAlert.style.display = "none";
+    }
+}

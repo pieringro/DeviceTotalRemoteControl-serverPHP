@@ -1,44 +1,27 @@
 <?php
-require_once('../php_func/constants.php');
-require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
-require_once(ROOT_WEB . "/php_classes/bean/Picture.class.php");
-require_once(ROOT_WEB . "/php_classes/BO/PictureBO.class.php");
-require_once(ROOT_WEB . "/php_classes/bean/AudioFile.class.php");
-require_once(ROOT_WEB . "/php_classes/BO/AudioFileBO.class.php");
+//caricamento variabili template
+if (isset($inputTPL) && is_array($inputTPL)) {
+    if (isset($inputTPL['userLogged'])) {
+        $userLogged = $inputTPL['userLogged'];
+    }
 
-//controllo che sia loggato
-$userLogged = false;
-@session_start();
-if (isset($_SESSION['user'])) {
-    $userTo = unserialize(@$_SESSION['user']);
-    if (isset($userTo) && $userTo != false && $userTo instanceof UserTO) {
-        //loggato
-        $userLogged = true;
-        if (isset($_SESSION['idDevice']) || isset($_GET['idDevice'])) {
-            if(isset($_SESSION['idDevice'])){
-                $deviceId = $_SESSION['idDevice'];
-            }
-            else if (isset($_GET['idDevice'])){
-                $deviceId = $_GET['idDevice'];
-            }
-            
-            //qui prendo i file immagini usando le funzionalita' sottostanti 
-            //e li preparo in una struttura dati che verra' visualizzata piu' giu'
-            
-            $deviceTO = new DeviceTO();
-            $deviceTO->device_id = $deviceId;
-            
-            $pictureBO = new PictureBO();
-            $picturesToArray = $pictureBO->getPicturesOfDevice($deviceTO);
-            
-            $audioFileBO = new AudioFileBO();
-            $audioFilesTOArray = $audioFileBO->getAudioFileOfDevice($deviceTO);
-        }
+    if (isset($inputTPL['userTo'])) {
+        $userTo = $inputTPL['userTo'];
+    }
+
+    if (isset($inputTPL['deviceId'])) {
+        $deviceId = $inputTPL['deviceId'];
+    }
+    
+    if(isset($inputTPL['picturesToArray'])){
+        $picturesToArray = $inputTPL['picturesToArray'];
+    }
+    
+    if(isset($inputTPL['audioFilesTOArray'])){
+        $audioFilesTOArray = $inputTPL['audioFilesTOArray'];
     }
 }
 ?>
-
-
 
 
 

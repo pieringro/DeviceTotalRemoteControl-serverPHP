@@ -15,6 +15,7 @@ if (isset($_SESSION['user'])) {
         //loggato
         $userLogged = true;
         $inputTPL['userLogged'] = $userLogged;
+        $inputTPL['userTo'] = $userTo;
         
         if (isset($_POST['idDevice'])) {
             $deviceId = $_POST['idDevice'];

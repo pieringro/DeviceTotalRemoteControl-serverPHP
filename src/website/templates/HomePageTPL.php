@@ -1,6 +1,6 @@
 <?php
 //caricamento variabili template
- if(isset($inputTPL) && is_array($inputTPL)){
+if(isset($inputTPL) && is_array($inputTPL)){
     if(isset($inputTPL['userLogged'])){
         $userLogged = $inputTPL['userLogged'];
     }
@@ -16,7 +16,6 @@
     if(isset($inputTPL['devicesIdsStringForHtml'])){
         $devicesIdsStringForHtml = $inputTPL['devicesIdsStringForHtml'];
     }
-    
 }
 ?>
 
@@ -27,6 +26,7 @@
 <?php
     if (isset($userLogged) && $userLogged && isset($userTo)) {
 ?>
+    <head>
         <title>DTRC HomePage</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,6 +40,7 @@
         <style>
             html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         </style>
+    </head>
         <body class="w3-light-grey">
 
             <!-- Top container -->
@@ -68,10 +69,18 @@
                     <h5>Dashboard</h5>
                 </div>
                 <div class="w3-bar-block">
-                    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-                    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Overview</a>
-                    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Devices</a>
-                    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Buttons Room</a>
+                    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu">
+                        <i class="fa fa-remove fa-fw"></i>Close Menu
+                    </a>
+                    <a id="menuOverview" href="#" class="w3-bar-item w3-button w3-padding w3-blue">
+                        <i class="fa fa-users fa-fw"></i>Overview
+                    </a>
+                    <a id="menuDevicesList" href="#" class="w3-bar-item w3-button w3-padding" onclick="DevicesListUserOnClick()">
+                        <i class="fa fa-eye fa-fw"></i>Devices
+                    </a>
+                    <a id="menuButtonsRoom" href="#" class="w3-bar-item w3-button w3-padding" onclick="ButtonsRoomOnClick()">
+                        <i class="fa fa-users fa-fw"></i>Buttons Room
+                    </a>
                 </div>
             </nav>
 
@@ -99,7 +108,7 @@
                         </div>
                     </div>
 
-                    <div class="w3-quarter" id="DevicesListLink" onclick="DeviceListOnClick('<?php echo $userTo->email; ?>')">
+                    <div class="w3-quarter" id="DevicesListLink" onclick="DevicesListUserOnClick()">
                         <div class="w3-container w3-blue w3-padding-16">
                             <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
                             <div class="w3-right">
@@ -110,7 +119,7 @@
                         </div>
                     </div>
 
-
+                    <!--
                     <div class="w3-quarter">
                         <div class="w3-container w3-teal w3-padding-16">
                             <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
@@ -131,6 +140,8 @@
                             <h4>Users</h4>
                         </div>
                     </div>
+                    -->
+                    
                 </div>
 
                 <div class="w3-container">
@@ -159,8 +170,11 @@
                     
                 </div>
 
+                <div id="waiting" style="display: none; position: relative; text-align: center; z-index: 9; background-color: #FFFFFF; width:100%; height:300px;">
+                    <img src="images/loading_icon.gif" width="111px" height="111px" />
+                </div>
                 <!-- IFrame in cui verranno caricate i contenuti delle pagine -->
-                <iframe id="IFramePage" src="" width="100%" height="300px" style="border : 0"></iframe>
+                <iframe id="IFramePage" onload="HandlingWaitingAlert(false)" src="" width="100%" height="300px" style="border : 0"></iframe>
 
                 <!-- Footer -->
                 <footer class="w3-container w3-padding-16 w3-light-grey">
@@ -205,7 +219,6 @@
 else{
 ?>
 <head>
-
 </head>
 <body>
     Utente non loggato.

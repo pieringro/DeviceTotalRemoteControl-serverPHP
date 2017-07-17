@@ -1,17 +1,43 @@
+var currentIdMenuVoiceHover = "menuOverview";
+function HandlingHoverMenuVoice(idMenu){
+    if(currentIdMenuVoiceHover != null){
+        var menuHoverVoice = document.getElementById(currentIdMenuVoiceHover);
+        menuHoverVoice.className = menuHoverVoice.className.replace("w3-blue", "");
+    }
+    
+    var menuVoice = document.getElementById(idMenu);
+    menuVoice.className += " w3-blue";
+    currentIdMenuVoiceHover = idMenu;
+}
+
+var iframePage = null;
+function HandlingChangeIframeSrc(iframeSrc){
+    if(iframePage == null){
+        iframePage = document.getElementById("IFramePage");
+    }
+    
+    iframePage.contentWindow.document.open();
+    iframePage.contentWindow.document.close();
+    iframePage.src = iframeSrc;
+}
+
+
 function ButtonsRoomOnClick(){
-    var iframePage = document.getElementById("IFramePage");
-    iframePage.src = "ButtonsRoom.php";
+    HandlingWaitingAlert(true);
+    HandlingHoverMenuVoice("menuButtonsRoom");
+    HandlingChangeIframeSrc("ButtonsRoom.php");
 }
 
 function DeviceFilesListOnClick(idDevice){
-    var iframePage = document.getElementById("IFramePage");
-    iframePage.src = "FilesFromDevicePage.php?idDevice="+idDevice;
+    HandlingWaitingAlert(true);
+    HandlingChangeIframeSrc("FilesFromDevicePage.php?idDevice="+idDevice);
 }
 
 
-function DevicesListUserOnClick(emailUser){
-    var iframePage = document.getElementById("IFramePage");
-    iframePage.src = "DevicesListUser.php?emailUser="+emailUser;
+function DevicesListUserOnClick(){
+    HandlingWaitingAlert(true);
+    HandlingHoverMenuVoice("menuDevicesList");
+    HandlingChangeIframeSrc("DevicesListPage.php");
 }
 
 

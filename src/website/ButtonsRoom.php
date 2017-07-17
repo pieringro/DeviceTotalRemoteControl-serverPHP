@@ -30,14 +30,7 @@ if (isset($_SESSION['user'])) {
             $deviceTO->device_id = $deviceId;
             $deviceToken = $deviceBO->getTokenOfThisDevice($deviceTO);
         } else {
-            //$userBO = new UserBO();
-            //$devicesTOList = $userBO->getDevicesToFromUser($userTo);
-            //$devicesIdsStringForHtml = "";
-            //foreach ($devicesTOList as $deviceTO) {
-            //    if ($deviceTO instanceof DeviceTO) {
-            //        $devicesIdsStringForHtml .= "<option>" . $deviceTO->device_id . "</option> ";
-            //    }
-            //}
+            
         }
     }
 }

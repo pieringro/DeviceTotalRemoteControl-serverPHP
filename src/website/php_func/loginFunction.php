@@ -17,7 +17,7 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
             $result = $userBO->loginUser($userTO);
 
             if ($result) {
-                header("Location: ../ButtonsRoom.php");
+                header("Location: ../HomePage.php");
             }
             else{
                 error("Unable to perform login. ".$userBO->lastErrorMessage);

@@ -9,30 +9,22 @@ if ($userLogged) {
         <head>
             <title>La stanza dei bottoni</title>
             <link href="css/buttonsRoom.css" rel="stylesheet" type="text/css">
+            <script type="text/javascript" src="js/Utility.js"></script>
         </head>
         <body>
             <script type="text/javascript" src="js/ajax.js"></script>
             <script type="text/javascript" src="js/SendCommands.js"></script>
+            
 
             <div style="width:300px; margin:0 auto;">
                 <table style="width:100%">
                     <tr>
                         <td colspan="100">
-                            <form method="POST" action="#">
-                                <fieldset <?php echo (isset($deviceToken)) ? "disabled" : "" ?> >
 <?php
                                 if (isset($deviceId)) {
-                                    //echo "<input type=text name=\"idDevice\" value=\"$deviceId\" />";
-                                } else {
-                                    //echo "<select name=\"idDevice\">";
-                                    //echo (isset($devicesIdsStringForHtml)) ? $devicesIdsStringForHtml : "";
-                                    //echo "</select>";
+                                    echo "Device : $deviceId";
                                 }
 ?>
-
-                                    <input type="submit" value="Select">
-                                </fieldset>
-                            </form>
                         </td>
                     </tr>
 
@@ -46,7 +38,7 @@ if ($userLogged) {
                         </tr>
                         <tr>
                             <td colspan="100" style="text-align: center; font-weight: bold">
-                                Comandi
+                                Commands
                             </td>
                         </tr>
                         <tr>
@@ -91,7 +83,7 @@ if ($userLogged) {
         <head></head>
         <body>
             <div style="width:300px; margin:0 auto;">
-                Dispositivo sconosciuto
+                Unknown device
             </div>
         </body>
 <?php
@@ -102,7 +94,7 @@ else {
         <head></head>
         <body>
             <div style="width:300px; margin:0 auto;">
-                Utente non loggato
+                User not logged in
             </div>
         </body>
 <?php
