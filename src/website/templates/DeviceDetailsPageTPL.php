@@ -66,6 +66,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
             </style>
             <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
             <script type="text/javascript" src="jquery.easing.1.3.js"></script>
+            <script type="text/javascript" src="js/DeviceDetails.js"></script>
             <script type="text/javascript">
                 $(window).load(function () {
                     sliderLeft = $('#thumbScroller .container').position().left;
@@ -123,26 +124,29 @@ if (isset($inputTPL) && is_array($inputTPL)) {
             <h1 class="title">Image Gallery</h1>
             <div id="fp_gallery" class="fp_gallery">
                 <img src="images/1.jpg" alt="" class="fp_preview" style="display:none;"/>
+                <div id="audioControl" style="display: none;">
+                    <audio controls src="horse.mp3">
+                        Your browser does not support HTML5 audio tag.
+                    </audio>
+                    <a href="">Download</a>
+                </div>
+                
                 <div class="fp_overlay"></div>
                 <div id="fp_loading" class="fp_loading"></div>
                 <div id="fp_next" class="fp_next"></div>
                 <div id="fp_prev" class="fp_prev"></div>
                 <div id="outer_container">
                     <div id="thumbScroller">
-                        <div class="container">
-                            <div>
-                                <a href="">Fullscreen</a>
-                            </div>
-                        </div>
+
                         <div class="container">
 
-                            <?php
+<?php
                             if (isset($picturesToArray)) {
                                 foreach ($picturesToArray as $pictureTO) {
-                                    ?>
+?>
                             
                             <div class="content">
-                                <div>
+                                <div class="image">
                                     <a href="#">
                                         <img height="120px" src="<?php echo $pictureTO->path ?>" 
                                              alt="<?php echo $pictureTO->path ?>" class="thumb" />
@@ -150,20 +154,20 @@ if (isset($inputTPL) && is_array($inputTPL)) {
                                 </div>
                             </div>
                             
-                                    <?php
+<?php
                                 }
                             }
                             
                             if (isset($audioFilesTOArray)) {
                                 $index = 0;
                                 foreach ($audioFilesTOArray as $audioFileTO) {
-                                    ?>
+?>
                                     
                             <div class="content">
-                                <div>
-                                    <a href="<?php echo $audioFileTO->path ?>">
-                                        <img height="120px" src="images/audio_icon.jpg" 
-                                             alt="images/audio_icon.jpg" class="thumb" />
+                                <div class="audio">
+                                    <a href="#">
+                                        <img height="120px" src="images/audio_icon.jpg" alt="images/audio_icon.jpg" 
+                                             class="thumb" onclick="AudioFileClicked('<?php echo $audioFileTO->path ?>')" />
                                         <!-- <?php echo $audioFileTO->path ?> -->
                                     </a>
                                 </div>
@@ -172,7 +176,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
 <?php
                                 }
                             }
-                            ?>
+?>
                         </div>
                     </div>
                 </div>
@@ -218,6 +222,15 @@ if (isset($inputTPL) && is_array($inputTPL)) {
                     //clicking on a thumb...
                     $thumbScroller.find('.content').bind('click', function (e) {
                         var $content = $(this);
+                        var $contentDiv = $content.find('div');
+                        var contentDivClass = $contentDiv.attr("class");
+                        if(contentDivClass == 'image'){
+                            makeScrollable();
+                            hideAudioControl();
+                        }
+                        else{
+                            disableScrolling();
+                        }
                         var $elem = $content.find('img');
                         //keep track of the current clicked thumb
                         //it will be used for the navigation arrows

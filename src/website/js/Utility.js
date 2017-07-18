@@ -21,7 +21,7 @@ function parseJsonCommandResponse(commandResponseJsonStr){
 
 
 var waitingAlert = null;
-function HandlingWaitingAlert(toOpen){
+function HandlingWaitingAlert(toOpen, width=null){
     if(waitingAlert == null){
         waitingAlert = document.getElementById("waiting");
     }
@@ -30,5 +30,8 @@ function HandlingWaitingAlert(toOpen){
     }
     else{
         waitingAlert.style.display = "none";
+    }
+    if(width != null){
+        waitingAlert.style.width = width+"px";
     }
 }

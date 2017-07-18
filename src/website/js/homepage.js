@@ -1,3 +1,27 @@
+
+var iframePage = null;
+var buttonIframe = null;
+var divIframe = null;
+
+function InitIframePage(){
+    if(iframePage == null){
+        iframePage = document.getElementById("IFramePage");
+    }
+}
+
+function InitDivIframe(){
+    if(divIframe == null){
+        divIframe = document.getElementById("DivIFramePage");
+    }
+}
+
+function InitButtonIframe(){
+    if(buttonIframe == null){
+        buttonIframe = document.getElementById("ButtonIFramePage");
+    }
+}
+
+
 var currentIdMenuVoiceHover = "menuOverview";
 function HandlingHoverMenuVoice(idMenu){
     if(currentIdMenuVoiceHover != null){
@@ -10,20 +34,41 @@ function HandlingHoverMenuVoice(idMenu){
     currentIdMenuVoiceHover = idMenu;
 }
 
-var iframePage = null;
+
 function HandlingChangeIframeSrc(iframeSrc){
-    if(iframePage == null){
-        iframePage = document.getElementById("IFramePage");
-    }
-    
+    InitIframePage();
     iframePage.contentWindow.document.open();
     iframePage.contentWindow.document.close();
     iframePage.src = iframeSrc;
 }
 
+// ---------------------------
+
+function GoIFrameFullScreen(){
+    InitDivIframe();
+    divIframe.setAttribute("class", "overlap-everything-div");
+    
+    InitButtonIframe();
+    buttonIframe.onclick = RestoreIFrameNormal;
+    buttonIframe.value = "Reduce";
+}
+
+function RestoreIFrameNormal(){
+    InitDivIframe();
+    divIframe.setAttribute("class", "normal-div");
+    
+    InitButtonIframe();
+    buttonIframe.onclick = GoIFrameFullScreen;
+    buttonIframe.value = "Fullscreen";
+}
+// ---------------------------
 
 function ButtonsRoomOnClick(){
-    HandlingWaitingAlert(true);
+    var width = null;
+    InitDivIframe();
+    width = divIframe.scrollWidth;
+    
+    HandlingWaitingAlert(true, width);
     HandlingHoverMenuVoice("menuButtonsRoom");
     HandlingChangeIframeSrc("ButtonsRoom.php");
 }
@@ -35,7 +80,10 @@ function DeviceFilesListOnClick(idDevice){
 
 
 function DevicesListUserOnClick(){
-    HandlingWaitingAlert(true);
+    InitDivIframe();
+    width = divIframe.scrollWidth;
+    
+    HandlingWaitingAlert(true, width);
     HandlingHoverMenuVoice("menuDevicesList");
     HandlingChangeIframeSrc("DevicesListPage.php");
 }
@@ -74,5 +122,6 @@ function GetTokenThisDevice(deviceId){
     func_ajax("POST", "php_func/getTokenThisDevice.php", 
         "deviceId="+deviceId, GetTokenThisDeviceAjaxCallback);
 }
+
 
 

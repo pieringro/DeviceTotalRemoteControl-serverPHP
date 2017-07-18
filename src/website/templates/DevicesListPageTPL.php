@@ -31,7 +31,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
                 <link href="css/devicesListPage.css" rel="stylesheet" type="text/css">
             </head>
             <body>
-                <div style="width:300px; margin:0 auto;">
+                <div style="width:300px; margin:0 auto; margin-top: 20px">
                     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
                         <thead>
                             <tr>

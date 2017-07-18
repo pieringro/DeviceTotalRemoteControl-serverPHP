@@ -25,6 +25,8 @@ body {
 			color-stop(0.6, transparent),
 			to(rgb(18, 18, 18))
 		);
+        overflow: auto;
+        width : 100%;
 }
 #thumbScroller{
 	position:relative;
@@ -118,4 +120,14 @@ img.fp_preview{
 	left:0px;
 	top:0px;
 	width:100%;
+}
+
+#audioControl{
+    position : absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
 }

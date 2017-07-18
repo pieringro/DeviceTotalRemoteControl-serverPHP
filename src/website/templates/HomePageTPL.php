@@ -33,6 +33,7 @@ if(isset($inputTPL) && is_array($inputTPL)){
         <link rel="stylesheet" href="css/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/home.css">
         
         <script type="text/javascript" src="js/Utility.js"></script>
         <script type="text/javascript" src="js/ajax.js"></script>
@@ -86,7 +87,8 @@ if(isset($inputTPL) && is_array($inputTPL)){
 
 
             <!-- Overlay effect when opening sidebar on small screens -->
-            <div id="myOverlay" class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" title="close side menu" ></div>
+            <div id="myOverlay" class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" title="close side menu" >
+            </div>
 
             <!-- !PAGE CONTENT! -->
             <div class="w3-main" style="margin-left:300px;margin-top:43px;">
@@ -170,12 +172,18 @@ if(isset($inputTPL) && is_array($inputTPL)){
                     
                 </div>
 
-                <div id="waiting" style="display: none; position: relative; text-align: center; z-index: 9; background-color: #FFFFFF; width:100%; height:300px;">
-                    <img src="images/loading_icon.gif" width="111px" height="111px" />
+                <div id="waiting" style="display: none; position: absolute; z-index: 999999; background-color: #FFFFFF; width:100%; height:300px;">
+                    <div style="position: relative; text-align: center; top:20px" >
+                        <img src="images/loading_icon.gif" width="80px" height="80px" />
+                    </div>
                 </div>
+                
                 <!-- IFrame in cui verranno caricate i contenuti delle pagine -->
-                <iframe id="IFramePage" onload="HandlingWaitingAlert(false)" src="" width="100%" height="300px" style="border : 0"></iframe>
-
+                <div id="DivIFramePage" class="normal-div">
+                    <input id="ButtonIFramePage" class="iframe-button" type="button" value="Fullscreen" onclick="GoIFrameFullScreen()"></button>
+                    <iframe id="IFramePage" onload="HandlingWaitingAlert(false)" src="" 
+                        width="100%" height="100%" style="border : 0;"></iframe>
+                </div>
                 <!-- Footer -->
                 <footer class="w3-container w3-padding-16 w3-light-grey">
                     <hr>
