@@ -32,11 +32,6 @@ if ($userLogged) {
         if (isset($deviceToken)) {
 ?>
                         <tr>
-                            <td colspan="100">
-                                <a href="FilesFromDevicePage.php">File ricevuti dal dispositivo</a>
-                            </td>
-                        </tr>
-                        <tr>
                             <td colspan="100" style="text-align: center; font-weight: bold">
                                 Commands
                             </td>
