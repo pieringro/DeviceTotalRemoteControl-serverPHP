@@ -369,3 +369,52 @@ a.button {display:inline-block;margin:0 5px 19px 0;}
 }
 
 .button:hover,.button:active {text-decoration:none;}
+
+
+/*----- Start CSS ad-hoc -----*/
+
+.button-beep{
+    background: #DBDBFF url('../images/beep_icon.png') no-repeat top right;
+    padding-right: 35px;
+    height: 35px;
+}
+
+.button-photo{
+    background: #DBDBFF url('../images/photo_icon.png') no-repeat top right;
+    padding-right: 35px;
+    height: 35px;
+}
+
+.button-audio{
+    background: #DBDBFF url('../images/microphone_icon.png') no-repeat top right;
+    padding-right: 35px;
+    height: 35px;
+}
+
+.table-parent{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0px 10px;
+}
+.table-parent tr{
+    text-align: center;
+}
+
+.table-firstson{
+    margin-left: auto;
+}
+
+.td-commandButton{
+    text-align: right;
+}
+
+.td-commandCallback{
+    /*display: none;*/
+    width: 30px;
+    height: 30px;
+}
+
+.img-commandCallback{
+    width: 30px;
+    height: 30px;
+}

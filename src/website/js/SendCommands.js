@@ -29,7 +29,6 @@ function parseJsonCommandResponse(commandResponseJsonStr){
     var commandResponseJson = null;
     try{
         commandResponseJson = JSON.parse(commandResponseJsonStr);
-        
     }
     catch(e){
         console.error(e);
@@ -61,20 +60,76 @@ function getCommandResponse() {
     }
 }
 
+var isBusy = false;
 
+function WaitingGraphicsCallback(idCallbackContainer){
+    var callbackContainer = document.getElementById(idCallbackContainer);
+    callbackContainer.innerHTML = "<img class=\"img-commandCallback\" src=\"images/loading_icon2.gif\" />";
+    callbackContainer.style.display = "block";
+    isBusy = true;
+}
 
+function SuccessGraphicsCallback(idCallbackContainer){
+    var callbackContainer = document.getElementById(idCallbackContainer);
+    callbackContainer.innerHTML = "<img class=\"img-commandCallback\" src=\"images/success_icon.png\" />";
+    callbackContainer.style.display = "block";
+}
 
-
-function PlayBeepCommand(deviceToken){
-
-    func_ajax("POST", "php_func_commands/PlayBeepCommand.php", 
-        "deviceToken="+deviceToken, getCommandResponse);
+function FailGraphicsCallback(idCallbackContainer, message="Unknow error."){
+    var callbackContainer = document.getElementById(idCallbackContainer);
+    message = message.replace(/"/gi, "");//sostituisco tutte le "
+    callbackContainer.innerHTML = "<img class=\"img-commandCallback\" src=\"images/error_icon.png\" title=\""+message+"\"/>";
+    callbackContainer.style.display = "block";
 }
 
 
+function GenericCommandCallback(currentIdCallbackContainer){
+    if (ajax.readyState == 4) {
+        var ajaxResponse = parseJsonCommandResponse(ajax.responseText);
+        if(ajaxResponse != null){
+            //console.log("Called GenericCommandCallback("+currentIdCallbackContainer+")");
+            if(ajaxResponse.success){
+                //Comando inviato con successo!
+                SuccessGraphicsCallback(currentIdCallbackContainer);
+            }
+            else{
+                //Errore nell'invio del comando
+                //i dettagli si trovano in ajaxResponse.results (array di json)
+                var message = "Error:\n";
+                if(ajaxResponse.results != null && ajaxResponse.results instanceof Array){
+                    var i;
+                    for (i = 0;  i < ajaxResponse.results.length; ++ i) {
+                        message += (i+1)+". "+JSON.stringify(ajaxResponse.results[i]);
+                    }
+                }
+                FailGraphicsCallback(currentIdCallbackContainer, message);
+            }
+        }
+        else{
+            FailGraphicsCallback(currentIdCallbackContainer);
+        }
+        isBusy = false;
+    }
+}
 
+function PlayBeepCommand(deviceToken){
+    if(isBusy){
+        return;
+    }
+    
+    var playBeepIdCallbackContainer = "PlayBeepCommandCallback";
+    WaitingGraphicsCallback(playBeepIdCallbackContainer);
+    func_ajax("POST", "php_func_commands/PlayBeepCommand.php", 
+        "deviceToken="+deviceToken, function(){
+            GenericCommandCallback(playBeepIdCallbackContainer); 
+        });
+}
 
 function TakePicturesCommand(deviceToken){
+    if(isBusy){
+        return;
+    }
+    
     var FrontPic = document.getElementById('FrontPic').value;
     var BackPic = document.getElementById('BackPic').value;
 
@@ -86,9 +141,13 @@ function TakePicturesCommand(deviceToken){
 
             console.log("TakePicturesCommand : sending request. deviceToken=\""+deviceToken+
                     "\", params=\""+paramsJsonStr+"\"");
-
+            
+            var takePicturesIdCallbackContainer = "TakePicturesCommandCallback";
+            WaitingGraphicsCallback(takePicturesIdCallbackContainer);
             func_ajax("POST", "php_func_commands/TakePicturesCommand.php", 
-                "deviceToken="+deviceToken+"&params="+paramsJsonStr, getCommandResponse);
+                "deviceToken="+deviceToken+"&params="+paramsJsonStr, function(){
+                    GenericCommandCallback(takePicturesIdCallbackContainer);
+                });
         }
         else{
             console.log("TakePicturesCommad : Unable to send request. Validation parameters failed.");
@@ -102,6 +161,10 @@ function TakePicturesCommand(deviceToken){
 
 
 function RecordAudioCommand(deviceToken){
+    if(isBusy){
+        return;
+    }
+    
     var TimerInputForm = document.getElementById('RecordAudioTimer');
     var TimerInputValue = TimerInputForm.value;
     
@@ -113,9 +176,13 @@ function RecordAudioCommand(deviceToken){
 
             console.log("RecordAudioCommand : sending request. deviceToken=\""+deviceToken+
                     "\", params=\""+paramsJsonStr+"\"");
-
+            
+            var recordAudioIdCallbackContainer = "RecordAudioCommandCallback";
+            WaitingGraphicsCallback(recordAudioIdCallbackContainer);
             func_ajax("POST", "php_func_commands/RecordAudioCommand.php", 
-                "deviceToken="+deviceToken+"&params="+paramsJsonStr, getCommandResponse);
+                "deviceToken="+deviceToken+"&params="+paramsJsonStr, function(){
+                    GenericCommandCallback(recordAudioIdCallbackContainer);
+                });
         }
         else{
             console.log("RecordAudioCommand : Unable to send request. Validation parameters failed.");

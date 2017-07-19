@@ -14,6 +14,9 @@
     
     define('QCODO_INCLUDE_FOLDER', ROOT_WEB . "/qcodo/includes");
     
+    //----- log
+    define('LOG_MODULE', ROOT_WEB."/engine/log/Log.class.php");
+    define('LOG_PATH_FILE', ROOT_WEB."/engine/log/Log.txt");
     
     
     //---- Codici di errore condivisi con il client

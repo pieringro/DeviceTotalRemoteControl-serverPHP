@@ -26,25 +26,35 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
                 ok();
             }
             else{
-                error("Unable to create new picture. ".$audioFileBO->lastErrorMessage);
+                $msg = "Unable to create new picture. ".$audioFileBO->lastErrorMessage;
+                error($msg);
+                $log->lwrite($msg);
             }
         }
         else{
-            error("Missing device identifier.");
+            $msg = "Missing device identifier.";
+            error($msg);
+            $log->lwrite($msg);
         }
     }
     catch (Exception $e) {
         error($e->getMessage());
+        $log->lwrite($e->getMessage());
     }
 }
 else{
     if (isset($_SERVER["CONTENT_LENGTH"])){
         if($_SERVER["CONTENT_LENGTH"]>((int)ini_get('post_max_size')*1024*1024)){
-            error("File too big.");
+            $msg = "File too big.";
+            error($msg);
+            $log->lwrite($msg);
+            $log->lclose();
             die();
         }
     }
-
-    error("No file passed.");
+    $msg = "No file passed";
+    error($msg);
+    $log->lwrite($msg);
 }
 
+$log->lclose();
