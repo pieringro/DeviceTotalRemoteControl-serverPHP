@@ -50,7 +50,7 @@ function GoIFrameFullScreen(){
     
     InitButtonIframe();
     buttonIframe.onclick = RestoreIFrameNormal;
-    buttonIframe.value = "Reduce";
+    //buttonIframe.value = "Reduce";
 }
 
 function RestoreIFrameNormal(){
@@ -59,7 +59,7 @@ function RestoreIFrameNormal(){
     
     InitButtonIframe();
     buttonIframe.onclick = GoIFrameFullScreen;
-    buttonIframe.value = "Fullscreen";
+    //buttonIframe.value = "Fullscreen";
 }
 // ---------------------------
 
@@ -89,27 +89,6 @@ function DevicesListUserOnClick(){
 }
 
 
-function GetTokenThisDeviceAjaxCallback() {
-    if (ajax.readyState == 4) {
-        var ajaxResponse = parseJsonCommandResponse(ajax.responseText);
-        if(ajaxResponse != null){
-            if(ajaxResponse.deviceToken && ajaxResponse.deviceId){
-                var devicesFieldSet = document.getElementById("devicesFieldSet");
-                devicesFieldSet.setAttribute("disable", true);
-                
-                var devicesTd = document.getElementById("devicesTd");
-                devicesTd.innerHTML = "<input disabled=\"disabled\" type=text name=\"idDevice\" value=\""+ajaxResponse.deviceId+"\" />";
-                
-                var buttonSelectIdDevice = document.getElementById("buttonSelectIdDevice");
-                buttonSelectIdDevice.setAttribute("disabled", "disabled");
-            }
-            else{
-                
-            }
-        }
-    }
-}
-
 
 function GetTokenThisDevice(deviceId){
     if(deviceId == null){
@@ -122,6 +101,27 @@ function GetTokenThisDevice(deviceId){
     func_ajax("POST", "php_func/getTokenThisDevice.php", 
         "deviceId="+deviceId, GetTokenThisDeviceAjaxCallback);
 }
+function GetTokenThisDeviceAjaxCallback() {
+    if (ajax.readyState == 4) {
+        var ajaxResponse = parseJsonCommandResponse(ajax.responseText);
+        if(ajaxResponse != null){
+            if(typeof ajaxResponse.deviceToken !== 'undefined' && 
+                    typeof ajaxResponse.deviceId !== 'undefined'){
+                location.reload();
+            }
+        }
+    }
+}
 
 
+
+function RemoveDeviceSelected(){
+    func_ajax("POST", "php_func/removeDeviceSelected.php", 
+        "", RemoveDeviceSelectedCallback);
+}
+function RemoveDeviceSelectedCallback(){
+    if (ajax.readyState == 4) {
+        location.reload();
+    }
+}
 

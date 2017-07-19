@@ -42,196 +42,187 @@ if(isset($inputTPL) && is_array($inputTPL)){
             html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         </style>
     </head>
-        <body class="w3-light-grey">
+    <body class="w3-light-grey">
 
-            <!-- Top container -->
-            <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-                <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-                <span class="w3-bar-item w3-right"></span>
-            </div>
+        <!-- Top container -->
+        <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+            <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+            <span class="w3-bar-item w3-right"></span>
+        </div>
 
-            <!-- Sidebar/menu -->
-            <nav id="mySidebar" class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;"><br>
-                <div class="w3-container w3-row">
-                    <div class="w3-col s4">
-                        <img src="images/avatar_male_user.png" class="w3-circle w3-margin-right" style="width:46px">
-                    </div>
-                    <div class="w3-col s8 w3-bar">
-                        <span>Welcome, <strong><?php echo $userTo->email; ?></strong></span><br>
-                        <!--
-                        <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
-                        <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
-                        <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
-                        -->
-                    </div>
+        <!-- Sidebar/menu -->
+        <nav id="mySidebar" class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;"><br>
+            <div class="w3-container w3-row">
+                <div class="w3-col s4">
+                    <img src="images/avatar_male_user.png" class="w3-circle w3-margin-right" style="width:46px">
                 </div>
-                <hr>
-                <div class="w3-container">
-                    <h5>Dashboard</h5>
-                </div>
-                <div class="w3-bar-block">
-                    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu">
-                        <i class="fa fa-remove fa-fw"></i>Close Menu
-                    </a>
-                    <a id="menuOverview" href="#" class="w3-bar-item w3-button w3-padding w3-blue">
-                        <i class="fa fa-users fa-fw"></i>Overview
-                    </a>
-                    <a id="menuDevicesList" href="#" class="w3-bar-item w3-button w3-padding" onclick="DevicesListUserOnClick()">
-                        <i class="fa fa-eye fa-fw"></i>Devices
-                    </a>
-                    <a id="menuButtonsRoom" href="#" class="w3-bar-item w3-button w3-padding" onclick="ButtonsRoomOnClick()">
-                        <i class="fa fa-users fa-fw"></i>Buttons Room
-                    </a>
-                </div>
-            </nav>
-
-
-            <!-- Overlay effect when opening sidebar on small screens -->
-            <div id="myOverlay" class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" title="close side menu" >
-            </div>
-
-            <!-- !PAGE CONTENT! -->
-            <div class="w3-main" style="margin-left:300px;margin-top:43px;">
-
-                <!-- Header -->
-                <header class="w3-container" style="padding-top:22px">
-                    <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
-                </header>
-
-                <div class="w3-row-padding w3-margin-bottom">
-                    <div class="w3-quarter" id="ButtonsRoomLink" onclick="ButtonsRoomOnClick()">
-                        <div class="w3-container w3-red w3-padding-16">
-                            <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
-                            <div class="w3-right">
-                                <h3></h3>
-                            </div>
-                            <div class="w3-clear"></div>
-                            <h4>Buttons room</h4>
-                        </div>
-                    </div>
-
-                    <div class="w3-quarter" id="DevicesListLink" onclick="DevicesListUserOnClick()">
-                        <div class="w3-container w3-blue w3-padding-16">
-                            <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
-                            <div class="w3-right">
-                                <h3></h3>
-                            </div>
-                            <div class="w3-clear"></div>
-                            <h4>Devices</h4>
-                        </div>
-                    </div>
-
+                <div class="w3-col s8 w3-bar">
+                    <span>Welcome, <strong><?php echo $userTo->email; ?></strong></span><br>
                     <!--
-                    <div class="w3-quarter">
-                        <div class="w3-container w3-teal w3-padding-16">
-                            <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
-                            <div class="w3-right">
-                                <h3></h3>
-                            </div>
-                            <div class="w3-clear"></div>
-                            <h4>Shares</h4>
-                        </div>
-                    </div>
-                    <div class="w3-quarter">
-                        <div class="w3-container w3-orange w3-text-white w3-padding-16">
-                            <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
-                            <div class="w3-right">
-                                <h3></h3>
-                            </div>
-                            <div class="w3-clear"></div>
-                            <h4>Users</h4>
-                        </div>
-                    </div>
+                    <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+                    <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
+                    <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
                     -->
-                    
+                </div>
+            </div>
+            <hr>
+            <div class="w3-container">
+                <h5>Dashboard</h5>
+            </div>
+            <div class="w3-bar-block">
+                <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu">
+                    <i class="fa fa-remove fa-fw"></i>Close Menu
+                </a>
+                <a id="menuOverview" href="#" class="w3-bar-item w3-button w3-padding w3-blue">
+                    <i class="fa fa-users fa-fw"></i>Overview
+                </a>
+                <a id="menuDevicesList" href="#" class="w3-bar-item w3-button w3-padding" onclick="DevicesListUserOnClick()">
+                    <i class="fa fa-eye fa-fw"></i>Devices
+                </a>
+                <a id="menuButtonsRoom" href="#" class="w3-bar-item w3-button w3-padding" onclick="ButtonsRoomOnClick()">
+                    <i class="fa fa-users fa-fw"></i>Buttons Room
+                </a>
+            </div>
+        </nav>
+
+
+        <!-- Overlay effect when opening sidebar on small screens -->
+        <div id="myOverlay" class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" title="close side menu" >
+        </div>
+
+        <!-- !PAGE CONTENT! -->
+        <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+            <!-- Header -->
+            <header class="w3-container" style="padding-top:22px">
+                <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+            </header>
+
+            <div class="w3-row-padding w3-margin-bottom">
+                <div class="w3-quarter" id="ButtonsRoomLink" onclick="ButtonsRoomOnClick()">
+                    <div class="w3-container w3-red w3-padding-16">
+                        <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
+                        <div class="w3-right">
+                            <h3></h3>
+                        </div>
+                        <div class="w3-clear"></div>
+                        <h4>Buttons room</h4>
+                    </div>
                 </div>
 
-                <div class="w3-container">
-                    <h5>Select Devices</h5>
-                    
-                        <fieldset id="devicesFieldSet" <?php echo (isset($deviceToken)) ? "disabled" : "" ?> >
-                            <table class="w3-table-all" style="">
-                                <tr>
-                                    <td id="devicesTd">
-<?php
-                                        if (isset($deviceId)) {
-                                            echo "<input type=text name=\"idDevice\" value=\"$deviceId\" />";
-                                        } else {
-                                            echo "<select id=\"selectIdDevice\" name=\"idDevice\">";
-                                            echo (isset($devicesIdsStringForHtml)) ? $devicesIdsStringForHtml : "";
-                                            echo "</select>";
-                                        }
-?>
-                                    </td>
-                                    <td>
-                                        <input id="buttonSelectIdDevice" type="button" value="Select" onclick="GetTokenThisDevice(null)">
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
-                    
-                </div>
-
-                <div id="waiting" style="display: none; position: absolute; z-index: 999999; background-color: #FFFFFF; width:100%; height:300px;">
-                    <div style="position: relative; text-align: center; top:20px" >
-                        <img src="images/loading_icon.gif" width="80px" height="80px" />
+                <div class="w3-quarter" id="DevicesListLink" onclick="DevicesListUserOnClick()">
+                    <div class="w3-container w3-blue w3-padding-16">
+                        <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+                        <div class="w3-right">
+                            <h3></h3>
+                        </div>
+                        <div class="w3-clear"></div>
+                        <h4>Devices</h4>
                     </div>
                 </div>
                 
-                <!-- IFrame in cui verranno caricate i contenuti delle pagine -->
-                <div id="DivIFramePage" class="normal-div">
-                    <input id="ButtonIFramePage" class="iframe-button" type="button" value="Fullscreen" onclick="GoIFrameFullScreen()"></button>
-                    <iframe id="IFramePage" onload="HandlingWaitingAlert(false)" src="" 
-                        width="100%" height="100%" style="border : 0;"></iframe>
-                </div>
-                <!-- Footer -->
-                <footer class="w3-container w3-padding-16 w3-light-grey">
-                    <hr>
-                    <p>Powered by pierprogramm, 
-                        Graphic template by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a>
-                    </p>
-                </footer>
-
-                <!-- End page content -->
             </div>
 
-            <script type="text/javascript">
-                // Get the Sidebar
-                var mySidebar = document.getElementById("mySidebar");
+            <div class="w3-container">
+                <h5>Select here a device to control</h5>
 
-                // Get the DIV with overlay effect
-                var overlayBg = document.getElementById("myOverlay");
+                <fieldset id="devicesFieldSet" >
+                    <table class="w3-table-all" style="">
+                        <tr>
+<?php
+                        if (isset($deviceId)) {
+?>
+                            <td>
+                                <input disabled type=text name="idDevice" value="<?php echo $deviceId; ?>" />
+                            </td>
+                            <td>
+                                <input type=button value="Change device selected" onclick="RemoveDeviceSelected()">
+                            </td>
+<?php
+                        }
+                        else {
+?>
+                            <td id="devicesTd">
+                                <select id="selectIdDevice" name="idDevice">
+                                    <?php echo (isset($devicesIdsStringForHtml)) ? $devicesIdsStringForHtml : ""; ?>
+                                </select>
+                            </td>
+                            <td>
+                                <input id="buttonSelectIdDevice" type="button" value="Select" onclick="GetTokenThisDevice(null)">
+                            </td>
+<?php
+                        }
+?>
+                        </tr>
+                    </table>
+                </fieldset>
 
-                // Toggle between showing and hiding the sidebar, and add overlay effect
-                function w3_open() {
-                    if (mySidebar.style.display === 'block') {
-                        mySidebar.style.display = 'none';
-                        overlayBg.style.display = "none";
-                    } else {
-                        mySidebar.style.display = 'block';
-                        overlayBg.style.display = "block";
-                    }
-                }
+            </div>
 
-                // Close the sidebar with the close button
-                function w3_close() {
-                    mySidebar.style.display = "none";
+            <div id="waiting" style="display: none; position: absolute; z-index: 999999; background-color: #FFFFFF; width:100%; height:300px;">
+                <div style="position: relative; text-align: center; top:20px" >
+                    <img src="images/loading_icon.gif" width="80px" height="80px" />
+                </div>
+            </div>
+
+            <!-- IFrame in cui verranno caricate i contenuti delle pagine -->
+            <div id="DivIFramePage" class="normal-div">
+                <button id="ButtonIFramePage" class="iframe-button" type="button" value="" onclick="GoIFrameFullScreen()">
+                </button>
+                
+                
+                <iframe id="IFramePage" class="iframe-page" onload="HandlingWaitingAlert(false)" src=""></iframe>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="w3-container w3-padding-16 w3-light-grey">
+                <hr>
+                <p>Powered by pierprogramm, 
+                    Graphic template by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a>
+                </p>
+            </footer>
+
+            <!-- End page content -->
+        </div>
+
+        <!-- Javascript -->
+        <script type="text/javascript">
+            // Get the Sidebar
+            var mySidebar = document.getElementById("mySidebar");
+
+            // Get the DIV with overlay effect
+            var overlayBg = document.getElementById("myOverlay");
+
+            // Toggle between showing and hiding the sidebar, and add overlay effect
+            function w3_open() {
+                if (mySidebar.style.display === 'block') {
+                    mySidebar.style.display = 'none';
                     overlayBg.style.display = "none";
+                } else {
+                    mySidebar.style.display = 'block';
+                    overlayBg.style.display = "block";
                 }
-                w3_open();
-            </script>
-        </body>
-    </html>
+            }
+
+            // Close the sidebar with the close button
+            function w3_close() {
+                mySidebar.style.display = "none";
+                overlayBg.style.display = "none";
+            }
+            //w3_open();
+        </script>
+    </body>
+</html>
 <?php
 }
 else{
 ?>
-<head>
-</head>
-<body>
-    Utente non loggato.
-</body>
-</html>
+    <head>
+    </head>
+    <body>
+        Utente non loggato.
+    </body>
+    </html>
 <?php
 }
 ?>

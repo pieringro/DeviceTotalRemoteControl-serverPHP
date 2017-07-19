@@ -22,5 +22,13 @@
 }
 
 .iframe-button{
-    position:absolute;
+    background: url('../images/fullscreen_icon.png') center no-repeat;
+    width: 25px;
+    height: 25px;
+}
+
+.iframe-page{
+    border : 0;
+    width: 100%;
+    height: 92%; 
 }

@@ -3,6 +3,8 @@ require_once('../php_func/constants.php');
 require_once(ROOT_WEB . "/php_func/simple_html_dom.php");
 require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/UserBO.class.php");
+require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
+require_once(ROOT_WEB . "/php_classes/BO/DeviceBO.class.php");
 
 $inputTPL = array();
 
@@ -17,9 +19,15 @@ if (isset($_SESSION['user'])) {
         $inputTPL['userLogged'] = $userLogged;
         $inputTPL['userTo'] = $userTo;
         
-        if (isset($_POST['idDevice'])) {
-            $deviceId = $_POST['idDevice'];
-            $_SESSION['idDevice'] = $deviceId;
+        if (isset($_POST['idDevice']) || isset($_SESSION['idDevice'])) {
+            if(isset($_POST['idDevice'])){
+                $deviceId = $_POST['idDevice'];
+                $_SESSION['idDevice'] = $deviceId;
+            }
+            else if(isset($_SESSION['idDevice'])){
+                $deviceId = $_SESSION['idDevice'];
+            }
+            
             $inputTPL['deviceId'] = $deviceId;
             $deviceBO = new DeviceBO();
             $deviceTO = new DeviceTO();
