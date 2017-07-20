@@ -1,7 +1,5 @@
 <?php
 
-require_once('../../php_func/constants.php');
-
 /** 
  * Logging class:
  * - contains lfile, lwrite and lclose public methods
@@ -37,8 +35,11 @@ class Log {
     }
     // close log file (it's always a good idea to close a file when you're done with it)
     public function lclose() {
-        fclose($this->fp);
+        if(isset($this->fp) && is_resource($this->fp)){
+            fclose($this->fp);
+        }
     }
+    
     // open log file (private method)
     private function lopen() {
         if($this->log_file == null){

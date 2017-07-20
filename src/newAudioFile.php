@@ -5,6 +5,7 @@ require_once ("php_func/clientComunication.php");
 require_once ("php_func/receiveFileUploaded.php");
 require_once ("php_classes/bean/AudioFile.class.php");
 require_once ("php_classes/BO/AudioFileBO.class.php");
+require_once (LOG_MODULE);
 
 
 if (isset($_POST['data']) && isset($_FILES['file'])) {
