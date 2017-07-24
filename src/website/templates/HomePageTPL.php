@@ -169,8 +169,6 @@ if(isset($inputTPL) && is_array($inputTPL)){
             <div id="DivIFramePage" class="normal-div">
                 <button id="ButtonIFramePage" class="iframe-button" type="button" value="" onclick="GoIFrameFullScreen()">
                 </button>
-                
-                
                 <iframe id="IFramePage" class="iframe-page" onload="HandlingWaitingAlert(false)" src=""></iframe>
             </div>
             
@@ -220,7 +218,7 @@ else{
     <head>
     </head>
     <body>
-        Utente non loggato.
+        User not logged in.
     </body>
     </html>
 <?php

@@ -397,7 +397,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
         <head></head>
         <body>
             <div style="width:300px; margin:0 auto;">
-                Dispositivo non selezionato
+                Select a device.
             </div>
         </body>
         <?php
@@ -408,7 +408,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
     <head></head>
     <body>
         <div style="width:300px; margin:0 auto;">
-            Utente non loggato
+            User not logged in.
         </div>
     </body>
 

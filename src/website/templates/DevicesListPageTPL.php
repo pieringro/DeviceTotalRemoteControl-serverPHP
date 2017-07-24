@@ -82,7 +82,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
 } else {
 ?>
         <head></head>
-        <body>User not logged</body>
+        <body>User not logged in.</body>
 <?php
     }
 ?>
