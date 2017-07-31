@@ -24,6 +24,8 @@
 	 * property-read QLabel $PathLabel
 	 * property QTextBox $TypeControl
 	 * property-read QLabel $TypeLabel
+	 * property QDateTimePicker $DateCreatedControl
+	 * property-read QLabel $DateCreatedLabel
 	 * property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -79,6 +81,12 @@
          */
 		protected $txtType;
 
+        /**
+         * @var QDateTimePicker calDateCreated;
+         * @access protected
+         */
+		protected $calDateCreated;
+
 
 		// Controls that allow the viewing of DtrcFiles's individual data fields
         /**
@@ -98,6 +106,12 @@
          * @access protected
          */
 		protected $lblType;
+
+        /**
+         * @var QLabel lblDateCreated
+         * @access protected
+         */
+		protected $lblDateCreated;
 
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
@@ -305,6 +319,37 @@
 			return $this->lblType;
 		}
 
+		/**
+		 * Create and setup QDateTimePicker calDateCreated
+		 * @param string $strControlId optional ControlId to use
+		 * @return QDateTimePicker
+		 */
+		public function calDateCreated_Create($strControlId = null) {
+			$this->calDateCreated = new QDateTimePicker($this->objParentObject, $strControlId);
+			$this->calDateCreated->Name = QApplication::Translate('Date Created');
+			$this->calDateCreated->DateTime = $this->objDtrcFiles->DateCreated;
+			$this->calDateCreated->DateTimePickerType = QDateTimePickerType::DateTime;
+			$this->calDateCreated->Required = true;
+			return $this->calDateCreated;
+		}
+
+		/**
+		 * Create and setup QLabel lblDateCreated
+		 * @param string $strControlId optional ControlId to use
+		 * @param string $strDateTimeFormat optional DateTimeFormat to use
+		 * @return QLabel
+		 */
+		public function lblDateCreated_Create($strControlId = null, $strDateTimeFormat = null) {
+			$this->lblDateCreated = new QLabel($this->objParentObject, $strControlId);
+			$this->lblDateCreated->Name = QApplication::Translate('Date Created');
+			$this->strDateCreatedDateTimeFormat = $strDateTimeFormat;
+			$this->lblDateCreated->Text = sprintf($this->objDtrcFiles->DateCreated) ? $this->objDtrcFiles->DateCreated->__toString($this->strDateCreatedDateTimeFormat) : null;
+			$this->lblDateCreated->Required = true;
+			return $this->lblDateCreated;
+		}
+
+		protected $strDateCreatedDateTimeFormat;
+
 
 
 		/**
@@ -338,6 +383,9 @@
 			if ($this->txtType) $this->txtType->Text = $this->objDtrcFiles->Type;
 			if ($this->lblType) $this->lblType->Text = $this->objDtrcFiles->Type;
 
+			if ($this->calDateCreated) $this->calDateCreated->DateTime = $this->objDtrcFiles->DateCreated;
+			if ($this->lblDateCreated) $this->lblDateCreated->Text = sprintf($this->objDtrcFiles->DateCreated) ? $this->objDtrcFiles->__toString($this->strDateCreatedDateTimeFormat) : null;
+
 		}
 
 
@@ -364,6 +412,7 @@
 				if ($this->lstIDDevicesObject) $this->objDtrcFiles->IDDevices = $this->lstIDDevicesObject->SelectedValue;
 				if ($this->txtPath) $this->objDtrcFiles->Path = $this->txtPath->Text;
 				if ($this->txtType) $this->objDtrcFiles->Type = $this->txtType->Text;
+				if ($this->calDateCreated) $this->objDtrcFiles->DateCreated = $this->calDateCreated->DateTime;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -430,6 +479,12 @@
 				case 'TypeLabel':
 					if (!$this->lblType) return $this->lblType_Create();
 					return $this->lblType;
+				case 'DateCreatedControl':
+					if (!$this->calDateCreated) return $this->calDateCreated_Create();
+					return $this->calDateCreated;
+				case 'DateCreatedLabel':
+					if (!$this->lblDateCreated) return $this->lblDateCreated_Create();
+					return $this->lblDateCreated;
 				default:
 					try {
 						return parent::__get($strName);
@@ -460,6 +515,8 @@
 						return ($this->txtPath = QType::Cast($mixValue, 'QControl'));
 					case 'TypeControl':
 						return ($this->txtType = QType::Cast($mixValue, 'QControl'));
+					case 'DateCreatedControl':
+						return ($this->calDateCreated = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

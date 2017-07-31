@@ -4,10 +4,12 @@
 class FileTO {
     public $path;
     public $deviceId;
+    public $dateCreated;
     public function __toString() {
         return "FileTO : {"
                 . $this->path.','
                 . $this->deviceId.''
+                . $this->dateCreated.''
                 . "}";
     }
 }
@@ -17,7 +19,7 @@ class File {
     
 
     /**
-     * @param $json il json con i dati del Post
+     * @param $json il json con i dati del File
      */
     protected function __construct($json) {
         $this->data = json_decode($json, TRUE);

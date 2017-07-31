@@ -25,6 +25,8 @@
 
 		<?php $this->txtType->RenderWithName(); ?>
 
+		<?php $this->calDateCreated->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

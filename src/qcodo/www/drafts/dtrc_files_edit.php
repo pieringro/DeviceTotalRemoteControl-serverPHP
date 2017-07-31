@@ -27,6 +27,7 @@
 		protected $lstIDDevicesObject;
 		protected $txtPath;
 		protected $txtType;
+		protected $calDateCreated;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
 
@@ -57,6 +58,7 @@
 			$this->lstIDDevicesObject = $this->mctDtrcFiles->lstIDDevicesObject_Create();
 			$this->txtPath = $this->mctDtrcFiles->txtPath_Create();
 			$this->txtType = $this->mctDtrcFiles->txtType_Create();
+			$this->calDateCreated = $this->mctDtrcFiles->calDateCreated_Create();
 
 			// Create Buttons and Actions on this Form
 			$this->btnSave = new QButton($this);

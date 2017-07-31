@@ -53,8 +53,7 @@
                         foreach($result as $aResult ){
                             if($aResult->Type == "Picture"){
                                 $pictureTo = new PictureTO();
-                                $pictureTo->deviceId = $aResult->IDDevices;
-                                $pictureTo->path = $aResult->Path;
+                                DtrcFiles::FileToInsert($pictureTo, $aResult);
                                 $picturesTosArray[] = $pictureTo;
                             }
                         }
@@ -72,8 +71,7 @@
                         foreach($result as $aResult ){
                             if($aResult->Type == "AudioFile"){
                                 $audioFileTo = new AudioFileTO();
-                                $audioFileTo->deviceId = $aResult->IDDevices;
-                                $audioFileTo->path = $aResult->Path;
+                                DtrcFiles::FileToInsert($audioFileTo, $aResult);
                                 $audioFileTosArray[] = $audioFileTo;
                             }
                         }
@@ -81,6 +79,16 @@
                     }
                     return false;
                 }
+                
+                
+                private static function FileToInsert($fileTo, $dbResult){
+                    $fileTo->deviceId = $dbResult->IDDevices;
+                    $fileTo->path = $dbResult->Path;
+                    
+                    $phpdate = strtotime($dbResult->DateCreated);
+                    $fileTo->dateCreated = date('Y-m-d H:i:s', $phpdate);
+                }
+                
                 
 
 

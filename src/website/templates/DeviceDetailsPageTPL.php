@@ -144,16 +144,17 @@ if (isset($inputTPL) && is_array($inputTPL)) {
                             if (isset($picturesToArray)) {
                                 foreach ($picturesToArray as $pictureTO) {
 ?>
-                            
-                            <div class="content">
-                                <div class="image">
-                                    <a href="#">
-                                        <img height="120px" src="<?php echo $pictureTO->path ?>" 
-                                             alt="<?php echo $pictureTO->path ?>" class="thumb" />
-                                    </a>
-                                </div>
-                            </div>
-                            
+                                    <div class="content">
+                                        <div class="image">
+                                            <a href="#">
+                                                <img height="120px" src="<?php echo $pictureTO->path ?>" 
+                                                     alt="<?php echo $pictureTO->path ?>" class="thumb"
+                                                     title="<?php echo $pictureTO->dateCreated ?>"/>
+                                                <!-- <?php echo 'Path:'.$pictureTO->path . 
+                                                        ', DateCreated:'.$pictureTO->dateCreated ?> -->
+                                            </a>
+                                        </div>
+                                    </div>
 <?php
                                 }
                             }
@@ -162,17 +163,17 @@ if (isset($inputTPL) && is_array($inputTPL)) {
                                 $index = 0;
                                 foreach ($audioFilesTOArray as $audioFileTO) {
 ?>
-                                    
-                            <div class="content">
-                                <div class="audio">
-                                    <a href="#">
-                                        <img height="120px" src="images/audio_icon.jpg" alt="images/audio_icon.jpg" 
-                                             class="thumb" onclick="AudioFileClicked('<?php echo $audioFileTO->path ?>')" />
-                                        <!-- <?php echo $audioFileTO->path ?> -->
-                                    </a>
-                                </div>
-                            </div>
-                            
+                                    <div class="content">
+                                        <div class="audio">
+                                            <a href="#">
+                                                <img height="120px" src="images/audio_icon.jpg" alt="images/audio_icon.jpg" 
+                                                     class="thumb" onclick="AudioFileClicked('<?php echo $audioFileTO->path ?>')"
+                                                     title="<?php echo $audioFileTO->dateCreated ?>"/>
+                                                <!-- <?php echo 'Path:'.$audioFileTO->path . 
+                                                        ', DateCreated:'.$audioFileTO->dateCreated ?> -->
+                                            </a>
+                                        </div>
+                                    </div>
 <?php
                                 }
                             }

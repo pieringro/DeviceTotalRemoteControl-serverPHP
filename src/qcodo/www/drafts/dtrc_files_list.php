@@ -59,6 +59,7 @@
 			$this->dtgDtrcFileses->MetaAddColumn(QQN::DtrcFiles()->IDDevicesObject);
 			$this->dtgDtrcFileses->MetaAddColumn('Path');
 			$this->dtgDtrcFileses->MetaAddColumn('Type');
+			$this->dtgDtrcFileses->MetaAddColumn('DateCreated');
 		}
 	}
 
