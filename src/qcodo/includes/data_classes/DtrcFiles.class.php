@@ -32,6 +32,7 @@
                     if($pictureTO instanceof PictureTO){
                         $this->IDDevices = $pictureTO->deviceId;
                         $this->Path = $pictureTO->path;
+                        $this->DateCreated = QDateTime::Now();
                         $this->Type = PictureTO::$type;
                     }
                 }
@@ -40,6 +41,9 @@
                     if($audioFileTO instanceof AudioFileTO){
                         $this->IDDevices = $audioFileTO->deviceId;
                         $this->Path = $audioFileTO->path;
+                        $this->DateCreated = QDateTime::Now();
+                        
+                        $this->Length = $audioFileTO->length;
                         $this->Type = AudioFileTO::$type;
                     }
                 }
@@ -53,7 +57,7 @@
                         foreach($result as $aResult ){
                             if($aResult->Type == "Picture"){
                                 $pictureTo = new PictureTO();
-                                DtrcFiles::FileToInsert($pictureTo, $aResult);
+                                DtrcFiles::FileTOLoadedSet($pictureTo, $aResult);
                                 $picturesTosArray[] = $pictureTo;
                             }
                         }
@@ -71,7 +75,8 @@
                         foreach($result as $aResult ){
                             if($aResult->Type == "AudioFile"){
                                 $audioFileTo = new AudioFileTO();
-                                DtrcFiles::FileToInsert($audioFileTo, $aResult);
+                                DtrcFiles::FileTOLoadedSet($audioFileTo, $aResult);
+                                $audioFileTo->length = $aResult->Length;
                                 $audioFileTosArray[] = $audioFileTo;
                             }
                         }
@@ -81,7 +86,7 @@
                 }
                 
                 
-                private static function FileToInsert($fileTo, $dbResult){
+                private static function FileTOLoadedSet($fileTo, $dbResult){
                     $fileTo->deviceId = $dbResult->IDDevices;
                     $fileTo->path = $dbResult->Path;
                     

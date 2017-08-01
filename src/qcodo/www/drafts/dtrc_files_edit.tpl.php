@@ -25,6 +25,8 @@
 
 		<?php $this->txtType->RenderWithName(); ?>
 
+		<?php $this->txtLength->RenderWithName(); ?>
+
 		<?php $this->calDateCreated->RenderWithName(); ?>
 
 	</div>

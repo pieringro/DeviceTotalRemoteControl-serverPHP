@@ -298,6 +298,7 @@
 				case 'IDDevicesObject': return QQN::DtrcFiles()->IDDevicesObject;
 				case 'Path': return QQN::DtrcFiles()->Path;
 				case 'Type': return QQN::DtrcFiles()->Type;
+				case 'Length': return QQN::DtrcFiles()->Length;
 				case 'DateCreated': return QQN::DtrcFiles()->DateCreated;
 				default: throw new QCallerException('Simple Property not found in DtrcFilesDataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)

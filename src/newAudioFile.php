@@ -27,7 +27,7 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
                 ok();
             }
             else{
-                $msg = "Unable to create new picture. ".$audioFileBO->lastErrorMessage;
+                $msg = "Unable to create new audio file. ".$audioFileBO->lastErrorMessage;
                 error($msg);
                 $log->lwrite($msg);
             }

@@ -69,6 +69,7 @@
 			$this->dtgDtrcFileses->MetaAddColumn(QQN::DtrcFiles()->IDDevicesObject);
 			$this->dtgDtrcFileses->MetaAddColumn('Path');
 			$this->dtgDtrcFileses->MetaAddColumn('Type');
+			$this->dtgDtrcFileses->MetaAddColumn('Length');
 			$this->dtgDtrcFileses->MetaAddColumn('DateCreated');
 
 			// Setup the Create New button

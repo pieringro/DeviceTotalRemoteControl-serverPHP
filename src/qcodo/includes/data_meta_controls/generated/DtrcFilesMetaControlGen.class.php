@@ -24,6 +24,8 @@
 	 * property-read QLabel $PathLabel
 	 * property QTextBox $TypeControl
 	 * property-read QLabel $TypeLabel
+	 * property QTextBox $LengthControl
+	 * property-read QLabel $LengthLabel
 	 * property QDateTimePicker $DateCreatedControl
 	 * property-read QLabel $DateCreatedLabel
 	 * property-read string $TitleVerb a verb indicating whether or not this is being edited or created
@@ -82,6 +84,12 @@
 		protected $txtType;
 
         /**
+         * @var QTextBox txtLength;
+         * @access protected
+         */
+		protected $txtLength;
+
+        /**
          * @var QDateTimePicker calDateCreated;
          * @access protected
          */
@@ -106,6 +114,12 @@
          * @access protected
          */
 		protected $lblType;
+
+        /**
+         * @var QLabel lblLength
+         * @access protected
+         */
+		protected $lblLength;
 
         /**
          * @var QLabel lblDateCreated
@@ -320,6 +334,31 @@
 		}
 
 		/**
+		 * Create and setup QTextBox txtLength
+		 * @param string $strControlId optional ControlId to use
+		 * @return QTextBox
+		 */
+		public function txtLength_Create($strControlId = null) {
+			$this->txtLength = new QTextBox($this->objParentObject, $strControlId);
+			$this->txtLength->Name = QApplication::Translate('Length');
+			$this->txtLength->Text = $this->objDtrcFiles->Length;
+			$this->txtLength->MaxLength = DtrcFiles::LengthMaxLength;
+			return $this->txtLength;
+		}
+
+		/**
+		 * Create and setup QLabel lblLength
+		 * @param string $strControlId optional ControlId to use
+		 * @return QLabel
+		 */
+		public function lblLength_Create($strControlId = null) {
+			$this->lblLength = new QLabel($this->objParentObject, $strControlId);
+			$this->lblLength->Name = QApplication::Translate('Length');
+			$this->lblLength->Text = $this->objDtrcFiles->Length;
+			return $this->lblLength;
+		}
+
+		/**
 		 * Create and setup QDateTimePicker calDateCreated
 		 * @param string $strControlId optional ControlId to use
 		 * @return QDateTimePicker
@@ -383,6 +422,9 @@
 			if ($this->txtType) $this->txtType->Text = $this->objDtrcFiles->Type;
 			if ($this->lblType) $this->lblType->Text = $this->objDtrcFiles->Type;
 
+			if ($this->txtLength) $this->txtLength->Text = $this->objDtrcFiles->Length;
+			if ($this->lblLength) $this->lblLength->Text = $this->objDtrcFiles->Length;
+
 			if ($this->calDateCreated) $this->calDateCreated->DateTime = $this->objDtrcFiles->DateCreated;
 			if ($this->lblDateCreated) $this->lblDateCreated->Text = sprintf($this->objDtrcFiles->DateCreated) ? $this->objDtrcFiles->__toString($this->strDateCreatedDateTimeFormat) : null;
 
@@ -412,6 +454,7 @@
 				if ($this->lstIDDevicesObject) $this->objDtrcFiles->IDDevices = $this->lstIDDevicesObject->SelectedValue;
 				if ($this->txtPath) $this->objDtrcFiles->Path = $this->txtPath->Text;
 				if ($this->txtType) $this->objDtrcFiles->Type = $this->txtType->Text;
+				if ($this->txtLength) $this->objDtrcFiles->Length = $this->txtLength->Text;
 				if ($this->calDateCreated) $this->objDtrcFiles->DateCreated = $this->calDateCreated->DateTime;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
@@ -479,6 +522,12 @@
 				case 'TypeLabel':
 					if (!$this->lblType) return $this->lblType_Create();
 					return $this->lblType;
+				case 'LengthControl':
+					if (!$this->txtLength) return $this->txtLength_Create();
+					return $this->txtLength;
+				case 'LengthLabel':
+					if (!$this->lblLength) return $this->lblLength_Create();
+					return $this->lblLength;
 				case 'DateCreatedControl':
 					if (!$this->calDateCreated) return $this->calDateCreated_Create();
 					return $this->calDateCreated;
@@ -515,6 +564,8 @@
 						return ($this->txtPath = QType::Cast($mixValue, 'QControl'));
 					case 'TypeControl':
 						return ($this->txtType = QType::Cast($mixValue, 'QControl'));
+					case 'LengthControl':
+						return ($this->txtLength = QType::Cast($mixValue, 'QControl'));
 					case 'DateCreatedControl':
 						return ($this->calDateCreated = QType::Cast($mixValue, 'QControl'));
 					default:

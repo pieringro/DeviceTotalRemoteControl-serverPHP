@@ -169,8 +169,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
                                                 <img height="120px" src="images/audio_icon.jpg" alt="images/audio_icon.jpg" 
                                                      class="thumb" onclick="AudioFileClicked('<?php echo $audioFileTO->path ?>')"
                                                      title="<?php echo $audioFileTO->dateCreated ?>"/>
-                                                <!-- <?php echo 'Path:'.$audioFileTO->path . 
-                                                        ', DateCreated:'.$audioFileTO->dateCreated ?> -->
+                                                <!-- <?php echo $audioFileTO->__toString(); ?> -->
                                             </a>
                                         </div>
                                     </div>

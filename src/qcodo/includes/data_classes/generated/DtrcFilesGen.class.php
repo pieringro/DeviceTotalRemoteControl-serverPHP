@@ -19,6 +19,7 @@
 	 * @property string $IDDevices the value for strIDDevices (Not Null)
 	 * @property string $Path the value for strPath 
 	 * @property string $Type the value for strType 
+	 * @property string $Length the value for strLength 
 	 * @property QDateTime $DateCreated the value for dttDateCreated (Not Null)
 	 * @property DtrcDevices $IDDevicesObject the value for the DtrcDevices object referenced by strIDDevices (Not Null)
 	 * @property boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
@@ -62,6 +63,15 @@
 		protected $strType;
 		const TypeMaxLength = 64;
 		const TypeDefault = null;
+
+
+		/**
+		 * Protected member variable that maps to the database column dtrc_files.Length
+		 * @var string strLength
+		 */
+		protected $strLength;
+		const LengthMaxLength = 16;
+		const LengthDefault = null;
 
 
 		/**
@@ -418,6 +428,7 @@
 			$objBuilder->AddSelectItem($strTableName, 'IDDevices', $strAliasPrefix . 'IDDevices');
 			$objBuilder->AddSelectItem($strTableName, 'Path', $strAliasPrefix . 'Path');
 			$objBuilder->AddSelectItem($strTableName, 'Type', $strAliasPrefix . 'Type');
+			$objBuilder->AddSelectItem($strTableName, 'Length', $strAliasPrefix . 'Length');
 			$objBuilder->AddSelectItem($strTableName, 'DateCreated', $strAliasPrefix . 'DateCreated');
 		}
 
@@ -458,6 +469,8 @@
 			$objToReturn->strPath = $objDbRow->GetColumn($strAliasName, 'VarChar');
 			$strAliasName = array_key_exists($strAliasPrefix . 'Type', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Type'] : $strAliasPrefix . 'Type';
 			$objToReturn->strType = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'Length', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Length'] : $strAliasPrefix . 'Length';
+			$objToReturn->strLength = $objDbRow->GetColumn($strAliasName, 'VarChar');
 			$strAliasName = array_key_exists($strAliasPrefix . 'DateCreated', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'DateCreated'] : $strAliasPrefix . 'DateCreated';
 			$objToReturn->dttDateCreated = $objDbRow->GetColumn($strAliasName, 'DateTime');
 
@@ -633,11 +646,13 @@
 							`IDDevices`,
 							`Path`,
 							`Type`,
+							`Length`,
 							`DateCreated`
 						) VALUES (
 							' . $objDatabase->SqlVariable($this->strIDDevices) . ',
 							' . $objDatabase->SqlVariable($this->strPath) . ',
 							' . $objDatabase->SqlVariable($this->strType) . ',
+							' . $objDatabase->SqlVariable($this->strLength) . ',
 							' . $objDatabase->SqlVariable($this->dttDateCreated) . '
 						)
 					');
@@ -661,6 +676,7 @@
 							`IDDevices` = ' . $objDatabase->SqlVariable($this->strIDDevices) . ',
 							`Path` = ' . $objDatabase->SqlVariable($this->strPath) . ',
 							`Type` = ' . $objDatabase->SqlVariable($this->strType) . ',
+							`Length` = ' . $objDatabase->SqlVariable($this->strLength) . ',
 							`DateCreated` = ' . $objDatabase->SqlVariable($this->dttDateCreated) . '
 						WHERE
 							`ID` = ' . $objDatabase->SqlVariable($this->intId) . '
@@ -749,6 +765,7 @@
 			$this->IDDevices = $objReloaded->IDDevices;
 			$this->strPath = $objReloaded->strPath;
 			$this->strType = $objReloaded->strType;
+			$this->strLength = $objReloaded->strLength;
 			$this->dttDateCreated = $objReloaded->dttDateCreated;
 		}
 
@@ -766,6 +783,7 @@
 					`IDDevices`,
 					`Path`,
 					`Type`,
+					`Length`,
 					`DateCreated`,
 					__sys_login_id,
 					__sys_action,
@@ -775,6 +793,7 @@
 					' . $objDatabase->SqlVariable($this->strIDDevices) . ',
 					' . $objDatabase->SqlVariable($this->strPath) . ',
 					' . $objDatabase->SqlVariable($this->strType) . ',
+					' . $objDatabase->SqlVariable($this->strLength) . ',
 					' . $objDatabase->SqlVariable($this->dttDateCreated) . ',
 					' . (($objDatabase->JournaledById) ? $objDatabase->JournaledById : 'NULL') . ',
 					' . $objDatabase->SqlVariable($strJournalCommand) . ',
@@ -845,6 +864,11 @@
 					// Gets the value for strType 
 					// @return string
 					return $this->strType;
+
+				case 'Length':
+					// Gets the value for strLength 
+					// @return string
+					return $this->strLength;
 
 				case 'DateCreated':
 					// Gets the value for dttDateCreated (Not Null)
@@ -929,6 +953,17 @@
 					// @return string
 					try {
 						return ($this->strType = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Length':
+					// Sets the value for strLength 
+					// @param string $mixValue
+					// @return string
+					try {
+						return ($this->strLength = QType::Cast($mixValue, QType::String));
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -1020,6 +1055,7 @@
 			$strToReturn .= '<element name="IDDevicesObject" type="xsd1:DtrcDevices"/>';
 			$strToReturn .= '<element name="Path" type="xsd:string"/>';
 			$strToReturn .= '<element name="Type" type="xsd:string"/>';
+			$strToReturn .= '<element name="Length" type="xsd:string"/>';
 			$strToReturn .= '<element name="DateCreated" type="xsd:dateTime"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
@@ -1053,6 +1089,8 @@
 				$objToReturn->strPath = $objSoapObject->Path;
 			if (property_exists($objSoapObject, 'Type'))
 				$objToReturn->strType = $objSoapObject->Type;
+			if (property_exists($objSoapObject, 'Length'))
+				$objToReturn->strLength = $objSoapObject->Length;
 			if (property_exists($objSoapObject, 'DateCreated'))
 				$objToReturn->dttDateCreated = new QDateTime($objSoapObject->DateCreated);
 			if (property_exists($objSoapObject, '__blnRestored'))
@@ -1099,6 +1137,7 @@
 	 * @property-read QQNodeDtrcDevices $IDDevicesObject
 	 * @property-read QQNode $Path
 	 * @property-read QQNode $Type
+	 * @property-read QQNode $Length
 	 * @property-read QQNode $DateCreated
 	 */
 	class QQNodeDtrcFiles extends QQNode {
@@ -1117,6 +1156,8 @@
 					return new QQNode('Path', 'Path', 'string', $this);
 				case 'Type':
 					return new QQNode('Type', 'Type', 'string', $this);
+				case 'Length':
+					return new QQNode('Length', 'Length', 'string', $this);
 				case 'DateCreated':
 					return new QQNode('DateCreated', 'DateCreated', 'QDateTime', $this);
 
@@ -1139,6 +1180,7 @@
 	 * @property-read QQNodeDtrcDevices $IDDevicesObject
 	 * @property-read QQNode $Path
 	 * @property-read QQNode $Type
+	 * @property-read QQNode $Length
 	 * @property-read QQNode $DateCreated
 	 * @property-read QQNode $_PrimaryKeyNode
 	 */
@@ -1158,6 +1200,8 @@
 					return new QQNode('Path', 'Path', 'string', $this);
 				case 'Type':
 					return new QQNode('Type', 'Type', 'string', $this);
+				case 'Length':
+					return new QQNode('Length', 'Length', 'string', $this);
 				case 'DateCreated':
 					return new QQNode('DateCreated', 'DateCreated', 'QDateTime', $this);
 

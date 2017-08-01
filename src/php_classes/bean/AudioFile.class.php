@@ -4,10 +4,14 @@ require_once("File.class.php");
 class AudioFileTO extends FileTO{
     public static $type = "AudioFile";
     
+    public $length;
+    
     public function __toString() {
         return "AudioFileTO : {"
-                . $this->path.','
-                . $this->deviceId.''
+                .'Path: '. $this->path.', '
+                .'DeviceId: '. $this->deviceId.', '
+                .'DateCreated: '. $this->dateCreated.', '
+                .'Length: '. $this->length.''
                 . "}";
     }
 }
@@ -16,7 +20,7 @@ class AudioFileTO extends FileTO{
 class AudioFile extends File{
     
     /**
-     * Restituisce l'oggetto PictureTO ottenuto dal parsing del json in input
+     * Restituisce l'oggetto AudioFileTO ottenuto dal parsing del json in input
      */
     public static function getAudioFileTOFromJson($json) {
         $thisObj = new AudioFile($json);
@@ -34,7 +38,15 @@ class AudioFile extends File{
     }
     
     protected function parsingJson(&$message) {
-        return parent::parsingJson($message);
+        $result = parent::parsingJson($message);
+        if($result){
+            if (isset($this->data['length'])) {
+                $length = $this->data['length'];
+                $this->fileTO->length = $length;
+            }
+        }
+        
+        return $result;
     }
     
 }

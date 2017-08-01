@@ -13,6 +13,8 @@
 
 		<?php $_CONTROL->txtType->RenderWithName(); ?>
 
+		<?php $_CONTROL->txtLength->RenderWithName(); ?>
+
 		<?php $_CONTROL->calDateCreated->RenderWithName(); ?>
 
 	</div>
