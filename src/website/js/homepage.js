@@ -125,3 +125,18 @@ function RemoveDeviceSelectedCallback(){
     }
 }
 
+
+
+function Logout(msg){
+    var answer = confirm(msg);
+    if (answer) {
+       func_ajax("POST", "php_func/logoutFunction.php", 
+        "", LogoutCallback);
+    }
+}
+function LogoutCallback(){
+    if (ajax.readyState == 4) {
+        //location.reload();
+        location.href = "LoginPage.php";
+    }
+}

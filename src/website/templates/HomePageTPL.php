@@ -59,7 +59,17 @@ if(isset($inputTPL) && is_array($inputTPL)){
                     <img src="images/avatar_male_user.png" class="w3-circle w3-margin-right" style="width:46px">
                 </div>
                 <div class="w3-col s8 w3-bar">
-                    <span><?php echo ResourcesManager::getResource("welcome"); ?> <strong><?php echo $userTo->email; ?></strong></span><br>
+                    <span>
+                        <?php echo ResourcesManager::getResource("welcome"); ?> 
+                        <strong><?php echo $userTo->email; ?></strong>
+                    </span>
+                    <br>
+                    <span style="font-size: 11px">
+                        <a href='#' 
+                           onclick='Logout("<?php echo ResourcesManager::getResource("are_you_sure_logout"); ?>")'>
+                           <?php echo ResourcesManager::getResource("logout"); ?>
+                        </a>
+                    </span>
                     <!--
                     <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
                     <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
@@ -222,9 +232,12 @@ if(isset($inputTPL) && is_array($inputTPL)){
 else{
 ?>
     <head>
+        <meta http-equiv="refresh" content="3;url=LoginPage.php" />
     </head>
     <body>
-        User not logged in.
+        <div style="width:300px; margin:0 auto;">
+            <?php echo ResourcesManager::getResource("user_not_logged_in"); ?>
+        </div>
     </body>
     </html>
 <?php
