@@ -22,6 +22,7 @@
 		// Controls for DtrcUsers's Data Fields
 		public $txtEmail;
 		public $txtPass;
+		public $txtLang;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
 
@@ -53,6 +54,7 @@
 			// Call MetaControl's methods to create qcontrols based on DtrcUsers's data fields
 			$this->txtEmail = $this->mctDtrcUsers->txtEmail_Create();
 			$this->txtPass = $this->mctDtrcUsers->txtPass_Create();
+			$this->txtLang = $this->mctDtrcUsers->txtLang_Create();
 
 			// Create Buttons and Actions on this Form
 			$this->btnSave = new QButton($this);

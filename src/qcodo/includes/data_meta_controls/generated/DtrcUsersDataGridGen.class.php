@@ -295,6 +295,7 @@
 			} else if (is_string($mixContent)) switch ($mixContent) {
 				case 'Email': return QQN::DtrcUsers()->Email;
 				case 'Pass': return QQN::DtrcUsers()->Pass;
+				case 'Lang': return QQN::DtrcUsers()->Lang;
 				default: throw new QCallerException('Simple Property not found in DtrcUsersDataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)
 				throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');

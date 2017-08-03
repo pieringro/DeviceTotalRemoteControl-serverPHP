@@ -17,6 +17,7 @@
 	 * @subpackage GeneratedDataObjects
 	 * @property string $Email the value for strEmail (PK)
 	 * @property string $Pass the value for strPass (Not Null)
+	 * @property string $Lang the value for strLang 
 	 * @property DtrcDevices $_DtrcDevicesAsEmailUser the value for the private _objDtrcDevicesAsEmailUser (Read-Only) if set due to an expansion on the dtrc_devices.EmailUser reverse relationship
 	 * @property DtrcDevices[] $_DtrcDevicesAsEmailUserArray the value for the private _objDtrcDevicesAsEmailUserArray (Read-Only) if set due to an ExpandAsArray on the dtrc_devices.EmailUser reverse relationship
 	 * @property boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
@@ -50,6 +51,15 @@
 		protected $strPass;
 		const PassMaxLength = 64;
 		const PassDefault = null;
+
+
+		/**
+		 * Protected member variable that maps to the database column dtrc_users.Lang
+		 * @var string strLang
+		 */
+		protected $strLang;
+		const LangMaxLength = 64;
+		const LangDefault = null;
 
 
 		/**
@@ -402,6 +412,7 @@
 
 			$objBuilder->AddSelectItem($strTableName, 'Email', $strAliasPrefix . 'Email');
 			$objBuilder->AddSelectItem($strTableName, 'Pass', $strAliasPrefix . 'Pass');
+			$objBuilder->AddSelectItem($strTableName, 'Lang', $strAliasPrefix . 'Lang');
 		}
 
 
@@ -470,6 +481,8 @@
 			$objToReturn->__strEmail = $objDbRow->GetColumn($strAliasName, 'VarChar');
 			$strAliasName = array_key_exists($strAliasPrefix . 'Pass', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Pass'] : $strAliasPrefix . 'Pass';
 			$objToReturn->strPass = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'Lang', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Lang'] : $strAliasPrefix . 'Lang';
+			$objToReturn->strLang = $objDbRow->GetColumn($strAliasName, 'VarChar');
 
 			// Instantiate Virtual Attributes
 			foreach ($objDbRow->GetColumnNameArray() as $strColumnName => $mixValue) {
@@ -611,10 +624,12 @@
 					$objDatabase->NonQuery('
 						INSERT INTO `dtrc_users` (
 							`Email`,
-							`Pass`
+							`Pass`,
+							`Lang`
 						) VALUES (
 							' . $objDatabase->SqlVariable($this->strEmail) . ',
-							' . $objDatabase->SqlVariable($this->strPass) . '
+							' . $objDatabase->SqlVariable($this->strPass) . ',
+							' . $objDatabase->SqlVariable($this->strLang) . '
 						)
 					');
 
@@ -634,7 +649,8 @@
 							`dtrc_users`
 						SET
 							`Email` = ' . $objDatabase->SqlVariable($this->strEmail) . ',
-							`Pass` = ' . $objDatabase->SqlVariable($this->strPass) . '
+							`Pass` = ' . $objDatabase->SqlVariable($this->strPass) . ',
+							`Lang` = ' . $objDatabase->SqlVariable($this->strLang) . '
 						WHERE
 							`Email` = ' . $objDatabase->SqlVariable($this->__strEmail) . '
 					');
@@ -723,6 +739,7 @@
 			$this->strEmail = $objReloaded->strEmail;
 			$this->__strEmail = $this->strEmail;
 			$this->strPass = $objReloaded->strPass;
+			$this->strLang = $objReloaded->strLang;
 		}
 
 		/**
@@ -737,12 +754,14 @@
 				INSERT INTO `dtrc_users` (
 					`Email`,
 					`Pass`,
+					`Lang`,
 					__sys_login_id,
 					__sys_action,
 					__sys_date
 				) VALUES (
 					' . $objDatabase->SqlVariable($this->strEmail) . ',
 					' . $objDatabase->SqlVariable($this->strPass) . ',
+					' . $objDatabase->SqlVariable($this->strLang) . ',
 					' . (($objDatabase->JournaledById) ? $objDatabase->JournaledById : 'NULL') . ',
 					' . $objDatabase->SqlVariable($strJournalCommand) . ',
 					NOW()
@@ -802,6 +821,11 @@
 					// Gets the value for strPass (Not Null)
 					// @return string
 					return $this->strPass;
+
+				case 'Lang':
+					// Gets the value for strLang 
+					// @return string
+					return $this->strLang;
 
 
 				///////////////////
@@ -869,6 +893,17 @@
 					// @return string
 					try {
 						return ($this->strPass = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Lang':
+					// Sets the value for strLang 
+					// @param string $mixValue
+					// @return string
+					try {
+						return ($this->strLang = QType::Cast($mixValue, QType::String));
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -1102,6 +1137,7 @@
 			$strToReturn = '<complexType name="DtrcUsers"><sequence>';
 			$strToReturn .= '<element name="Email" type="xsd:string"/>';
 			$strToReturn .= '<element name="Pass" type="xsd:string"/>';
+			$strToReturn .= '<element name="Lang" type="xsd:string"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -1128,6 +1164,8 @@
 				$objToReturn->strEmail = $objSoapObject->Email;
 			if (property_exists($objSoapObject, 'Pass'))
 				$objToReturn->strPass = $objSoapObject->Pass;
+			if (property_exists($objSoapObject, 'Lang'))
+				$objToReturn->strLang = $objSoapObject->Lang;
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -1163,6 +1201,7 @@
 	/**
 	 * @property-read QQNode $Email
 	 * @property-read QQNode $Pass
+	 * @property-read QQNode $Lang
 	 * @property-read QQReverseReferenceNodeDtrcDevices $DtrcDevicesAsEmailUser
 	 */
 	class QQNodeDtrcUsers extends QQNode {
@@ -1175,6 +1214,8 @@
 					return new QQNode('Email', 'Email', 'string', $this);
 				case 'Pass':
 					return new QQNode('Pass', 'Pass', 'string', $this);
+				case 'Lang':
+					return new QQNode('Lang', 'Lang', 'string', $this);
 				case 'DtrcDevicesAsEmailUser':
 					return new QQReverseReferenceNodeDtrcDevices($this, 'dtrcdevicesasemailuser', 'reverse_reference', 'EmailUser');
 
@@ -1194,6 +1235,7 @@
 	/**
 	 * @property-read QQNode $Email
 	 * @property-read QQNode $Pass
+	 * @property-read QQNode $Lang
 	 * @property-read QQReverseReferenceNodeDtrcDevices $DtrcDevicesAsEmailUser
 	 * @property-read QQNode $_PrimaryKeyNode
 	 */
@@ -1207,6 +1249,8 @@
 					return new QQNode('Email', 'Email', 'string', $this);
 				case 'Pass':
 					return new QQNode('Pass', 'Pass', 'string', $this);
+				case 'Lang':
+					return new QQNode('Lang', 'Lang', 'string', $this);
 				case 'DtrcDevicesAsEmailUser':
 					return new QQReverseReferenceNodeDtrcDevices($this, 'dtrcdevicesasemailuser', 'reverse_reference', 'EmailUser');
 

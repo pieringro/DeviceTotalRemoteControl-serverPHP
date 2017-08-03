@@ -21,6 +21,8 @@
 
 		<?php $this->txtPass->RenderWithName(); ?>
 
+		<?php $this->txtLang->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

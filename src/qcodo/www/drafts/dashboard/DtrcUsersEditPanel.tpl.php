@@ -9,6 +9,8 @@
 
 		<?php $_CONTROL->txtPass->RenderWithName(); ?>
 
+		<?php $_CONTROL->txtLang->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

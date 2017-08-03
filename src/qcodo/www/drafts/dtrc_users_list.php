@@ -57,6 +57,7 @@
 			// can traverse down QQN::dtrc_users() to display fields that are down the hierarchy)
 			$this->dtgDtrcUserses->MetaAddColumn('Email');
 			$this->dtgDtrcUserses->MetaAddColumn('Pass');
+			$this->dtgDtrcUserses->MetaAddColumn('Lang');
 		}
 	}
 

@@ -20,6 +20,8 @@
 	 * property-read QLabel $EmailLabel
 	 * property QTextBox $PassControl
 	 * property-read QLabel $PassLabel
+	 * property QTextBox $LangControl
+	 * property-read QLabel $LangLabel
 	 * property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -63,6 +65,12 @@
          */
 		protected $txtPass;
 
+        /**
+         * @var QTextBox txtLang;
+         * @access protected
+         */
+		protected $txtLang;
+
 
 		// Controls that allow the viewing of DtrcUsers's individual data fields
         /**
@@ -76,6 +84,12 @@
          * @access protected
          */
 		protected $lblPass;
+
+        /**
+         * @var QLabel lblLang
+         * @access protected
+         */
+		protected $lblLang;
 
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
@@ -229,6 +243,31 @@
 			return $this->lblPass;
 		}
 
+		/**
+		 * Create and setup QTextBox txtLang
+		 * @param string $strControlId optional ControlId to use
+		 * @return QTextBox
+		 */
+		public function txtLang_Create($strControlId = null) {
+			$this->txtLang = new QTextBox($this->objParentObject, $strControlId);
+			$this->txtLang->Name = QApplication::Translate('Lang');
+			$this->txtLang->Text = $this->objDtrcUsers->Lang;
+			$this->txtLang->MaxLength = DtrcUsers::LangMaxLength;
+			return $this->txtLang;
+		}
+
+		/**
+		 * Create and setup QLabel lblLang
+		 * @param string $strControlId optional ControlId to use
+		 * @return QLabel
+		 */
+		public function lblLang_Create($strControlId = null) {
+			$this->lblLang = new QLabel($this->objParentObject, $strControlId);
+			$this->lblLang->Name = QApplication::Translate('Lang');
+			$this->lblLang->Text = $this->objDtrcUsers->Lang;
+			return $this->lblLang;
+		}
+
 
 
 		/**
@@ -245,6 +284,9 @@
 
 			if ($this->txtPass) $this->txtPass->Text = $this->objDtrcUsers->Pass;
 			if ($this->lblPass) $this->lblPass->Text = $this->objDtrcUsers->Pass;
+
+			if ($this->txtLang) $this->txtLang->Text = $this->objDtrcUsers->Lang;
+			if ($this->lblLang) $this->lblLang->Text = $this->objDtrcUsers->Lang;
 
 		}
 
@@ -271,6 +313,7 @@
 				// Update any fields for controls that have been created
 				if ($this->txtEmail) $this->objDtrcUsers->Email = $this->txtEmail->Text;
 				if ($this->txtPass) $this->objDtrcUsers->Pass = $this->txtPass->Text;
+				if ($this->txtLang) $this->objDtrcUsers->Lang = $this->txtLang->Text;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -325,6 +368,12 @@
 				case 'PassLabel':
 					if (!$this->lblPass) return $this->lblPass_Create();
 					return $this->lblPass;
+				case 'LangControl':
+					if (!$this->txtLang) return $this->txtLang_Create();
+					return $this->txtLang;
+				case 'LangLabel':
+					if (!$this->lblLang) return $this->lblLang_Create();
+					return $this->lblLang;
 				default:
 					try {
 						return parent::__get($strName);
@@ -351,6 +400,8 @@
 						return ($this->txtEmail = QType::Cast($mixValue, 'QControl'));
 					case 'PassControl':
 						return ($this->txtPass = QType::Cast($mixValue, 'QControl'));
+					case 'LangControl':
+						return ($this->txtLang = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}
