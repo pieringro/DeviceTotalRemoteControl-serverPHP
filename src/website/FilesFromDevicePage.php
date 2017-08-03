@@ -5,6 +5,7 @@ require_once(ROOT_WEB . "/php_classes/bean/Picture.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/PictureBO.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/AudioFile.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/AudioFileBO.class.php");
+require_once(ROOT_WEB . "/engine/resources/ResourcesManager.class.php");
 
 //controllo che sia loggato
 $userLogged = false;

@@ -26,7 +26,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
         if (isset($devicesTosList)) {
 ?>
             <head>
-                <title>DTRC - Devices list</title>
+                <title>DTRC - <?php echo ResourcesManager::getResource("devices_list"); ?></title>
                 <link href="css/w3.css" rel="stylesheet" type="text/css">
                 <link href="css/devicesListPage.css" rel="stylesheet" type="text/css">
             </head>
@@ -37,7 +37,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
                             <tr>
                                 <td style="width:20px;"><!--Apri dettaglio--></td>
                                 <td>
-                                    ID
+                                    <?php echo ResourcesManager::getResource("id"); ?>
                                 </td>
                                 <!--
                                 <td>
@@ -75,14 +75,14 @@ if (isset($inputTPL) && is_array($inputTPL)) {
 ?>
             <head></head>
             <body>
-                No devices.
+                <?php echo ResourcesManager::getResource("no_devices"); ?>
             </body>
 <?php
     }
 } else {
 ?>
         <head></head>
-        <body>User not logged in.</body>
+        <body><?php echo ResourcesManager::getResource("user_not_logged_in"); ?></body>
 <?php
     }
 ?>

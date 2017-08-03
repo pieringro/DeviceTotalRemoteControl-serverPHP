@@ -22,7 +22,8 @@ if ($userLogged) {
                             <u>
 <?php
                                 if (isset($deviceId)) {
-                                    echo "Device : $deviceId";
+                                    echo ResourcesManager::getResource("device_selected");
+                                    echo "$deviceId";
                                 }
 ?>
                             </u>
@@ -34,14 +35,15 @@ if ($userLogged) {
 ?>
                     <tr>
                         <td colspan="999" style="text-align: center; font-weight: bold">
-                            Commands
+                            <?php echo ResourcesManager::getResource("commands"); ?>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="100">
                         </td>
                         <td class="td-commandButton">
-                            <input class="button-beep" type="button" value="Beep" 
+                            <input class="button-beep" type="button" 
+                                   value='<?php echo ResourcesManager::getResource("beep"); ?>' 
                                    onclick="PlayBeepCommand('<?php echo $deviceToken; ?>')" />
                         </td>
                         <td id="PlayBeepCommandCallback" class="td-commandCallback">
@@ -53,17 +55,20 @@ if ($userLogged) {
                             <table class="table-firstson">
                                 <tr>
                                     <td>
-                                        <input id="FrontPic" type="number" style="width: 40px"  min="1" title="Foto camera frontale" />
+                                        <input id="FrontPic" type="number" style="width: 40px"  min="1" 
+                                               title='<?php echo ResourcesManager::getResource("pic_front_camera"); ?>' />
                                     </td>
                                     <td>
-                                        <input id="BackPic" type="number" style="width: 40px" min="1" title="Foto camera posteriore" />
+                                        <input id="BackPic" type="number" style="width: 40px" min="1" 
+                                               title='<?php echo ResourcesManager::getResource("pic_back_camera"); ?>' />
                                     </td>
                                 </tr>
                             </table>
                         </td>
                         <td class="td-commandButton">
-                            <input class="button-photo" type="button" value="Take Picture" 
-                                               onclick="TakePicturesCommand('<?php echo $deviceToken; ?>')" />
+                            <input class="button-photo" type="button" 
+                                   value='<?php echo ResourcesManager::getResource("take_pic"); ?>' 
+                                   onclick="TakePicturesCommand('<?php echo $deviceToken; ?>')" />
                         </td>
                         <td id="TakePicturesCommandCallback" class="td-commandCallback">
                             
@@ -82,7 +87,8 @@ if ($userLogged) {
                             </table>
                         </td>
                         <td class="td-commandButton">
-                            <input class="button-audio" type="button" value="Record audio" 
+                            <input class="button-audio" type="button" 
+                                   value='<?php echo ResourcesManager::getResource("record_audio"); ?>'
                                                onclick="RecordAudioCommand('<?php echo $deviceToken; ?>')" />
                         </td>
                         <td id="RecordAudioCommandCallback" class="td-commandCallback">
@@ -102,7 +108,7 @@ if ($userLogged) {
         <head></head>
         <body>
             <div style="width:300px; margin:0 auto;">
-                Before, select a device to control.
+                <?php echo ResourcesManager::getResource("before_select_a_device_to_control"); ?>
             </div>
         </body>
 <?php
@@ -113,7 +119,7 @@ else {
         <head></head>
         <body>
             <div style="width:300px; margin:0 auto;">
-                User is not logged in.
+                <?php echo ResourcesManager::getResource("user_not_logged_in"); ?>
             </div>
         </body>
 <?php

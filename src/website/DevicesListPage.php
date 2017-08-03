@@ -1,12 +1,12 @@
 <?php
 
-
 require_once('../php_func/constants.php');
 require_once(ROOT_WEB . "/php_func/simple_html_dom.php");
 require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/UserBO.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/DeviceBO.class.php");
+require_once(ROOT_WEB . "/engine/resources/ResourcesManager.class.php");
 
 $inputTPL = array();
 $userLogged = false;

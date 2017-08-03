@@ -126,7 +126,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
                 <img src="images/1.jpg" alt="" class="fp_preview" style="display:none;"/>
                 <div id="audioControl" style="display: none;">
                     <audio controls src="horse.mp3">
-                        Your browser does not support HTML5 audio tag.
+                        <?php echo ResourcesManager::getResource("browser_not_support_html5_audio_tag"); ?>
                     </audio>
                     <a href="">Download</a>
                 </div>
@@ -180,7 +180,9 @@ if (isset($inputTPL) && is_array($inputTPL)) {
                         </div>
                     </div>
                 </div>
-                <div id="fp_thumbtoggle" class="fp_thumbtoggle">View Thumbs</div>
+                <div id="fp_thumbtoggle" class="fp_thumbtoggle">
+                    <?php echo ResourcesManager::getResource("view_thumbs"); ?>
+                </div>
 
             </div>
 
@@ -397,7 +399,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
         <head></head>
         <body>
             <div style="width:300px; margin:0 auto;">
-                Select a device.
+                <?php echo ResourcesManager::getResource("select_a_device"); ?>
             </div>
         </body>
         <?php
@@ -408,7 +410,7 @@ if (isset($inputTPL) && is_array($inputTPL)) {
     <head></head>
     <body>
         <div style="width:300px; margin:0 auto;">
-            User not logged in.
+            <?php echo ResourcesManager::getResource("user_not_logged_in"); ?>
         </div>
     </body>
 

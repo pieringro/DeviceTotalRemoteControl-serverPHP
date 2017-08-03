@@ -13,6 +13,12 @@
 			return new QQNodeDtrcFiles('dtrc_files', null, null);
 		}
 		/**
+		 * @return QQNodeDtrcResources
+		 */
+		static public function DtrcResources() {
+			return new QQNodeDtrcResources('dtrc_resources', null, null);
+		}
+		/**
 		 * @return QQNodeDtrcUsers
 		 */
 		static public function DtrcUsers() {

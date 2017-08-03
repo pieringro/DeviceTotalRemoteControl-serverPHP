@@ -5,6 +5,7 @@ require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/UserBO.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/DeviceBO.class.php");
+require_once(ROOT_WEB . "/engine/resources/ResourcesManager.class.php");
 
 $userLogged = false;
 //controllo che sia loggato

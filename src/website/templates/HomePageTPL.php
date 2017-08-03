@@ -27,7 +27,7 @@ if(isset($inputTPL) && is_array($inputTPL)){
     if (isset($userLogged) && $userLogged && isset($userTo)) {
 ?>
     <head>
-        <title>DTRC HomePage</title>
+        <title>DTRC - HomePage</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/w3.css">
@@ -46,7 +46,9 @@ if(isset($inputTPL) && is_array($inputTPL)){
 
         <!-- Top container -->
         <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-            <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+            <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();">
+                <i class="fa fa-bars"></i> <?php echo ResourcesManager::getResource("menu"); ?>
+            </button>
             <span class="w3-bar-item w3-right"></span>
         </div>
 
@@ -57,7 +59,7 @@ if(isset($inputTPL) && is_array($inputTPL)){
                     <img src="images/avatar_male_user.png" class="w3-circle w3-margin-right" style="width:46px">
                 </div>
                 <div class="w3-col s8 w3-bar">
-                    <span>Welcome, <strong><?php echo $userTo->email; ?></strong></span><br>
+                    <span><?php echo ResourcesManager::getResource("welcome"); ?> <strong><?php echo $userTo->email; ?></strong></span><br>
                     <!--
                     <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
                     <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
@@ -67,20 +69,20 @@ if(isset($inputTPL) && is_array($inputTPL)){
             </div>
             <hr>
             <div class="w3-container">
-                <h5>Dashboard</h5>
+                <h5><?php echo ResourcesManager::getResource("dashboard"); ?></h5>
             </div>
             <div class="w3-bar-block">
                 <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu">
-                    <i class="fa fa-remove fa-fw"></i>Close Menu
+                    <i class="fa fa-remove fa-fw"></i><?php echo ResourcesManager::getResource("close_menu"); ?>
                 </a>
                 <a id="menuOverview" href="#" class="w3-bar-item w3-button w3-padding w3-blue">
-                    <i class="fa fa-users fa-fw"></i>Overview
+                    <i class="fa fa-users fa-fw"></i><?php echo ResourcesManager::getResource("overview"); ?>
                 </a>
                 <a id="menuDevicesList" href="#" class="w3-bar-item w3-button w3-padding" onclick="DevicesListUserOnClick()">
-                    <i class="fa fa-eye fa-fw"></i>Devices
+                    <i class="fa fa-eye fa-fw"></i><?php echo ResourcesManager::getResource("devices"); ?>
                 </a>
                 <a id="menuButtonsRoom" href="#" class="w3-bar-item w3-button w3-padding" onclick="ButtonsRoomOnClick()">
-                    <i class="fa fa-users fa-fw"></i>Buttons Room
+                    <i class="fa fa-users fa-fw"></i><?php echo ResourcesManager::getResource("buttons_room"); ?>
                 </a>
             </div>
         </nav>
@@ -95,7 +97,7 @@ if(isset($inputTPL) && is_array($inputTPL)){
 
             <!-- Header -->
             <header class="w3-container" style="padding-top:22px">
-                <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+                <h5><b><i class="fa fa-dashboard"></i> <?php echo ResourcesManager::getResource("my_dashboard"); ?></b></h5>
             </header>
 
             <div class="w3-row-padding w3-margin-bottom">
@@ -106,7 +108,7 @@ if(isset($inputTPL) && is_array($inputTPL)){
                             <h3></h3>
                         </div>
                         <div class="w3-clear"></div>
-                        <h4>Buttons room</h4>
+                        <h4><?php echo ResourcesManager::getResource("buttons_room"); ?></h4>
                     </div>
                 </div>
 
@@ -117,14 +119,14 @@ if(isset($inputTPL) && is_array($inputTPL)){
                             <h3></h3>
                         </div>
                         <div class="w3-clear"></div>
-                        <h4>Devices</h4>
+                        <h4><?php echo ResourcesManager::getResource("devices"); ?></h4>
                     </div>
                 </div>
                 
             </div>
 
             <div class="w3-container">
-                <h5>Select here a device to control</h5>
+                <h5><?php echo ResourcesManager::getResource("select_a_device_to_control"); ?></h5>
 
                 <fieldset id="devicesFieldSet" >
                     <table class="w3-table-all" style="">
@@ -136,7 +138,9 @@ if(isset($inputTPL) && is_array($inputTPL)){
                                 <input disabled type=text name="idDevice" value="<?php echo $deviceId; ?>" />
                             </td>
                             <td>
-                                <input type=button value="Change device selected" onclick="RemoveDeviceSelected()">
+                                <input type=button 
+                                       value="<?php echo ResourcesManager::getResource("change_device_selected"); ?>" 
+                                       onclick="RemoveDeviceSelected()">
                             </td>
 <?php
                         }
@@ -148,7 +152,9 @@ if(isset($inputTPL) && is_array($inputTPL)){
                                 </select>
                             </td>
                             <td>
-                                <input id="buttonSelectIdDevice" type="button" value="Select" onclick="GetTokenThisDevice(null)">
+                                <input id="buttonSelectIdDevice" type="button"
+                                       value="<?php echo ResourcesManager::getResource("select"); ?>"
+                                       onclick="GetTokenThisDevice(null)">
                             </td>
 <?php
                         }

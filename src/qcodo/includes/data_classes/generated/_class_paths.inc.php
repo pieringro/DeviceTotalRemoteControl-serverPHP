@@ -13,6 +13,13 @@
 		QApplicationBase::$ClassFile['dtrcfilesmetacontrol'] = __DATA_META_CONTROLS__ . '/DtrcFilesMetaControl.class.php';
 		QApplicationBase::$ClassFile['dtrcfilesdatagrid'] = __DATA_META_CONTROLS__ . '/DtrcFilesDataGrid.class.php';
 
+	// ClassPaths for the DtrcResources class
+		QApplicationBase::$ClassFile['dtrcresources'] = __DATA_CLASSES__ . '/DtrcResources.class.php';
+		QApplicationBase::$ClassFile['qqnodedtrcresources'] = __DATA_CLASSES__ . '/DtrcResources.class.php';
+		QApplicationBase::$ClassFile['qqreversereferencenodedtrcresources'] = __DATA_CLASSES__ . '/DtrcResources.class.php';
+		QApplicationBase::$ClassFile['dtrcresourcesmetacontrol'] = __DATA_META_CONTROLS__ . '/DtrcResourcesMetaControl.class.php';
+		QApplicationBase::$ClassFile['dtrcresourcesdatagrid'] = __DATA_META_CONTROLS__ . '/DtrcResourcesDataGrid.class.php';
+
 	// ClassPaths for the DtrcUsers class
 		QApplicationBase::$ClassFile['dtrcusers'] = __DATA_CLASSES__ . '/DtrcUsers.class.php';
 		QApplicationBase::$ClassFile['qqnodedtrcusers'] = __DATA_CLASSES__ . '/DtrcUsers.class.php';
