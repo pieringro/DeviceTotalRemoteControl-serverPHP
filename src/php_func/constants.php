@@ -22,4 +22,4 @@
     //---- Codici di errore condivisi con il client
     define('DEVICE_EXISTS', "0");
     
-?>
+    require_once(QCODO_INCLUDE_FOLDER . "/prepend.inc.php");

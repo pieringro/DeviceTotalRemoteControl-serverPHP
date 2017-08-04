@@ -1,5 +1,8 @@
 <?php
 
+require_once('../php_func/constants.php');
+require_once(ROOT_WEB.'/engine/resources/ResourcesManager.class.php');
+
 
 $userLogged = false;
 //controllo che sia loggato
@@ -37,22 +40,30 @@ if(isset($_SESSION['user'])){
                     <!-- Combobox for language, invio in post di "lang" -->
                     <div class="radio-buttons-form">
                         <input class="radio-button" type="radio" name="lang" value="Italian"/>
-                        <img class="radio-button-label" src="images/flag_italy.png" width="15px" height="15px" />
+                        <img class="radio-button-label" src="images/flag_italy.png" width="15px" height="15px"
+                             title="<?php echo ResourcesManager::getResource("italian"); ?>"/>
                         
                         <input class="radio-button" type="radio" name="lang" value="English" />
-                        <img class="radio-button-label" src="images/flag_england.png" width="15px" height="15px" />
+                        <img class="radio-button-label" src="images/flag_england.png" width="15px" height="15px" 
+                             title="<?php echo ResourcesManager::getResource("english"); ?>"/>
                     </div>
 
                     <input type="text" name="email" placeholder="email"/>
                     <input type="password" name="pass" placeholder="password"/>
                     <button>create</button>
-                    <p class="message">Already registered? <a href="#">Sign In</a></p>
+                    <p class="message">
+                        <?php echo ResourcesManager::getResource("already_registered"); ?>
+                        <a href="#">Sign In</a></p>
                 </form>
                 <form class="login-form" action="php_func/loginFunction.php" method="POST">
                     <input type="text" name="email" placeholder="email"/>
                     <input type="password" name="pass" placeholder="password"/>
                     <button>login</button>
-                    <p class="message">Not registered? <a href="#">Create an account</a></p>
+                    <p class="message">
+                        <?php echo ResourcesManager::getResource("not_registered"); ?>
+                        <a href="#">
+                            <?php echo ResourcesManager::getResource("create_account"); ?>
+                        </a></p>
                 </form>
             </div>
         </div>

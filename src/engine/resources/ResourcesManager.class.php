@@ -54,9 +54,22 @@ if (!class_exists("ResourcesManager")) {
         }
     }
     else{
-        $lang = ResourcesLanguages::ENGLISH;
+        //l'utente non e' loggato
+        $langAccept = explode(",", $_SERVER["HTTP_ACCEPT_LANGUAGE"]);
+        if(isset($langAccept) && is_array($langAccept)){
+            $lang = $langAccept[0];
+            switch($lang){
+                case 'it-IT':
+                    ResourcesManager::$lang = ResourcesLanguages::ITALIAN;
+                    break;
+                case 'en-US':
+                    ResourcesManager::$lang = ResourcesLanguages::ENGLISH;
+                    break;
+                default:
+                    ResourcesManager::$lang = ResourcesLanguages::ENGLISH;
+            }
+            
+        }
     }
-    
-    
     
 }
