@@ -32,7 +32,7 @@ if(isset($inputTPL) && is_array($inputTPL)){
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/home.css">
         
         <script type="text/javascript" src="js/Utility.js"></script>
@@ -86,13 +86,13 @@ if(isset($inputTPL) && is_array($inputTPL)){
                     <i class="fa fa-remove fa-fw"></i><?php echo ResourcesManager::getResource("close_menu"); ?>
                 </a>
                 <a id="menuOverview" href="#" class="w3-bar-item w3-button w3-padding w3-blue">
-                    <i class="fa fa-users fa-fw"></i><?php echo ResourcesManager::getResource("overview"); ?>
+                    <i class="fa fa-eye fa-fw"></i><?php echo ResourcesManager::getResource("overview"); ?>
                 </a>
                 <a id="menuDevicesList" href="#" class="w3-bar-item w3-button w3-padding" onclick="DevicesListUserOnClick()">
-                    <i class="fa fa-eye fa-fw"></i><?php echo ResourcesManager::getResource("devices"); ?>
+                    <i class="fa fa-mobile fa-fw"></i><?php echo ResourcesManager::getResource("devices"); ?>
                 </a>
                 <a id="menuButtonsRoom" href="#" class="w3-bar-item w3-button w3-padding" onclick="ButtonsRoomOnClick()">
-                    <i class="fa fa-users fa-fw"></i><?php echo ResourcesManager::getResource("buttons_room"); ?>
+                    <i class="fa fa-keyboard-o fa-fw"></i><?php echo ResourcesManager::getResource("buttons_room"); ?>
                 </a>
             </div>
         </nav>
@@ -113,7 +113,7 @@ if(isset($inputTPL) && is_array($inputTPL)){
             <div class="w3-row-padding w3-margin-bottom">
                 <div class="w3-quarter" id="ButtonsRoomLink" onclick="ButtonsRoomOnClick()">
                     <div class="w3-container w3-red w3-padding-16">
-                        <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
+                        <div class="w3-left"><i class="fa fa-keyboard-o w3-xxxlarge"></i></div>
                         <div class="w3-right">
                             <h3></h3>
                         </div>
@@ -124,7 +124,7 @@ if(isset($inputTPL) && is_array($inputTPL)){
 
                 <div class="w3-quarter" id="DevicesListLink" onclick="DevicesListUserOnClick()">
                     <div class="w3-container w3-blue w3-padding-16">
-                        <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+                        <div class="w3-left"><i class="fa fa-mobile w3-xxxlarge"></i></div>
                         <div class="w3-right">
                             <h3></h3>
                         </div>
@@ -132,7 +132,6 @@ if(isset($inputTPL) && is_array($inputTPL)){
                         <h4><?php echo ResourcesManager::getResource("devices"); ?></h4>
                     </div>
                 </div>
-                
             </div>
 
             <div class="w3-container">
