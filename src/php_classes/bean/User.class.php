@@ -4,11 +4,13 @@ class UserTO {
 
     public $email;
     public $pass;
+    public $lang;
 
     public function __toString() {
         return "UserTO : {"
                 . $this->email . ", "
-                . $this->pass
+                . $this->pass.", "
+                . $this->lang
                 . "}";
     }
 
@@ -59,6 +61,11 @@ class User {
         } else {
             $this->userTO->email = $email;
             $this->userTO->pass = $pass;
+            
+            if(isset($this->data['lang'])){
+                $this->userTO->lang = $this->data['lang'];
+            }
+            
             return true;
         }
     }

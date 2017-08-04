@@ -34,6 +34,7 @@ if(isset($_SESSION['user'])){
                     ?>
                 </div>
                 <form class="register-form" action="php_func/signUpFunction.php" method="POST">
+                    <!-- Combobox for language, invio in post di "lang" -->
                     <input type="text" name="email" placeholder="email"/>
                     <input type="password" name="pass" placeholder="password"/>
                     <button>create</button>

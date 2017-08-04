@@ -44,6 +44,7 @@
                     if($userTO instanceof UserTO){
                         $this->Email = $userTO->email;
                         $this->Pass = $userTO->pass;
+                        $this->Lang = $userTO->lang;
                     }
                 }
                 

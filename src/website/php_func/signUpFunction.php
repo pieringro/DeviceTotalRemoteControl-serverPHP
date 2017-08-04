@@ -9,7 +9,15 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
     try {
         $email = $_POST['email'];
         $pass = $_POST['pass'];
-        $dataJson = "{ \"email\":\"$email\", \"pass\":\"$pass\" }";
+        if(isset($_POST['lang'])){
+            $lang = $_POST['lang'];
+        }
+        else{
+            $lang = "English";
+        }
+        
+        
+        $dataJson = "{ \"email\":\"$email\", \"pass\":\"$pass\", \"lang\":\"$lang\" }";
         
         $userTO = User::getUserTOFromJson($dataJson);
         if(isset($userTO->email) && isset($userTO->pass)){
