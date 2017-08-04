@@ -35,6 +35,14 @@ if(isset($_SESSION['user'])){
                 </div>
                 <form class="register-form" action="php_func/signUpFunction.php" method="POST">
                     <!-- Combobox for language, invio in post di "lang" -->
+                    <div class="radio-buttons-form">
+                        <input class="radio-button" type="radio" name="lang" value="Italian"/>
+                        <img class="radio-button-label" src="images/flag_italy.png" width="15px" height="15px" />
+                        
+                        <input class="radio-button" type="radio" name="lang" value="English" />
+                        <img class="radio-button-label" src="images/flag_england.png" width="15px" height="15px" />
+                    </div>
+
                     <input type="text" name="email" placeholder="email"/>
                     <input type="password" name="pass" placeholder="password"/>
                     <button>create</button>

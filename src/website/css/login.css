@@ -56,6 +56,15 @@
 .form .register-form {
   display: none;
 }
+div .radio-buttons-form .radio-button{
+    width: auto;
+    margin : 0px 5px 15px 5px;
+}
+div .radio-buttons-form .radio-button-label{
+    margin : 0 10px 0 0;
+    vertical-align: middle;
+}
+
 .container {
   position: relative;
   z-index: 1;
