@@ -5,6 +5,12 @@ require_once ("php_func/clientComunication.php");
 require_once ("php_classes/bean/Device.class.php");
 require_once ("php_classes/BO/DeviceBO.class.php");
 
+require_once("./checkAPIKey.php");
+
+if(isset($_POST['apikey']) && !CheckAPIKey($_POST['apikey'])){
+    error("API KEY NOT VALID.");
+    die();
+}
 
 if (isset($_POST['data'])) {
     try {

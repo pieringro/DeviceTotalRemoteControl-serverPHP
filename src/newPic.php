@@ -29,6 +29,12 @@ require_once ("php_classes/bean/Picture.class.php");
 require_once ("php_classes/BO/PictureBO.class.php");
 
 
+require_once("./checkAPIKey.php");
+
+if(isset($_POST['apikey']) && !CheckAPIKey($_POST['apikey'])){
+    error("API KEY NOT VALID.");
+    die();
+}
 
 
 if (isset($_POST['data']) && isset($_FILES['file'])) {
