@@ -83,7 +83,9 @@ class DtrcDevices extends DtrcDevicesGen {
                 `EmailUser` = ' . $objDatabase->SqlVariable($this->strEmailUser) . ',
 		`TokenFirebase` = ' . $objDatabase->SqlVariable($this->strTokenFirebase) . '
 		WHERE
-		`ID` = ' . $objDatabase->SqlVariable($this->__strId)
+		`ID` = ' . $objDatabase->SqlVariable($this->__strId) . '
+                AND
+                `EmailUser` = ' . $objDatabase->SqlVariable($this->strEmailUser)
             );
 
             // Journaling

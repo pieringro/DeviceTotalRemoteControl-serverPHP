@@ -7,7 +7,7 @@ require_once ("php_classes/BO/DeviceBO.class.php");
 
 require_once("./checkAPIKey.php");
 
-if(isset($_POST['apikey']) && !CheckAPIKey($_POST['apikey'])){
+if(!isset($_POST['apikey']) || !CheckAPIKey($_POST['apikey'])){
     error("API KEY NOT VALID.");
     die();
 }
