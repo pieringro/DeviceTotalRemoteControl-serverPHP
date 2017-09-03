@@ -34,6 +34,9 @@ if (isset($_SESSION['user'])) {
             $deviceTO = new DeviceTO();
             $deviceTO->device_id = $deviceId;
             $deviceToken = $deviceBO->getTokenOfThisDevice($deviceTO);
+            if(isset($deviceToken)){
+                $inputTPL['deviceToken'] = $deviceToken;
+            }
         } else {
             $userBO = new UserBO();
             $devicesTOList = $userBO->getDevicesToFromUser($userTo);

@@ -7,6 +7,8 @@ require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/DeviceBO.class.php");
 require_once(ROOT_WEB . "/engine/resources/ResourcesManager.class.php");
 
+$inputTPL = array();
+ 
 $userLogged = false;
 //controllo che sia loggato
 @session_start();
@@ -29,13 +31,16 @@ if (isset($_SESSION['user'])) {
             $deviceBO = new DeviceBO();
             $deviceTO = new DeviceTO();
             $deviceTO->device_id = $deviceId;
+            $inputTPL['deviceId'] = $deviceId;
             $deviceToken = $deviceBO->getTokenOfThisDevice($deviceTO);
+            $inputTPL['deviceToken'] = $deviceToken;
         } else {
             
         }
     }
 }
 
+$inputTPL['userLogged'] = $userLogged;
 
 include('templates/ButtonsRoomTPL.php')
 

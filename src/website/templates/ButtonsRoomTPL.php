@@ -1,3 +1,20 @@
+<?php
+//caricamento variabili template
+if(isset($inputTPL) && is_array($inputTPL)){
+    if(isset($inputTPL['userLogged'])){
+        $userLogged = $inputTPL['userLogged'];
+    }
+    
+    if(isset($inputTPL['deviceId'])){
+        $deviceId = $inputTPL['deviceId'];
+    }
+    
+    if(isset($inputTPL['deviceToken'])){
+        $deviceToken = $inputTPL['deviceToken'];
+    }
+}
+?>
+
 
 <!DOCTYPE html>
 <html>
@@ -31,7 +48,7 @@ if ($userLogged) {
                     </tr>
 
 <?php
-        if (isset($deviceToken)) {
+        if (isset($deviceToken) && $deviceToken != "") {
 ?>
                     <tr>
                         <td colspan="999" style="text-align: center; font-weight: bold">
