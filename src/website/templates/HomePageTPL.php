@@ -88,11 +88,14 @@ if(isset($inputTPL) && is_array($inputTPL)){
                 <a id="menuOverview" href="#" class="w3-bar-item w3-button w3-padding w3-blue">
                     <i class="fa fa-eye fa-fw"></i><?php echo ResourcesManager::getResource("overview"); ?>
                 </a>
+                <a id="menuButtonsRoom" href="#" class="w3-bar-item w3-button w3-padding" onclick="ButtonsRoomOnClick()">
+                    <i class="fa fa-keyboard-o fa-fw"></i><?php echo ResourcesManager::getResource("buttons_room"); ?>
+                </a>
                 <a id="menuDevicesList" href="#" class="w3-bar-item w3-button w3-padding" onclick="DevicesListUserOnClick()">
                     <i class="fa fa-mobile fa-fw"></i><?php echo ResourcesManager::getResource("devices"); ?>
                 </a>
-                <a id="menuButtonsRoom" href="#" class="w3-bar-item w3-button w3-padding" onclick="ButtonsRoomOnClick()">
-                    <i class="fa fa-keyboard-o fa-fw"></i><?php echo ResourcesManager::getResource("buttons_room"); ?>
+                <a id="menuHelpPage" href="#" class="w3-bar-item w3-button w3-padding" onclick="HelpPageOnClick()">
+                    <i class="fa fa-question-circle fa-fw"></i><?php echo ResourcesManager::getResource("help_me"); ?>
                 </a>
             </div>
         </nav>
@@ -130,6 +133,17 @@ if(isset($inputTPL) && is_array($inputTPL)){
                         </div>
                         <div class="w3-clear"></div>
                         <h4><?php echo ResourcesManager::getResource("devices"); ?></h4>
+                    </div>
+                </div>
+                
+                <div class="w3-quarter" id="HelpPageLink" onclick="HelpPageOnClick()">
+                    <div class="w3-container w3-green w3-padding-16">
+                        <div class="w3-left"><i class="fa fa-question-circle w3-xxxlarge"></i></div>
+                        <div class="w3-right">
+                            <h3></h3>
+                        </div>
+                        <div class="w3-clear"></div>
+                        <h4><?php echo ResourcesManager::getResource("help_me"); ?></h4>
                     </div>
                 </div>
             </div>

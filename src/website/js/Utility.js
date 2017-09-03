@@ -21,6 +21,9 @@ function parseJsonCommandResponse(commandResponseJsonStr){
 
 
 var waitingAlert = null;
+/**
+ * Visualizza/rimuove la waiting alert
+ */
 function HandlingWaitingAlert(toOpen, width=null){
     if(waitingAlert == null){
         waitingAlert = document.getElementById("waiting");

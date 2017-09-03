@@ -39,7 +39,7 @@ if(isset($_SESSION['user'])){
                 <form class="register-form" action="php_func/signUpFunction.php" method="POST">
                     <!-- Combobox for language, invio in post di "lang" -->
                     <div class="radio-buttons-form">
-                        <input class="radio-button" type="radio" name="lang" value="Italian"/>
+                        <input class="radio-button" type="radio" name="lang" value="Italian" checked="checked"/>
                         <img class="radio-button-label" src="images/flag_italy.png" width="15px" height="15px"
                              title="<?php echo ResourcesManager::getResource("italian"); ?>"/>
                         

@@ -23,6 +23,9 @@ function InitButtonIframe(){
 
 
 var currentIdMenuVoiceHover = "menuOverview";
+/**
+ * Evidenzia la voce del menu specificata
+ */
 function HandlingHoverMenuVoice(idMenu){
     if(currentIdMenuVoiceHover != null){
         var menuHoverVoice = document.getElementById(currentIdMenuVoiceHover);
@@ -34,7 +37,9 @@ function HandlingHoverMenuVoice(idMenu){
     currentIdMenuVoiceHover = idMenu;
 }
 
-
+/**
+ * Cambia pagina nell'iframe
+ */
 function HandlingChangeIframeSrc(iframeSrc){
     InitIframePage();
     iframePage.contentWindow.document.open();
@@ -88,6 +93,15 @@ function DevicesListUserOnClick(){
     HandlingChangeIframeSrc("DevicesListPage.php");
 }
 
+
+function HelpPageOnClick(){
+    InitDivIframe();
+    width = divIframe.scrollWidth;
+    
+    HandlingWaitingAlert(true, width);
+    HandlingHoverMenuVoice("menuHelpPage");
+    HandlingChangeIframeSrc("HelpPage.php");
+}
 
 
 function GetTokenThisDevice(deviceId){

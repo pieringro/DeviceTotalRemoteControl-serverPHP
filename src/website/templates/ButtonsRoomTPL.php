@@ -97,6 +97,15 @@ if ($userLogged) {
                     </tr>
 <?php
         }
+        else{
+?>
+                    <tr>
+                        <td>
+                            <?php echo ResourcesManager::getResource("cant_send_to_device"); ?>
+                        </td>
+                    </tr>           
+<?php
+        }
 ?>
                 </table>
             </div>
