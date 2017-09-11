@@ -1,5 +1,4 @@
 <?php
-require_once(ROOT_WEB . "/php_classes/dao/AbstractDAO.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once("UserBO.class.php");
 require_once(QCODO_INCLUDE_FOLDER . "/prepend.inc.php");
