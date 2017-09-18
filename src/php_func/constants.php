@@ -14,13 +14,13 @@ define('_SERVER_DOCROOT_PATH_', '/membri/pierprogramm');
 
 require_once(_SERVER_DOCROOT_PATH_ . '/DTRC/qcodo/includes/prepend.inc.php');
 
-define('ROOT_WEB', __DOCROOT__ . '/DTRC');
+define('ROOT_WEB', __DOCROOT__);
 
 //cartella locale dove salvare i file ricevuti
 define('FILES_FOLDER', __DOCROOT__ . "" . FILE_SEPARATOR_CHAR . "data");
 
 //FILES_FOLDER accessibile dall'esterno
-define('FILES_FOLDER_WEB', "http://" . $_SERVER['SERVER_NAME'] . "/data");
+define('FILES_FOLDER_WEB', "http://" . $_SERVER['SERVER_NAME'] . "/DTRC/data");
 
 
 //----- log
