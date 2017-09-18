@@ -8,69 +8,88 @@
 // To use, simply rename or copy this file to includes/configuration.inc.php, and begin making modifications
 // to the configuration constants as it makes sense for your PHP and docroot installation.
 
-define('SERVER_INSTANCE', 'dev');
+//mi assicuro che non venga eseguito piu' volte
+if (!defined('SERVER_INSTANCE')) {
 
-switch (SERVER_INSTANCE) {
-    case 'dev':
-        define('__DOCROOT__', 'C:/Apache24/htdocs');
-        define('__VIRTUAL_DIRECTORY__', '');
-        define('__SUBDIRECTORY__', '/DTRC/qcodo/www');
+    define('SERVER_INSTANCE', 'dev');
 
-        define('DB_CONNECTION_1', serialize(array(
-            'adapter' => 'MySqli5',
-            'server' => 'localhost',
-            'port' => 3320,
-            'database' => 'DTRC',
-            'username' => 'root',
-            'password' => 'slipknot-123',
-            'profiling' => false)));
-        break;
+    switch (SERVER_INSTANCE) {
+        case 'dev':
+            define('__DOCROOT__', 'C:/Apache24/htdocs/DTRC');
+            define('__VIRTUAL_DIRECTORY__', '');
+            define('__SUBDIRECTORY__', '/qcodo/www');
+            define('FILE_SEPARATOR_CHAR', '\\');
 
-    case 'test':
-        break;
+            define('DB_CONNECTION_1', serialize(array(
+                'adapter' => 'MySqli5',
+                'server' => 'localhost',
+                'port' => 3320,
+                'database' => 'DTRC',
+                'username' => 'root',
+                'password' => 'slipknot-123',
+                'profiling' => true)));
+            break;
 
-    case 'stage':
-        break;
+        case 'test':
+            break;
 
-    case 'prod':
-        break;
-}
+        case 'stage':
+            break;
 
-define('ALLOW_REMOTE_ADMIN', false);
-define('__URL_REWRITE__', 'none');
+        case 'prod':
+            define('__DOCROOT__', '/membri/pierprogramm/DTRC');
+            define('__VIRTUAL_DIRECTORY__', '');
+            define('__SUBDIRECTORY__', '/qcodo/www');
+            define('FILE_SEPARATOR_CHAR', '/');
 
-define('__DEVTOOLS_CLI__', __DOCROOT__ . __SUBDIRECTORY__ . '/../cli');
-define('__INCLUDES__', __DOCROOT__ . __SUBDIRECTORY__ . '/../includes');
-define('__QCODO__', __INCLUDES__ . '/qcodo');
-define('__QCODO_CORE__', __INCLUDES__ . '/qcodo/_core');
-define('__DATA_CLASSES__', __INCLUDES__ . '/data_classes');
-define('__DATAGEN_CLASSES__', __INCLUDES__ . '/data_classes/generated');
-define('__DATA_META_CONTROLS__', __INCLUDES__ . '/data_meta_controls');
-define('__DATAGEN_META_CONTROLS__', __INCLUDES__ . '/data_meta_controls/generated');
+            define('DB_CONNECTION_1', serialize(array(
+                'adapter' => 'MySqli5',
+                'server' => 'localhost',
+                'port' => 3320,
+                'database' => 'my_pierprogramm',
+                'username' => 'pierprogramm',
+                'password' => '',
+                'profiling' => false)));
+            break;
+    }
 
-define('__ERROR_LOG__', __DOCROOT__ . '/../error_log');
-define('__QCODO_LOG__', __DOCROOT__ . '/../log');
-define('__TEST_CASES__', __DOCROOT__ . '/../tests');
+    define('ALLOW_REMOTE_ADMIN', false);
+    define('__URL_REWRITE__', 'none');
 
-define('__FORM_DRAFTS__', __SUBDIRECTORY__ . '/drafts');
-define('__PANEL_DRAFTS__', __SUBDIRECTORY__ . '/drafts/dashboard');
+    define('__DEVTOOLS_CLI__', __DOCROOT__ . __SUBDIRECTORY__ . '/../cli');
+    define('__INCLUDES__', __DOCROOT__ . __SUBDIRECTORY__ . '/../includes');
+    define('__QCODO__', __INCLUDES__ . '/qcodo');
+    define('__QCODO_CORE__', __INCLUDES__ . '/qcodo/_core');
+    define('__DATA_CLASSES__', __INCLUDES__ . '/data_classes');
+    define('__DATAGEN_CLASSES__', __INCLUDES__ . '/data_classes/generated');
+    define('__DATA_META_CONTROLS__', __INCLUDES__ . '/data_meta_controls');
+    define('__DATAGEN_META_CONTROLS__', __INCLUDES__ . '/data_meta_controls/generated');
+
+    define('__ERROR_LOG__', __DOCROOT__ . '/engine/log/error_log');
+    define('__QCODO_LOG__', __DOCROOT__ . '/engine/log/qcodolog');
+    define('__TEST_CASES__', __DOCROOT__ . '/../tests');
+
+    define('__FORM_DRAFTS__', __SUBDIRECTORY__ . '/drafts');
+    define('__PANEL_DRAFTS__', __SUBDIRECTORY__ . '/drafts/dashboard');
 
 // Examples and Devtools are deprecated as of 0.4.0, but these constants are still here to
 // support any QPM packages that may still want to use them
-define('__DEVTOOLS__', null);
-define('__EXAMPLES__', null);
+    define('__DEVTOOLS__', null);
+    define('__EXAMPLES__', null);
 
-define('__JS_ASSETS__', __SUBDIRECTORY__ . '/assets/js');
-define('__CSS_ASSETS__', __SUBDIRECTORY__ . '/assets/css');
-define('__IMAGE_ASSETS__', __SUBDIRECTORY__ . '/assets/images');
-define('__PHP_ASSETS__', __SUBDIRECTORY__ . '/assets/php');
+    define('__JS_ASSETS__', __SUBDIRECTORY__ . '/assets/js');
+    define('__CSS_ASSETS__', __SUBDIRECTORY__ . '/assets/css');
+    define('__IMAGE_ASSETS__', __SUBDIRECTORY__ . '/assets/images');
+    define('__PHP_ASSETS__', __SUBDIRECTORY__ . '/assets/php');
 
-if (!ini_get('date.timezone'))
-    date_default_timezone_set('America/Los_Angeles');
+    if (!ini_get('date.timezone'))
+        date_default_timezone_set('America/Los_Angeles');
 
-define('ERROR_LOG_FLAG', false);
+    define('ERROR_LOG_FLAG', true);
 //	define('ERROR_FRIENDLY_PAGE_PATH', '/absolute/path/to/friendly_error_page.html');
 //	define('ERROR_FRIENDLY_AJAX_MESSAGE', 'Oops!  An error has occurred.\r\n\r\nThe error was logged, and we will take a look into this right away.');
 
-define('QCODO_LOG_LEVEL', 6);
+    define('QCODO_LOG_LEVEL', 6);
+    
+}
 ?>

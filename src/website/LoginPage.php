@@ -9,7 +9,7 @@ $userLogged = false;
 @session_start();
 if(isset($_SESSION['user'])){
     $userLogged = true;
-    header("Location: ButtonsRoom.php");
+    header("Location: HomePage.php");
     die();
 }
 ?>
