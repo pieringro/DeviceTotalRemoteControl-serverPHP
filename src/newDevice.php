@@ -17,7 +17,7 @@
   il token da firebase.
  */
 
-require_once ("php_func/constants.php");
+require_once ("config/constants.php");
 require_once ("php_func/clientComunication.php");
 require_once ("php_classes/bean/Device.class.php");
 require_once ("php_classes/BO/DeviceBO.class.php");

@@ -1,5 +1,5 @@
 <?php
-require_once ("php_func/constants.php");
+require_once ("config/constants.php");
 require_once ("php_func/clientComunication.php");
 require_once ("php_classes/bean/User.class.php");
 require_once ("php_classes/BO/UserBO.class.php");

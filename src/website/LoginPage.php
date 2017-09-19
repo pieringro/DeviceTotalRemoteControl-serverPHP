@@ -1,6 +1,6 @@
 <?php
 
-require_once('../php_func/constants.php');
+require_once('../config/constants.php');
 require_once(ROOT_WEB.'/engine/resources/ResourcesManager.class.php');
 
 

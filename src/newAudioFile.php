@@ -1,6 +1,6 @@
 <?php
 
-require_once ("php_func/constants.php");
+require_once ("config/constants.php");
 require_once ("php_func/clientComunication.php");
 require_once ("php_func/receiveFileUploaded.php");
 require_once ("php_classes/bean/AudioFile.class.php");

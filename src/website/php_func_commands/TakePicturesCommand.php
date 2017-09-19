@@ -1,6 +1,6 @@
 <?php
 if(isset($_POST['deviceToken']) && isset($_POST['params'])){
-    require_once('../../php_func/constants.php');
+    require_once('../../config/constants.php');
     require_once(ROOT_WEB.'/php_func/firebaseComunication.php');
     
     $deviceToken = $_POST['deviceToken'];

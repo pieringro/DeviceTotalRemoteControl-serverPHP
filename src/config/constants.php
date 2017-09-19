@@ -5,11 +5,8 @@
 
 //DOCUMENT_ROOT su altervista ritorna /var/www/html
 
-//define('_SERVER_DOCROOT_PATH_', 'C:/Apache24/htdocs');
-define('_SERVER_DOCROOT_PATH_', '/membri/pierprogramm');
-
-
-
+define('_SERVER_DOCROOT_PATH_', 'C:/Apache24/htdocs');
+//define('_SERVER_DOCROOT_PATH_', '/membri/pierprogramm');
 
 
 require_once(_SERVER_DOCROOT_PATH_ . '/DTRC/qcodo/includes/prepend.inc.php');

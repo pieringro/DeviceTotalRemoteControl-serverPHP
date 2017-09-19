@@ -1,6 +1,6 @@
 <?php
 
-require_once('../php_func/constants.php');
+require_once('../config/constants.php');
 require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Picture.class.php");
 require_once(ROOT_WEB . "/php_classes/BO/PictureBO.class.php");
