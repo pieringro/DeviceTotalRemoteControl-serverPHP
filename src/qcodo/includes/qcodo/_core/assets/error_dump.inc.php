@@ -61,17 +61,17 @@
 
 			<div class="code">
 <?php
-                                                if(defined('_ERROR_DEBUG_CODE_') && _ERROR_DEBUG_CODE_){
-                                                    _p('<pre>', false);
-                                                    for ($__exc_IntLine = max(1, QErrorHandler::$LineNumber - 5); $__exc_IntLine <= min(count(QErrorHandler::$FileLinesArray), QErrorHandler::$LineNumber + 5); $__exc_IntLine++) {
-                                                            if (QErrorHandler::$LineNumber == $__exc_IntLine)
-                                                                    printf('<span style="color: #f00;">Line %s:    %s</span>', $__exc_IntLine, htmlentities(QErrorHandler::$FileLinesArray[$__exc_IntLine - 1]));
-                                                            else
-                                                                    printf("Line %s:    %s", $__exc_IntLine, htmlentities(QErrorHandler::$FileLinesArray[$__exc_IntLine - 1]));
-                                                    }
-                                                    _p('</pre>', false);
-                                                    unset($__exc_IntLine);
-                                                }
+                                
+                                    _p('<pre>', false);
+                                    for ($__exc_IntLine = max(1, QErrorHandler::$LineNumber - 5); $__exc_IntLine <= min(count(QErrorHandler::$FileLinesArray), QErrorHandler::$LineNumber + 5); $__exc_IntLine++) {
+                                            if (QErrorHandler::$LineNumber == $__exc_IntLine)
+                                                    printf('<span style="color: #f00;">Line %s:    %s</span>', $__exc_IntLine, htmlentities(QErrorHandler::$FileLinesArray[$__exc_IntLine - 1]));
+                                            else
+                                                    printf("Line %s:    %s", $__exc_IntLine, htmlentities(QErrorHandler::$FileLinesArray[$__exc_IntLine - 1]));
+                                    }
+                                    _p('</pre>', false);
+                                    unset($__exc_IntLine);
+                                
 ?>
 			</div><br />
 			

@@ -92,6 +92,15 @@
 				@chmod($strFileName, 0666);
 			}
 
+                        if(!defined('_ERROR_DEBUG_CODE_') || !_ERROR_DEBUG_CODE_){
+                            ob_clean();
+                            if (!ob_get_level()) ob_start();
+                            printf('Unhandle error. <br/>Type: "%s" - "%s";<br/> Message: "%s";<br/> Date time: "%s";<br/> Line number code: %s', 
+                                    QErrorHandler::$Type, QErrorHandler::$ObjectType, 
+                                    QErrorHandler::$Message, QErrorHandler::$IsoDateTimeOfError,
+                                    QErrorHandler::$LineNumber);
+                        }
+                        
 			if (QApplication::$RequestMode == QRequestMode::Ajax) {
 				if (defined('ERROR_FRIENDLY_AJAX_MESSAGE') && ERROR_FRIENDLY_AJAX_MESSAGE) {
 					// Reset the Buffer

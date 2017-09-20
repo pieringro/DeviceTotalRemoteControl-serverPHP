@@ -29,7 +29,7 @@ if (!defined('SERVER_INSTANCE')) {
                 'password' => 'slipknot-123',
                 'profiling' => true)));
             
-            define('_ERROR_DEBUG_CODE_', true);
+            define('_ERROR_DEBUG_CODE_', false);
             break;
         
         case 'test':
