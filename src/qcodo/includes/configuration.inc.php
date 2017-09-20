@@ -28,8 +28,10 @@ if (!defined('SERVER_INSTANCE')) {
                 'username' => 'root',
                 'password' => 'slipknot-123',
                 'profiling' => true)));
+            
+            define('_ERROR_DEBUG_CODE_', true);
             break;
-
+        
         case 'test':
             break;
 
@@ -50,6 +52,8 @@ if (!defined('SERVER_INSTANCE')) {
                 'username' => 'pierprogramm',
                 'password' => '',
                 'profiling' => false)));
+            
+            define('_ERROR_DEBUG_CODE_', false);
             break;
     }
 
