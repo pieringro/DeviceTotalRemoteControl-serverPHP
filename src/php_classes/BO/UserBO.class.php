@@ -38,7 +38,7 @@ class UserBO {
         if($userTO instanceof UserTO){
             $queryResult = DtrcUsers::LoadInTO($userTO->email);
             if(!$queryResult){
-                $msg = "Login failed. User does not exists.";
+                $msg = "Login failed. User ".$userTO->email." does not exists.";
                 $this->lastErrorMessage = $msg;
             }
             else{
