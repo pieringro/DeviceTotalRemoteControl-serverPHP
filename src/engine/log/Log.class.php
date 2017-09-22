@@ -48,8 +48,9 @@ if (!class_exists("Log")) {
             // define current time and suppress E_WARNING if using the system TZ settings
             // (don't forget to set the INI setting date.timezone)
             $time = @date('[d/M/Y- H:i:s]');
+            $ip = $_SERVER['REMOTE_ADDR'];
             // write current time, script name and message to the log file
-            fwrite($this->fp, "$time ($script_name) $message" . PHP_EOL);
+            fwrite($this->fp, "$ip $time ($script_name) $message" . PHP_EOL);
         }
 
         // close log file (it's always a good idea to close a file when you're done with it)
@@ -83,4 +84,6 @@ if (!class_exists("Log")) {
 
 }
 
-$log = Log::getInstance();
+if(!isset($log)){
+    $log = Log::getInstance();
+}

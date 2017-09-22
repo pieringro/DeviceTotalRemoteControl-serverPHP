@@ -1,4 +1,5 @@
 <?php
+require_once(LOG_MODULE);
 
 class UserTO {
 
@@ -45,7 +46,10 @@ class User {
         if ($result) {
             return $this->userTO;
         } else {
-            throw new Exception("Error parsing json. Message=" . $message);
+            $msg = "Error parsing json. Message=" . $message;
+            error($msg);
+            $log->lwrite($msg);
+            throw new Exception($msg);
         }
     }
 
@@ -61,11 +65,9 @@ class User {
         } else {
             $this->userTO->email = $email;
             $this->userTO->pass = $pass;
-            
             if(isset($this->data['lang'])){
                 $this->userTO->lang = $this->data['lang'];
             }
-            
             return true;
         }
     }

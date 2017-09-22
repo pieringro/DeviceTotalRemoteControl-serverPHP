@@ -3,6 +3,7 @@ require_once ("../../config/constants.php");
 require_once (ROOT_WEB . "/php_func/clientComunication.php");
 require_once (ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once (ROOT_WEB . "/php_classes/BO/UserBO.class.php");
+require_once (LOG_MODULE);
 
 
 if (isset($_POST['email']) && isset($_POST['pass'])) {
@@ -20,18 +21,26 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
                 header("Location: ../HomePage.php");
             }
             else{
-                error("Unable to perform login. ".$userBO->lastErrorMessage);
+                $msg = "Unable to perform login. ".$userBO->lastErrorMessage;
+                error($msg);
+                $log->lwrite($msg);
             }
         }
-        else{
-            error("Unable to perform login. Missing user data.");
+        else {
+            $msg = "Unable to perform login. Missing user data.";
+            error($msg);
+            $log->lwrite($msg);
         }
-
         
     } catch (Exception $e) {
-        error($e->getMessage());
+        $msg = "Unexpected server error.";
+        error($msg);
+        $log->lwrite("$msg - Exception: ".$e->getMessage()." , ".$e->getTraceAsString());
     }
 } else {
-    error("No data passed.");
+    $msg = "No data passed.";
+    error($msg);
+    $log->lwrite($msg);
 }
 
+$log->lclose();

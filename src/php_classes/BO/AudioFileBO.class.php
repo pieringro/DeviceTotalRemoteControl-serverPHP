@@ -19,18 +19,17 @@ class AudioFileBO {
         if (($audioFileTO instanceof AudioFileTO)) {
             $qcodoEntity = new DtrcFiles();
             $qcodoEntity->InitDataWithAudioFileTO($audioFileTO);
-
             try {
                 $qcodoEntity->Save();
                 return true;
             } catch (Exception $e) {
-                $this->lastErrorMessage = "Exception while saving new audio file.";
-                $this->log->lwrite($e->getMessage());
+                $msg = "Exception while saving new audio file.";
+                $this->lastErrorMessage = $msg;
+                $this->log->lwrite("$msg - Exception: ".$e->getMessage()." , ".$e->getTraceAsString());
                 return false;
             }
         }
     }
-    
     
     public function getAudioFileOfDevice($deviceTO) {
         if ($deviceTO instanceof DeviceTO) {
@@ -46,5 +45,11 @@ class AudioFileBO {
         return false;
     }
 
+    
+    
+    public function __destruct() {
+        $this->log->lclose();
+    }
+    
 }
 

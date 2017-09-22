@@ -3,12 +3,14 @@ require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once(__INCLUDES__ . "/prepend.inc.php");
 require_once(__DATA_CLASSES__ . "/DtrcUsers.class.php");
+require(LOG_MODULE);
 
 class UserBO {
 
     public function __construct() {
-        
+        $this->log = Log::getInstance();
     }
+    private $log;
     
     public $lastErrorMessage;
     
@@ -16,16 +18,16 @@ class UserBO {
         if(($userTO instanceof UserTO)){
             //logica di criptazione della password da salvare
             $userTO->pass = @crypt($userTO->pass);
-            
             $qcodoEntity = new DtrcUsers();
             $qcodoEntity->InitDataWithTO($userTO);
-            
             try{
                 $qcodoEntity->Save();
                 return true;
             } catch (Exception $e){
                 //salvo il message dell'exception nel log
-                $this->lastErrorMessage = "Exception while saving new user.";
+                $msg = "Exception while saving new user.";
+                $this->lastErrorMessage = $msg;
+                $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO");
                 return false;
             }
         }
@@ -36,7 +38,8 @@ class UserBO {
         if($userTO instanceof UserTO){
             $queryResult = DtrcUsers::LoadInTO($userTO->email);
             if(!$queryResult){
-                $this->lastErrorMessage = "Login failed. User does not exists.";
+                $msg = "Login failed. User does not exists.";
+                $this->lastErrorMessage = $msg;
             }
             else{
                 if($queryResult instanceof UserTO){
@@ -46,19 +49,19 @@ class UserBO {
                         session_set_cookie_params(0);
                         @session_start();
                         $_SESSION['user'] = serialize($queryResult);
-                        
-                        
-                        
                         return true;
                     }
                     else{
-                        $this->lastErrorMessage = "Login failed. Password error.";
+                        $msg = "Login failed. Password error for user ".$userTO->email;
+                        $this->lastErrorMessage = $msg;
                     }
                 }
             }
         }
         else{
-            $this->lastErrorMessage = "Input data error";
+            $msg = "Input data error";
+            $this->lastErrorMessage = $msg;
+            $this->log->lwrite("$msg - Data passed: $userTO");
         }
         return false;
     }
@@ -80,6 +83,10 @@ class UserBO {
             }
         }
         return null;
+    }
+    
+    public function __destruct() {
+        $this->log->lclose();
     }
     
 }

@@ -3,6 +3,7 @@ require_once ("../../config/constants.php");
 require_once (ROOT_WEB . "/php_func/clientComunication.php");
 require_once (ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once (ROOT_WEB . "/php_classes/BO/UserBO.class.php");
+require_once (LOG_MODULE);
 
 
 if (isset($_POST['email']) && isset($_POST['pass'])) {
@@ -16,7 +17,6 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
             $lang = "English";
         }
         
-        
         $dataJson = "{ \"email\":\"$email\", \"pass\":\"$pass\", \"lang\":\"$lang\" }";
         
         $userTO = User::getUserTOFromJson($dataJson);
@@ -28,17 +28,22 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
                 header("Location: ../LoginPage.php?message=Registrazione avvenuta con successo, accedere con i nuovi dati.");
             }
             else{
-                error("Unable to create new user. ".$userBO->lastErrorMessage);
+                $msg = "Unable to create new user. ".$userBO->lastErrorMessage;
+                error($msg);
+                $log->lwrite($msg);
             }
         }
 
     } catch (Exception $e) {
-        error($e->getMessage());
+        $msg = "Unexpected server error.";
+        error($msg);
+        $log->lwrite("$msg - Exception: ".$e->getMessage()." , ".$e->getTraceAsString());
     }
 } else {
-    error("No data passed.");
+    $msg = "No data passed.";
+    error($msg);
+    $log->lwrite($msg);
 }
 
+$log->lclose();
 
-
-?>

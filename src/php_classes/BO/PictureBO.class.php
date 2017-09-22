@@ -4,12 +4,14 @@ require_once(ROOT_WEB . "/php_classes/bean/Picture.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once(__INCLUDES__ . "/prepend.inc.php");
 require_once(__DATA_CLASSES__ . "/DtrcUsers.class.php");
+require_once(LOG_MODULE);
 
 class PictureBO {
 
     public function __construct() {
-        
+        $this->log = Log::getInstance();
     }
+    private $log;
 
     public $lastErrorMessage;
 
@@ -23,7 +25,10 @@ class PictureBO {
                 return true;
             } catch (Exception $e) {
                 //salvo il message dell'exception nel log
-                $this->lastErrorMessage = "Exception while saving new user.";
+                $msg = "Exception while saving new picture file. ";
+                $this->lastErrorMessage = $msg;
+                $this->log->lwrite("$msg - Exception: ".$e->getMessage()." , ".
+                        $e->getTraceAsString()." Picture: $pictureTO");
                 return false;
             }
         }
@@ -44,4 +49,8 @@ class PictureBO {
         return false;
     }
 
+    
+    public function __destruct() {
+        $this->log->lclose();
+    }
 }

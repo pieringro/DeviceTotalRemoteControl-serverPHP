@@ -3,17 +3,18 @@ require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once("UserBO.class.php");
 require_once(__INCLUDES__ . "/prepend.inc.php");
 require_once(__DATA_CLASSES__ . "/DtrcDevices.class.php");
+require_once(LOG_MODULE);
 
 class DeviceBO {
 
     public function __construct() {
         $this->userBO = new UserBO();
+        $this->log = Log::getInstance();
     }
+    private $log;
 
     private $userBO;
-
     public $lastErrorMessage;
-    
     
     public function newDevice($deviceTO){
         if(($deviceTO instanceof DeviceTO)){
@@ -35,21 +36,30 @@ class DeviceBO {
                         return true;
                     } catch (Exception $e){
                         //salvo il message dell'exception nel log
-                        $this->lastErrorMessage = "Exception while saving new user. ";
+                        $msg = "Exception while saving new user. ";
+                        $this->lastErrorMessage = $msg;
+                        $this->log->lwrite("$msg - Exception: ".$e->getMessage()." "
+                                .$e->getTraceAsString()." User: $userTO");
                         return false;
                     }
                 }
                 else{
-                    $this->lastErrorMessage = "Unable to perform login. "
-                            .$this->userBO->lastErrorMessage;
+                    $msg = "Unable to perform login. .$this->userBO->lastErrorMessage";
+                    $this->lastErrorMessage = $msg;
+                    $this->log->lwrite("$msg - User: $userTO");
                 }
             }
             else{
-                $this->lastErrorMessage = "Unable to perform login. Missing user data.";
+                $msg = "Unable to perform login. Missing user data.";
+                $this->lastErrorMessage = $msg;
+                $this->log->lwrite("$msg - Device: $deviceTO");
             }
         }
         if(!isset($this->lastErrorMessage)){
-            $this->lastErrorMessage = "Unable to add this new device.";
+            $msg = "Unable to add this new device.";
+            $this->lastErrorMessage = $msg;
+            error($msg);
+            $this->log->lwrite($msg);
         }
         return false;
     }
@@ -64,22 +74,30 @@ class DeviceBO {
                 try{
                     $updateResult = $qcodoEntity->Save(false, true);
                     if(is_bool($updateResult) && !$updateResult){
-                        $this->lastErrorMessage = "Device does not exist.";
+                        $msg = "Device does not exist.";
+                        $this->lastErrorMessage = $msg;
+                        error($msg);
+                        $log->lwrite($msg);
                         return false;
                     }
                     return true;
                 } catch(Exception $e){
-                    $this->lastErrorMessage = "Unable to update token.";
+                    $msg = "Unable to update token.";
+                    $this->lastErrorMessage = $msg;
+                    error($msg." Exception: ".$e->getMessage());
+                    $log->lwrite($msg);
                     return false;
                 }
             }
         }
         if(!isset($this->lastErrorMessage)){
-            $this->lastErrorMessage = "Unable to update token for this device.";
+            $msg = "Unable to update token for this device.";
+            $this->lastErrorMessage = $msg;
+            error($msg);
+            $log->lwrite($msg);
         }
         return false;
     }
-    
     
     
     public function getTokenOfThisDevice($deviceTO){
@@ -92,6 +110,10 @@ class DeviceBO {
         return null;
     }
     
+    
+    public function __destruct() {
+        $this->log->lclose();
+    }
 }
 
 ?>

@@ -1,5 +1,6 @@
 <?php
 
+require_once(LOG_MODULE);
 
 class FileTO {
     public $path;
@@ -34,7 +35,10 @@ class File {
         if ($result) {
             return $this->fileTO;
         } else {
-            throw new Exception("Error parsing json. Message=" . $message);
+            $msg = "Error parsing json. Message=" . $message;
+            error($msg);
+            $log->lwrite($msg);
+            throw new Exception($msg);
         }
     }
 
