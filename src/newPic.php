@@ -27,12 +27,14 @@ require_once ("php_func/clientComunication.php");
 require_once ("php_func/receiveFileUploaded.php");
 require_once ("php_classes/bean/Picture.class.php");
 require_once ("php_classes/BO/PictureBO.class.php");
-
-
 require_once("./checkAPIKey.php");
+require_once (LOG_MODULE);
 
 if(isset($_POST['apikey']) && !CheckAPIKey($_POST['apikey'])){
-    error("API KEY NOT VALID.");
+    $msg = "API KEY NOT VALID.";
+    error($msg);
+    $log->lwrite($msg);
+    $log->lclose();
     die();
 }
 
@@ -43,38 +45,45 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
         $pictureTO = Picture::getPictureTOFromJson($_POST['data']);
         
         if(isset($pictureTO->deviceId)){
-            
             $filePathWeb = doUploadNow($pictureTO->deviceId);
-
             $pictureTO->path = $filePathWeb;
-            
             $pictureBO = new PictureBO();
-
             $result = $pictureBO->newPicture($pictureTO);
             
             if ($result) {
                 ok();
             }
             else{
-                error("Unable to create new picture. ".$pictureBO->lastErrorMessage);
+                $msg = "Unable to create new picture file. ".$pictureBO->lastErrorMessage;
+                error($msg);
+                $log->lwrite($msg);
             }
         }
         else{
-            error("Missing device identifier.");
+            $msg = "Missing device identifier.";
+            error($msg);
+            $log->lwrite($msg);
         }
                 
     } catch (Exception $e){
-        error($e->getMessage());
+        $msg = "Unexpected server error.";
+        error($msg);
+        $log->lwrite("$msg  Exception : ".$e->getMessage().", ".$e->getTraceAsString());
     }
 }
 else {
     if (isset($_SERVER["CONTENT_LENGTH"])){
         if($_SERVER["CONTENT_LENGTH"]>((int)ini_get('post_max_size')*1024*1024)){
-            error("File too big.");
+            $msg = "File too big.";
+            error($msg);
+            $log->lwrite($msg);
+            $log->lclose();
             die();
         }
     }
-
-    error("No file passed.");
+    $msg = "No file passed";
+    error($msg);
+    $log->lwrite($msg);
 }
-?>
+
+$log->lclose();

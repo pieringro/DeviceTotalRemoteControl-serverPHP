@@ -5,30 +5,26 @@ require_once ("php_func/clientComunication.php");
 require_once ("php_func/receiveFileUploaded.php");
 require_once ("php_classes/bean/AudioFile.class.php");
 require_once ("php_classes/BO/AudioFileBO.class.php");
+require_once("./checkAPIKey.php");
 require_once (LOG_MODULE);
 
-require_once("./checkAPIKey.php");
-
 if(isset($_POST['apikey']) && !CheckAPIKey($_POST['apikey'])){
-    error("API KEY NOT VALID.");
+    $msg = "API KEY NOT VALID.";
+    error($msg);
+    $log->lwrite($msg);
+    $log->lclose();
     die();
 }
 
 if (isset($_POST['data']) && isset($_FILES['file'])) {
     try {
-        
         $audioFileTO = AudioFile::getAudioFileTOFromJson($_POST['data']);
         
         if(isset($audioFileTO->deviceId)){
-            
             $filePathWeb = doUploadNow($audioFileTO->deviceId);
-
             $audioFileTO->path = $filePathWeb;
-            
             $audioFileBO = new AudioFileBO();
-
             $result = $audioFileBO->newAudioFile($audioFileTO);
-            
             if ($result) {
                 ok();
             }
@@ -45,8 +41,9 @@ if (isset($_POST['data']) && isset($_FILES['file'])) {
         }
     }
     catch (Exception $e) {
-        error($e->getMessage());
-        $log->lwrite($e->getMessage());
+        $msg = "Unexpected server error.";
+        error($msg);
+        $log->lwrite("$msg  Exception : ".$e->getMessage().", ".$e->getTraceAsString());
     }
 }
 else{

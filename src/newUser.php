@@ -3,11 +3,14 @@ require_once ("config/constants.php");
 require_once ("php_func/clientComunication.php");
 require_once ("php_classes/bean/User.class.php");
 require_once ("php_classes/BO/UserBO.class.php");
-
 require_once("./checkAPIKey.php");
+require_once (LOG_MODULE);
 
 if(isset($_POST['apikey']) && !CheckAPIKey($_POST['apikey'])){
-    error("API KEY NOT VALID.");
+    $msg = "API KEY NOT VALID.";
+    error($msg);
+    $log->lwrite($msg);
+    $log->lclose();
     die();
 }
 
@@ -23,17 +26,22 @@ if (isset($_POST['data'])) {
                 ok();
             }
             else{
-                error("Unable to create new user. ".$userBO->lastErrorMessage);
+                $msg = "Unable to create new user. ".$userBO->lastErrorMessage;
+                error($msg);
+                $log->lwrite($msg);
             }
         }
 
     } catch (Exception $e) {
-        error($e->getMessage());
+        $msg = "Unexpected server error.";
+        error($msg);
+        $log->lwrite("$msg  Exception : ".$e->getMessage().", ".$e->getTraceAsString());
     }
-} else {
-    error("No data passed.");
+}
+else {
+    $msg = "No data passed.";
+    error($msg);
+    $log->lwrite($msg);
 }
 
-
-
-?>
+$log->lclose();

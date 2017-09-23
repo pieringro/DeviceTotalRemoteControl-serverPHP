@@ -36,7 +36,7 @@ class DeviceBO {
                         return true;
                     } catch (Exception $e){
                         //salvo il message dell'exception nel log
-                        $msg = "Exception while saving new user. ";
+                        $msg = "Exception while saving new device. ";
                         $this->lastErrorMessage = $msg;
                         $this->log->lwrite("$msg - Exception: ".$e->getMessage()." "
                                 .$e->getTraceAsString()." User: $userTO");
