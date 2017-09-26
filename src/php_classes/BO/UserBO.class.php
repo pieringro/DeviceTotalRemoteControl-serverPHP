@@ -1,4 +1,5 @@
 <?php
+require_once ("../../config/constants.php");
 require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once(__INCLUDES__ . "/prepend.inc.php");
@@ -15,23 +16,58 @@ class UserBO {
     public $lastErrorMessage;
     
     public function newUser($userTO){
+        $result = false;
+        
         if(($userTO instanceof UserTO)){
             //logica di criptazione della password da salvare
             $userTO->pass = @crypt($userTO->pass);
-            $qcodoEntity = new DtrcUsers();
-            $qcodoEntity->InitDataWithTO($userTO);
+            $dtrcUser = new DtrcUsers();
+            $dtrcUser->InitDataWithTO($userTO);
             try{
-                $qcodoEntity->Save();
-                return true;
+                $dtrcUser->Save();
+                $result = true;
             } catch (Exception $e){
                 //salvo il message dell'exception nel log
                 $msg = "Exception while saving new user.";
                 $this->lastErrorMessage = $msg;
                 $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO");
-                return false;
+                $result = false;
+            }
+            
+            //crea una corrispondenza su DtrcPendingEmailUserConfirmation
+            if($result){
+                $dtrcPendingEmail = new DtrcPendingEmailUserConfirmation();
+                $dtrcPendingEmail->EmailUser = $userTO->email;
+                
+                try{
+                    $dtrcPendingEmail->Save();
+                    $result = true;
+                } catch (Exception $e){
+                    //salvo il message dell'exception nel log
+                    $msg = "Exception while saving new pending email for new user.";
+                    $this->lastErrorMessage = $msg;
+                    $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO");
+                    $result = false;
+                }
             }
         }
-        return false;
+        return $result;
+    }
+    
+    public function activeUser($userTO){
+        $result = false;
+        if(($userTO instanceof UserTO)){
+            try{
+                DtrcUsers::ActiveUser($userTO->email);
+                $result = true;
+            } catch (Exception $e) {
+                $msg = "Exception while activating user ".$userTO->email.".";
+                $this->lastErrorMessage = $msg;
+                $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO");
+                $result = false;
+            }            
+        }
+        return $result;
     }
     
     public function loginUser($userTO){
@@ -44,12 +80,19 @@ class UserBO {
             else{
                 if($queryResult instanceof UserTO){
                     if(hash_equals($queryResult->pass, crypt($userTO->pass, $queryResult->pass))){
-                        //login riuscita. Ora si inizializza la sessione
-                        //setto la lifetime del cookie di sessione
-                        session_set_cookie_params(0);
-                        @session_start();
-                        $_SESSION['user'] = serialize($queryResult);
-                        return true;
+                        //controlli se l'utente sia attivo
+                        if($queryResult->inactive){
+                            //login riuscita, ma utente inattivo
+                            return "inactive";
+                        }
+                        else{
+                            //login riuscita, utente attivo. Inizializza la sessione
+                            //setto la lifetime del cookie di sessione
+                            session_set_cookie_params(0);
+                            @session_start();
+                            $_SESSION['user'] = serialize($queryResult);
+                            return true;
+                        }
                     }
                     else{
                         $msg = "Login failed. Password error for user ".$userTO->email;
@@ -85,10 +128,27 @@ class UserBO {
         return null;
     }
     
+    
+    /**
+     * Prendo il uuid memorizzato nella tabella dtrc_pending_email_user_confirmation
+     * lo uso per criptare una stringa (chiave uuid, valore email)
+     * creo il link alla pagina EmailConfirmation, alla quale passo in GET la stringa
+     */
+    public function getLinkToActivateThisUser($emailUser){
+        $link = "";
+        $dtrcPendingEmail = DtrcPendingEmailUserConfirmation::LoadFromEmailUser($emailUser);
+        if(isset($dtrcPendingEmail) && $dtrcPendingEmail instanceof DtrcPendingEmailUserConfirmation){
+            $cryptString = @crypt($dtrcPendingEmail->EmailUser, $dtrcPendingEmail->Id);
+            $link = sprintf("{0}?{1}={2}", EMAIL_CONFIRMATION_FUNCTION, EMAIL_KEY_NAME, $cryptString);
+        }
+        return $link;
+    }
+    
     public function __destruct() {
         $this->log->lclose();
     }
     
 }
-    
-?>
+  
+
+

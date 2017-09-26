@@ -34,11 +34,23 @@
                         $userTo = new UserTO();
                         $userTo->email = $result->Email;
                         $userTo->pass = $result->Pass;
+                        $userTo->inactive = $result->Inactive;
                         return $userTo;
                     }
                     return false;
                 }
-
+                
+                public static function ActiveUser($strEmail){
+                    $dtrcUser = parent::Load($strEmail);
+                    $dtrcUser->ActiveThisUser();
+                    try{
+                        $dtrcUser->Save(false, true);
+                    } catch (QCallerException $objExc) {
+                        $objExc->IncrementOffset();
+                        throw $objExc;
+                    }
+                }
+                
                 
                 public function InitDataWithTO($userTO){
                     if($userTO instanceof UserTO){
@@ -46,6 +58,77 @@
                         $this->Pass = $userTO->pass;
                         $this->Lang = $userTO->lang;
                     }
+                }
+                
+                /**
+                 * Da chiamare prima di salvare un utente per attivarlo
+                 */
+                public function ActiveThisUser(){
+                    $this->Inactive = 0;
+                }
+                
+                public function Save($blnForceInsert = false, $blnForceUpdate = false) {
+                    //check if exists a Device with the same id
+                    $otherUserTO = DtrcUsers::LoadInTO($this->strEmail);
+                    
+                    if (isset($otherUserTO) && $otherUserTO instanceof DtrcUsers &&
+                            $otherUserTO->email == $this->strEmail) {
+                        //exist an other device with same id
+                        if ($blnForceUpdate) {//is in update
+                            return $this->Update();
+                        }
+                        return false; //is in create
+                    } else {
+                        //does not exist an other device
+                        if ($blnForceUpdate) {//is in update
+                            return false;
+                        }
+                        return parent::Save($blnForceInsert, $blnForceUpdate);
+                    }
+                }
+                
+                
+                
+                
+                private function Update() {
+                    // Get the Database Object for this Class
+                    $objDatabase = DtrcUsers::GetDatabase();
+                    $mixToReturn = null;
+
+                    try {
+                        // Perform an UPDATE query
+                        // First checking for Optimistic Locking constraints (if applicable)
+
+                        if (!isset($this->__strEmail)) {
+                            $this->__strEmail = $this->strEmail;
+                        }
+
+                        $objDatabase->NonQuery('
+						UPDATE
+							`dtrc_users`
+						SET
+							`Email` = ' . $objDatabase->SqlVariable($this->strEmail) . ',
+							`Pass` = ' . $objDatabase->SqlVariable($this->strPass) . ',
+							`Lang` = ' . $objDatabase->SqlVariable($this->strLang) . ',
+							`Inactive` = ' . $objDatabase->SqlVariable($this->blnInactive) . '
+						WHERE
+							`Email` = ' . $objDatabase->SqlVariable($this->__strEmail) . '
+					');
+
+                        // Journaling
+                        if ($objDatabase->JournalingDatabase)
+                            $this->Journal('UPDATE');
+                    } catch (QCallerException $objExc) {
+                        $objExc->IncrementOffset();
+                        throw $objExc;
+                    }
+
+                    // Update __blnRestored and any Non-Identity PK Columns (if applicable)
+                    $this->__blnRestored = true;
+                    $this->__strEmail = $this->strEmail;
+
+                    // Return 
+                    return $mixToReturn;
                 }
                 
                 
@@ -160,4 +243,4 @@
 		}
 */
 	}
-?>
+

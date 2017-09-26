@@ -1,9 +1,9 @@
 <?php
 	/**
 	 * This is the "Meta" DataGrid class for the List functionality
-	 * of the DtrcUsers class.  This code-generated class
+	 * of the DtrcPendingEmailUserConfirmation class.  This code-generated class
 	 * contains a QDataGrid class which can be used by any QForm or QPanel,
-	 * listing a collection of DtrcUsers objects.  It includes
+	 * listing a collection of DtrcPendingEmailUserConfirmation objects.  It includes
 	 * functionality to perform pagination and sorting on columns.
 	 *
 	 * To take advantage of some (or all) of these control objects, you
@@ -16,7 +16,7 @@
 	 * @subpackage MetaControls
 	 * 
 	 */
-	class DtrcUsersDataGridGen extends QDataGrid {
+	class DtrcPendingEmailUserConfirmationDataGridGen extends QDataGrid {
 		/**
 		 * Standard DataGrid constructor which also pre-configures the DataBinder
 		 * to its own BindAllRows method (which can obviousy be switched to something else).
@@ -35,9 +35,9 @@
 
 		/**
 		 * Given the description of the Column's contents, this is a simple, express
-		 * way of adding a column to this DtrcUsers datagrid.  The description of a column's
+		 * way of adding a column to this DtrcPendingEmailUserConfirmation datagrid.  The description of a column's
 		 * content can be either a text string description of a simple field name
-		 * in the DtrcUsers object, or it can be any QQNode extending from QQN::DtrcUsers().
+		 * in the DtrcPendingEmailUserConfirmation object, or it can be any QQNode extending from QQN::DtrcPendingEmailUserConfirmation().
 		 * 
 		 * MetaAddColumn will automatically pre-configure the column with the name, html
 		 * and sort rules given the content being specified.
@@ -45,7 +45,7 @@
 		 * Any of these things can be overridden with OverrideParameters.
 		 * 
 		 * Finally, $mixContents can also be an array of contents, if displaying and/or
-		 * sorting using two fields from the DtrcUsers object.
+		 * sorting using two fields from the DtrcPendingEmailUserConfirmation object.
 		 *
 		 * @param mixed $mixContents
 		 * @param string $objOverrideParameters[]
@@ -127,7 +127,7 @@
 		 * 
 		 * Also, $mixContent cannot be an array.  Only a single field can be specified.
 		 *
-		 * @param mixed $mixContent string or QQNode from DtrcUsers
+		 * @param mixed $mixContent string or QQNode from DtrcPendingEmailUserConfirmation
 		 * @param string $strTypeClassName the name of the TypeClass to use $NameArray against
 		 * @param mixed $objOverrideParameters
 		 */
@@ -187,10 +187,10 @@
 		public function MetaAddEditLinkColumn($strLinkUrl, $strLinkHtml = 'Edit', $strColumnTitle = 'Edit', $intArgumentType = QMetaControlArgumentType::PathInfo) {
 			switch ($intArgumentType) {
 				case QMetaControlArgumentType::QueryString:
-					$strLinkUrl .= '?strEmail=<?=urlencode($_ITEM->Email)?>';
+					$strLinkUrl .= '?strId=<?=urlencode($_ITEM->Id)?>';
 					break;
 				case QMetaControlArgumentType::PathInfo:
-					$strLinkUrl .= '/<?=str_replace("+","%20",urlencode($_ITEM->Email))?>';
+					$strLinkUrl .= '/<?=str_replace("+","%20",urlencode($_ITEM->Id))?>';
 					break;
 				default:
 					throw new QCallerException('Unable to pass arguments with this intArgumentType: ' . $intArgumentType);
@@ -212,7 +212,7 @@
 		 * @param string $strColumnTitle the HTML of the link text
 		 */
 		public function MetaAddEditProxyColumn(QControlProxy $pxyControl, $strLinkHtml = 'Edit', $strColumnTitle = 'Edit') {
-			$strHtml = '<a href="#" <?= $_FORM->GetControl("' . $pxyControl->ControlId . '")->RenderAsEvents($_ITEM->Email, false); ?>>' . QApplication::Translate($strLinkHtml) . '</a>';
+			$strHtml = '<a href="#" <?= $_FORM->GetControl("' . $pxyControl->ControlId . '")->RenderAsEvents($_ITEM->Id, false); ?>>' . QApplication::Translate($strLinkHtml) . '</a>';
 			$colEditColumn = new QDataGridColumn(QApplication::Translate($strColumnTitle), $strHtml, 'HtmlEntities=False');
 			$this->AddColumn($colEditColumn);
 			return $colEditColumn;
@@ -251,7 +251,7 @@
 			$objClauses = ($objOptionalClauses) ? $objOptionalClauses : array();
 
 			// We need to first set the TotalItemCount, which will affect the calcuation of LimitClause below
-			if ($this->Paginator) $this->TotalItemCount = DtrcUsers::QueryCount($objCondition, $objClauses);
+			if ($this->Paginator) $this->TotalItemCount = DtrcPendingEmailUserConfirmation::QueryCount($objCondition, $objClauses);
 
 			// If a column is selected to be sorted, and if that column has a OrderByClause set on it, then let's add
 			// the OrderByClause to the $objClauses array
@@ -260,8 +260,8 @@
 			// Add the LimitClause information, as well
 			if ($objClause = $this->LimitClause) array_push($objClauses, $objClause);
 
-			// Set the DataSource to be a Query result from DtrcUsers, given the clauses above
-			$this->DataSource = DtrcUsers::QueryArray($objCondition, $objClauses);
+			// Set the DataSource to be a Query result from DtrcPendingEmailUserConfirmation, given the clauses above
+			$this->DataSource = DtrcPendingEmailUserConfirmation::QueryArray($objCondition, $objClauses);
 		}
 
 
@@ -269,8 +269,8 @@
 		/**
 		 * Used internally by the Meta-based Add Column tools.
 		 *
-		 * Given a QQNode or a Text String, this will return a DtrcUsers-based QQNode.
-		 * It will also verify that it is a proper DtrcUsers-based QQNode, and will throw an exception otherwise.
+		 * Given a QQNode or a Text String, this will return a DtrcPendingEmailUserConfirmation-based QQNode.
+		 * It will also verify that it is a proper DtrcPendingEmailUserConfirmation-based QQNode, and will throw an exception otherwise.
 		 *
 		 * @param mixed $mixContent
 		 * @return QQNode
@@ -279,7 +279,7 @@
 			if ($mixContent instanceof QQNode) {
 				if (!$mixContent->_ParentNode)
 					throw new QCallerException('Content QQNode cannot be a Top Level Node');
-				if ($mixContent->_RootTableName == 'dtrc_users') {
+				if ($mixContent->_RootTableName == 'dtrc_pending_email_user_confirmation') {
 					if (($mixContent instanceof QQReverseReferenceNode) && !($mixContent->_PropertyName))
 						throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');
 					$objCurrentNode = $mixContent;
@@ -291,13 +291,12 @@
 					}
 					return $mixContent;
 				} else
-					throw new QCallerException('Content QQNode has a root table of "' . $mixContent->_RootTableName . '". Must be a root of "dtrc_users".');
+					throw new QCallerException('Content QQNode has a root table of "' . $mixContent->_RootTableName . '". Must be a root of "dtrc_pending_email_user_confirmation".');
 			} else if (is_string($mixContent)) switch ($mixContent) {
-				case 'Email': return QQN::DtrcUsers()->Email;
-				case 'Pass': return QQN::DtrcUsers()->Pass;
-				case 'Lang': return QQN::DtrcUsers()->Lang;
-				case 'Inactive': return QQN::DtrcUsers()->Inactive;
-				default: throw new QCallerException('Simple Property not found in DtrcUsersDataGrid content: ' . $mixContent);
+				case 'Id': return QQN::DtrcPendingEmailUserConfirmation()->Id;
+				case 'EmailUser': return QQN::DtrcPendingEmailUserConfirmation()->EmailUser;
+				case 'EmailUserObject': return QQN::DtrcPendingEmailUserConfirmation()->EmailUserObject;
+				default: throw new QCallerException('Simple Property not found in DtrcPendingEmailUserConfirmationDataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)
 				throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');
 			else

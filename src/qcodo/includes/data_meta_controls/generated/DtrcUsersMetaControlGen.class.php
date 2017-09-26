@@ -22,6 +22,8 @@
 	 * property-read QLabel $PassLabel
 	 * property QTextBox $LangControl
 	 * property-read QLabel $LangLabel
+	 * property QCheckBox $InactiveControl
+	 * property-read QLabel $InactiveLabel
 	 * property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -71,6 +73,12 @@
          */
 		protected $txtLang;
 
+        /**
+         * @var QCheckBox chkInactive;
+         * @access protected
+         */
+		protected $chkInactive;
+
 
 		// Controls that allow the viewing of DtrcUsers's individual data fields
         /**
@@ -90,6 +98,12 @@
          * @access protected
          */
 		protected $lblLang;
+
+        /**
+         * @var QLabel lblInactive
+         * @access protected
+         */
+		protected $lblInactive;
 
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
@@ -268,6 +282,30 @@
 			return $this->lblLang;
 		}
 
+		/**
+		 * Create and setup QCheckBox chkInactive
+		 * @param string $strControlId optional ControlId to use
+		 * @return QCheckBox
+		 */
+		public function chkInactive_Create($strControlId = null) {
+			$this->chkInactive = new QCheckBox($this->objParentObject, $strControlId);
+			$this->chkInactive->Name = QApplication::Translate('Inactive');
+			$this->chkInactive->Checked = $this->objDtrcUsers->Inactive;
+			return $this->chkInactive;
+		}
+
+		/**
+		 * Create and setup QLabel lblInactive
+		 * @param string $strControlId optional ControlId to use
+		 * @return QLabel
+		 */
+		public function lblInactive_Create($strControlId = null) {
+			$this->lblInactive = new QLabel($this->objParentObject, $strControlId);
+			$this->lblInactive->Name = QApplication::Translate('Inactive');
+			$this->lblInactive->Text = ($this->objDtrcUsers->Inactive) ? QApplication::Translate('Yes') : QApplication::Translate('No');
+			return $this->lblInactive;
+		}
+
 
 
 		/**
@@ -287,6 +325,9 @@
 
 			if ($this->txtLang) $this->txtLang->Text = $this->objDtrcUsers->Lang;
 			if ($this->lblLang) $this->lblLang->Text = $this->objDtrcUsers->Lang;
+
+			if ($this->chkInactive) $this->chkInactive->Checked = $this->objDtrcUsers->Inactive;
+			if ($this->lblInactive) $this->lblInactive->Text = ($this->objDtrcUsers->Inactive) ? QApplication::Translate('Yes') : QApplication::Translate('No');
 
 		}
 
@@ -314,6 +355,7 @@
 				if ($this->txtEmail) $this->objDtrcUsers->Email = $this->txtEmail->Text;
 				if ($this->txtPass) $this->objDtrcUsers->Pass = $this->txtPass->Text;
 				if ($this->txtLang) $this->objDtrcUsers->Lang = $this->txtLang->Text;
+				if ($this->chkInactive) $this->objDtrcUsers->Inactive = $this->chkInactive->Checked;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -374,6 +416,12 @@
 				case 'LangLabel':
 					if (!$this->lblLang) return $this->lblLang_Create();
 					return $this->lblLang;
+				case 'InactiveControl':
+					if (!$this->chkInactive) return $this->chkInactive_Create();
+					return $this->chkInactive;
+				case 'InactiveLabel':
+					if (!$this->lblInactive) return $this->lblInactive_Create();
+					return $this->lblInactive;
 				default:
 					try {
 						return parent::__get($strName);
@@ -402,6 +450,8 @@
 						return ($this->txtPass = QType::Cast($mixValue, 'QControl'));
 					case 'LangControl':
 						return ($this->txtLang = QType::Cast($mixValue, 'QControl'));
+					case 'InactiveControl':
+						return ($this->chkInactive = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

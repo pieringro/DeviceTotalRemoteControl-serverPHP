@@ -18,8 +18,11 @@
 	 * @property string $Email the value for strEmail (PK)
 	 * @property string $Pass the value for strPass (Not Null)
 	 * @property string $Lang the value for strLang 
+	 * @property boolean $Inactive the value for blnInactive 
 	 * @property DtrcDevices $_DtrcDevicesAsEmailUser the value for the private _objDtrcDevicesAsEmailUser (Read-Only) if set due to an expansion on the dtrc_devices.EmailUser reverse relationship
 	 * @property DtrcDevices[] $_DtrcDevicesAsEmailUserArray the value for the private _objDtrcDevicesAsEmailUserArray (Read-Only) if set due to an ExpandAsArray on the dtrc_devices.EmailUser reverse relationship
+	 * @property DtrcPendingEmailUserConfirmation $_DtrcPendingEmailUserConfirmationAsEmailUser the value for the private _objDtrcPendingEmailUserConfirmationAsEmailUser (Read-Only) if set due to an expansion on the dtrc_pending_email_user_confirmation.EmailUser reverse relationship
+	 * @property DtrcPendingEmailUserConfirmation[] $_DtrcPendingEmailUserConfirmationAsEmailUserArray the value for the private _objDtrcPendingEmailUserConfirmationAsEmailUserArray (Read-Only) if set due to an ExpandAsArray on the dtrc_pending_email_user_confirmation.EmailUser reverse relationship
 	 * @property boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
 	 */
 	class DtrcUsersGen extends QBaseClass {
@@ -63,6 +66,14 @@
 
 
 		/**
+		 * Protected member variable that maps to the database column dtrc_users.Inactive
+		 * @var boolean blnInactive
+		 */
+		protected $blnInactive;
+		const InactiveDefault = null;
+
+
+		/**
 		 * Private member variable that stores a reference to a single DtrcDevicesAsEmailUser object
 		 * (of type DtrcDevices), if this DtrcUsers object was restored with
 		 * an expansion on the dtrc_devices association table.
@@ -77,6 +88,22 @@
 		 * @var DtrcDevices[] _objDtrcDevicesAsEmailUserArray;
 		 */
 		private $_objDtrcDevicesAsEmailUserArray = array();
+
+		/**
+		 * Private member variable that stores a reference to a single DtrcPendingEmailUserConfirmationAsEmailUser object
+		 * (of type DtrcPendingEmailUserConfirmation), if this DtrcUsers object was restored with
+		 * an expansion on the dtrc_pending_email_user_confirmation association table.
+		 * @var DtrcPendingEmailUserConfirmation _objDtrcPendingEmailUserConfirmationAsEmailUser;
+		 */
+		private $_objDtrcPendingEmailUserConfirmationAsEmailUser;
+
+		/**
+		 * Private member variable that stores a reference to an array of DtrcPendingEmailUserConfirmationAsEmailUser objects
+		 * (of type DtrcPendingEmailUserConfirmation[]), if this DtrcUsers object was restored with
+		 * an ExpandAsArray on the dtrc_pending_email_user_confirmation association table.
+		 * @var DtrcPendingEmailUserConfirmation[] _objDtrcPendingEmailUserConfirmationAsEmailUserArray;
+		 */
+		private $_objDtrcPendingEmailUserConfirmationAsEmailUserArray = array();
 
 		/**
 		 * Protected array of virtual attributes for this object (e.g. extra/other calculated and/or non-object bound
@@ -413,6 +440,7 @@
 			$objBuilder->AddSelectItem($strTableName, 'Email', $strAliasPrefix . 'Email');
 			$objBuilder->AddSelectItem($strTableName, 'Pass', $strAliasPrefix . 'Pass');
 			$objBuilder->AddSelectItem($strTableName, 'Lang', $strAliasPrefix . 'Lang');
+			$objBuilder->AddSelectItem($strTableName, 'Inactive', $strAliasPrefix . 'Inactive');
 		}
 
 
@@ -465,6 +493,20 @@
 					$blnExpandedViaArray = true;
 				}
 
+				$strAlias = $strAliasPrefix . 'dtrcpendingemailuserconfirmationasemailuser__ID';
+				$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
+				if ((array_key_exists($strAlias, $strExpandAsArrayNodes)) &&
+					(!is_null($objDbRow->GetColumn($strAliasName)))) {
+					if ($intPreviousChildItemCount = count($objPreviousItem->_objDtrcPendingEmailUserConfirmationAsEmailUserArray)) {
+						$objPreviousChildItem = $objPreviousItem->_objDtrcPendingEmailUserConfirmationAsEmailUserArray[$intPreviousChildItemCount - 1];
+						$objChildItem = DtrcPendingEmailUserConfirmation::InstantiateDbRow($objDbRow, $strAliasPrefix . 'dtrcpendingemailuserconfirmationasemailuser__', $strExpandAsArrayNodes, $objPreviousChildItem, $strColumnAliasArray);
+						if ($objChildItem)
+							$objPreviousItem->_objDtrcPendingEmailUserConfirmationAsEmailUserArray[] = $objChildItem;
+					} else
+						$objPreviousItem->_objDtrcPendingEmailUserConfirmationAsEmailUserArray[] = DtrcPendingEmailUserConfirmation::InstantiateDbRow($objDbRow, $strAliasPrefix . 'dtrcpendingemailuserconfirmationasemailuser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+					$blnExpandedViaArray = true;
+				}
+
 				// Either return false to signal array expansion, or check-to-reset the Alias prefix and move on
 				if ($blnExpandedViaArray)
 					return false;
@@ -483,6 +525,8 @@
 			$objToReturn->strPass = $objDbRow->GetColumn($strAliasName, 'VarChar');
 			$strAliasName = array_key_exists($strAliasPrefix . 'Lang', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Lang'] : $strAliasPrefix . 'Lang';
 			$objToReturn->strLang = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'Inactive', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Inactive'] : $strAliasPrefix . 'Inactive';
+			$objToReturn->blnInactive = $objDbRow->GetColumn($strAliasName, 'Bit');
 
 			// Instantiate Virtual Attributes
 			foreach ($objDbRow->GetColumnNameArray() as $strColumnName => $mixValue) {
@@ -507,6 +551,16 @@
 					$objToReturn->_objDtrcDevicesAsEmailUserArray[] = DtrcDevices::InstantiateDbRow($objDbRow, $strAliasPrefix . 'dtrcdevicesasemailuser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 				else
 					$objToReturn->_objDtrcDevicesAsEmailUser = DtrcDevices::InstantiateDbRow($objDbRow, $strAliasPrefix . 'dtrcdevicesasemailuser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+			}
+
+			// Check for DtrcPendingEmailUserConfirmationAsEmailUser Virtual Binding
+			$strAlias = $strAliasPrefix . 'dtrcpendingemailuserconfirmationasemailuser__ID';
+			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
+			if (!is_null($objDbRow->GetColumn($strAliasName))) {
+				if (($strExpandAsArrayNodes) && (array_key_exists($strAlias, $strExpandAsArrayNodes)))
+					$objToReturn->_objDtrcPendingEmailUserConfirmationAsEmailUserArray[] = DtrcPendingEmailUserConfirmation::InstantiateDbRow($objDbRow, $strAliasPrefix . 'dtrcpendingemailuserconfirmationasemailuser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+				else
+					$objToReturn->_objDtrcPendingEmailUserConfirmationAsEmailUser = DtrcPendingEmailUserConfirmation::InstantiateDbRow($objDbRow, $strAliasPrefix . 'dtrcpendingemailuserconfirmationasemailuser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 			}
 
 			return $objToReturn;
@@ -625,11 +679,13 @@
 						INSERT INTO `dtrc_users` (
 							`Email`,
 							`Pass`,
-							`Lang`
+							`Lang`,
+							`Inactive`
 						) VALUES (
 							' . $objDatabase->SqlVariable($this->strEmail) . ',
 							' . $objDatabase->SqlVariable($this->strPass) . ',
-							' . $objDatabase->SqlVariable($this->strLang) . '
+							' . $objDatabase->SqlVariable($this->strLang) . ',
+							' . $objDatabase->SqlVariable($this->blnInactive) . '
 						)
 					');
 
@@ -650,7 +706,8 @@
 						SET
 							`Email` = ' . $objDatabase->SqlVariable($this->strEmail) . ',
 							`Pass` = ' . $objDatabase->SqlVariable($this->strPass) . ',
-							`Lang` = ' . $objDatabase->SqlVariable($this->strLang) . '
+							`Lang` = ' . $objDatabase->SqlVariable($this->strLang) . ',
+							`Inactive` = ' . $objDatabase->SqlVariable($this->blnInactive) . '
 						WHERE
 							`Email` = ' . $objDatabase->SqlVariable($this->__strEmail) . '
 					');
@@ -740,6 +797,7 @@
 			$this->__strEmail = $this->strEmail;
 			$this->strPass = $objReloaded->strPass;
 			$this->strLang = $objReloaded->strLang;
+			$this->blnInactive = $objReloaded->blnInactive;
 		}
 
 		/**
@@ -755,6 +813,7 @@
 					`Email`,
 					`Pass`,
 					`Lang`,
+					`Inactive`,
 					__sys_login_id,
 					__sys_action,
 					__sys_date
@@ -762,6 +821,7 @@
 					' . $objDatabase->SqlVariable($this->strEmail) . ',
 					' . $objDatabase->SqlVariable($this->strPass) . ',
 					' . $objDatabase->SqlVariable($this->strLang) . ',
+					' . $objDatabase->SqlVariable($this->blnInactive) . ',
 					' . (($objDatabase->JournaledById) ? $objDatabase->JournaledById : 'NULL') . ',
 					' . $objDatabase->SqlVariable($strJournalCommand) . ',
 					NOW()
@@ -827,6 +887,11 @@
 					// @return string
 					return $this->strLang;
 
+				case 'Inactive':
+					// Gets the value for blnInactive 
+					// @return boolean
+					return $this->blnInactive;
+
 
 				///////////////////
 				// Member Objects
@@ -848,6 +913,18 @@
 					// if set due to an ExpandAsArray on the dtrc_devices.EmailUser reverse relationship
 					// @return DtrcDevices[]
 					return (array) $this->_objDtrcDevicesAsEmailUserArray;
+
+				case '_DtrcPendingEmailUserConfirmationAsEmailUser':
+					// Gets the value for the private _objDtrcPendingEmailUserConfirmationAsEmailUser (Read-Only)
+					// if set due to an expansion on the dtrc_pending_email_user_confirmation.EmailUser reverse relationship
+					// @return DtrcPendingEmailUserConfirmation
+					return $this->_objDtrcPendingEmailUserConfirmationAsEmailUser;
+
+				case '_DtrcPendingEmailUserConfirmationAsEmailUserArray':
+					// Gets the value for the private _objDtrcPendingEmailUserConfirmationAsEmailUserArray (Read-Only)
+					// if set due to an ExpandAsArray on the dtrc_pending_email_user_confirmation.EmailUser reverse relationship
+					// @return DtrcPendingEmailUserConfirmation[]
+					return (array) $this->_objDtrcPendingEmailUserConfirmationAsEmailUserArray;
 
 
 				case '__Restored':
@@ -904,6 +981,17 @@
 					// @return string
 					try {
 						return ($this->strLang = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Inactive':
+					// Sets the value for blnInactive 
+					// @param boolean $mixValue
+					// @return boolean
+					try {
+						return ($this->blnInactive = QType::Cast($mixValue, QType::Boolean));
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -1125,6 +1213,188 @@
 			');
 		}
 
+			
+		
+		// Related Objects' Methods for DtrcPendingEmailUserConfirmationAsEmailUser
+		//-------------------------------------------------------------------
+
+		/**
+		 * Gets all associated DtrcPendingEmailUserConfirmationsAsEmailUser as an array of DtrcPendingEmailUserConfirmation objects
+		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
+		 * @return DtrcPendingEmailUserConfirmation[]
+		*/ 
+		public function GetDtrcPendingEmailUserConfirmationAsEmailUserArray($objOptionalClauses = null) {
+			if ((is_null($this->strEmail)))
+				return array();
+
+			try {
+				return DtrcPendingEmailUserConfirmation::LoadArrayByEmailUser($this->strEmail, $objOptionalClauses);
+			} catch (QCallerException $objExc) {
+				$objExc->IncrementOffset();
+				throw $objExc;
+			}
+		}
+
+		/**
+		 * Counts all associated DtrcPendingEmailUserConfirmationsAsEmailUser
+		 * @return int
+		*/ 
+		public function CountDtrcPendingEmailUserConfirmationsAsEmailUser() {
+			if ((is_null($this->strEmail)))
+				return 0;
+
+			return DtrcPendingEmailUserConfirmation::CountByEmailUser($this->strEmail);
+		}
+
+		/**
+		 * Associates a DtrcPendingEmailUserConfirmationAsEmailUser
+		 * @param DtrcPendingEmailUserConfirmation $objDtrcPendingEmailUserConfirmation
+		 * @return void
+		*/ 
+		public function AssociateDtrcPendingEmailUserConfirmationAsEmailUser(DtrcPendingEmailUserConfirmation $objDtrcPendingEmailUserConfirmation) {
+			if ((is_null($this->strEmail)))
+				throw new QUndefinedPrimaryKeyException('Unable to call AssociateDtrcPendingEmailUserConfirmationAsEmailUser on this unsaved DtrcUsers.');
+			if ((is_null($objDtrcPendingEmailUserConfirmation->Id)))
+				throw new QUndefinedPrimaryKeyException('Unable to call AssociateDtrcPendingEmailUserConfirmationAsEmailUser on this DtrcUsers with an unsaved DtrcPendingEmailUserConfirmation.');
+
+			// Get the Database Object for this Class
+			$objDatabase = DtrcUsers::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				UPDATE
+					`dtrc_pending_email_user_confirmation`
+				SET
+					`EmailUser` = ' . $objDatabase->SqlVariable($this->strEmail) . '
+				WHERE
+					`ID` = ' . $objDatabase->SqlVariable($objDtrcPendingEmailUserConfirmation->Id) . '
+			');
+
+			// Journaling (if applicable)
+			if ($objDatabase->JournalingDatabase) {
+				$objDtrcPendingEmailUserConfirmation->EmailUser = $this->strEmail;
+				$objDtrcPendingEmailUserConfirmation->Journal('UPDATE');
+			}
+		}
+
+		/**
+		 * Unassociates a DtrcPendingEmailUserConfirmationAsEmailUser
+		 * @param DtrcPendingEmailUserConfirmation $objDtrcPendingEmailUserConfirmation
+		 * @return void
+		*/ 
+		public function UnassociateDtrcPendingEmailUserConfirmationAsEmailUser(DtrcPendingEmailUserConfirmation $objDtrcPendingEmailUserConfirmation) {
+			if ((is_null($this->strEmail)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcPendingEmailUserConfirmationAsEmailUser on this unsaved DtrcUsers.');
+			if ((is_null($objDtrcPendingEmailUserConfirmation->Id)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcPendingEmailUserConfirmationAsEmailUser on this DtrcUsers with an unsaved DtrcPendingEmailUserConfirmation.');
+
+			// Get the Database Object for this Class
+			$objDatabase = DtrcUsers::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				UPDATE
+					`dtrc_pending_email_user_confirmation`
+				SET
+					`EmailUser` = null
+				WHERE
+					`ID` = ' . $objDatabase->SqlVariable($objDtrcPendingEmailUserConfirmation->Id) . ' AND
+					`EmailUser` = ' . $objDatabase->SqlVariable($this->strEmail) . '
+			');
+
+			// Journaling
+			if ($objDatabase->JournalingDatabase) {
+				$objDtrcPendingEmailUserConfirmation->EmailUser = null;
+				$objDtrcPendingEmailUserConfirmation->Journal('UPDATE');
+			}
+		}
+
+		/**
+		 * Unassociates all DtrcPendingEmailUserConfirmationsAsEmailUser
+		 * @return void
+		*/ 
+		public function UnassociateAllDtrcPendingEmailUserConfirmationsAsEmailUser() {
+			if ((is_null($this->strEmail)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcPendingEmailUserConfirmationAsEmailUser on this unsaved DtrcUsers.');
+
+			// Get the Database Object for this Class
+			$objDatabase = DtrcUsers::GetDatabase();
+
+			// Journaling
+			if ($objDatabase->JournalingDatabase) {
+				foreach (DtrcPendingEmailUserConfirmation::LoadArrayByEmailUser($this->strEmail) as $objDtrcPendingEmailUserConfirmation) {
+					$objDtrcPendingEmailUserConfirmation->EmailUser = null;
+					$objDtrcPendingEmailUserConfirmation->Journal('UPDATE');
+				}
+			}
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				UPDATE
+					`dtrc_pending_email_user_confirmation`
+				SET
+					`EmailUser` = null
+				WHERE
+					`EmailUser` = ' . $objDatabase->SqlVariable($this->strEmail) . '
+			');
+		}
+
+		/**
+		 * Deletes an associated DtrcPendingEmailUserConfirmationAsEmailUser
+		 * @param DtrcPendingEmailUserConfirmation $objDtrcPendingEmailUserConfirmation
+		 * @return void
+		*/ 
+		public function DeleteAssociatedDtrcPendingEmailUserConfirmationAsEmailUser(DtrcPendingEmailUserConfirmation $objDtrcPendingEmailUserConfirmation) {
+			if ((is_null($this->strEmail)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcPendingEmailUserConfirmationAsEmailUser on this unsaved DtrcUsers.');
+			if ((is_null($objDtrcPendingEmailUserConfirmation->Id)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcPendingEmailUserConfirmationAsEmailUser on this DtrcUsers with an unsaved DtrcPendingEmailUserConfirmation.');
+
+			// Get the Database Object for this Class
+			$objDatabase = DtrcUsers::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				DELETE FROM
+					`dtrc_pending_email_user_confirmation`
+				WHERE
+					`ID` = ' . $objDatabase->SqlVariable($objDtrcPendingEmailUserConfirmation->Id) . ' AND
+					`EmailUser` = ' . $objDatabase->SqlVariable($this->strEmail) . '
+			');
+
+			// Journaling
+			if ($objDatabase->JournalingDatabase) {
+				$objDtrcPendingEmailUserConfirmation->Journal('DELETE');
+			}
+		}
+
+		/**
+		 * Deletes all associated DtrcPendingEmailUserConfirmationsAsEmailUser
+		 * @return void
+		*/ 
+		public function DeleteAllDtrcPendingEmailUserConfirmationsAsEmailUser() {
+			if ((is_null($this->strEmail)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateDtrcPendingEmailUserConfirmationAsEmailUser on this unsaved DtrcUsers.');
+
+			// Get the Database Object for this Class
+			$objDatabase = DtrcUsers::GetDatabase();
+
+			// Journaling
+			if ($objDatabase->JournalingDatabase) {
+				foreach (DtrcPendingEmailUserConfirmation::LoadArrayByEmailUser($this->strEmail) as $objDtrcPendingEmailUserConfirmation) {
+					$objDtrcPendingEmailUserConfirmation->Journal('DELETE');
+				}
+			}
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				DELETE FROM
+					`dtrc_pending_email_user_confirmation`
+				WHERE
+					`EmailUser` = ' . $objDatabase->SqlVariable($this->strEmail) . '
+			');
+		}
+
 
 
 
@@ -1138,6 +1408,7 @@
 			$strToReturn .= '<element name="Email" type="xsd:string"/>';
 			$strToReturn .= '<element name="Pass" type="xsd:string"/>';
 			$strToReturn .= '<element name="Lang" type="xsd:string"/>';
+			$strToReturn .= '<element name="Inactive" type="xsd:boolean"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -1166,6 +1437,8 @@
 				$objToReturn->strPass = $objSoapObject->Pass;
 			if (property_exists($objSoapObject, 'Lang'))
 				$objToReturn->strLang = $objSoapObject->Lang;
+			if (property_exists($objSoapObject, 'Inactive'))
+				$objToReturn->blnInactive = $objSoapObject->Inactive;
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -1202,7 +1475,9 @@
 	 * @property-read QQNode $Email
 	 * @property-read QQNode $Pass
 	 * @property-read QQNode $Lang
+	 * @property-read QQNode $Inactive
 	 * @property-read QQReverseReferenceNodeDtrcDevices $DtrcDevicesAsEmailUser
+	 * @property-read QQReverseReferenceNodeDtrcPendingEmailUserConfirmation $DtrcPendingEmailUserConfirmationAsEmailUser
 	 */
 	class QQNodeDtrcUsers extends QQNode {
 		protected $strTableName = 'dtrc_users';
@@ -1216,8 +1491,12 @@
 					return new QQNode('Pass', 'Pass', 'string', $this);
 				case 'Lang':
 					return new QQNode('Lang', 'Lang', 'string', $this);
+				case 'Inactive':
+					return new QQNode('Inactive', 'Inactive', 'boolean', $this);
 				case 'DtrcDevicesAsEmailUser':
 					return new QQReverseReferenceNodeDtrcDevices($this, 'dtrcdevicesasemailuser', 'reverse_reference', 'EmailUser');
+				case 'DtrcPendingEmailUserConfirmationAsEmailUser':
+					return new QQReverseReferenceNodeDtrcPendingEmailUserConfirmation($this, 'dtrcpendingemailuserconfirmationasemailuser', 'reverse_reference', 'EmailUser');
 
 				case '_PrimaryKeyNode':
 					return new QQNode('Email', 'Email', 'string', $this);
@@ -1236,7 +1515,9 @@
 	 * @property-read QQNode $Email
 	 * @property-read QQNode $Pass
 	 * @property-read QQNode $Lang
+	 * @property-read QQNode $Inactive
 	 * @property-read QQReverseReferenceNodeDtrcDevices $DtrcDevicesAsEmailUser
+	 * @property-read QQReverseReferenceNodeDtrcPendingEmailUserConfirmation $DtrcPendingEmailUserConfirmationAsEmailUser
 	 * @property-read QQNode $_PrimaryKeyNode
 	 */
 	class QQReverseReferenceNodeDtrcUsers extends QQReverseReferenceNode {
@@ -1251,8 +1532,12 @@
 					return new QQNode('Pass', 'Pass', 'string', $this);
 				case 'Lang':
 					return new QQNode('Lang', 'Lang', 'string', $this);
+				case 'Inactive':
+					return new QQNode('Inactive', 'Inactive', 'boolean', $this);
 				case 'DtrcDevicesAsEmailUser':
 					return new QQReverseReferenceNodeDtrcDevices($this, 'dtrcdevicesasemailuser', 'reverse_reference', 'EmailUser');
+				case 'DtrcPendingEmailUserConfirmationAsEmailUser':
+					return new QQReverseReferenceNodeDtrcPendingEmailUserConfirmation($this, 'dtrcpendingemailuserconfirmationasemailuser', 'reverse_reference', 'EmailUser');
 
 				case '_PrimaryKeyNode':
 					return new QQNode('Email', 'Email', 'string', $this);

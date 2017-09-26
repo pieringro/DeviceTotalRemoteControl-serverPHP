@@ -13,6 +13,12 @@
 			return new QQNodeDtrcFiles('dtrc_files', null, null);
 		}
 		/**
+		 * @return QQNodeDtrcPendingEmailUserConfirmation
+		 */
+		static public function DtrcPendingEmailUserConfirmation() {
+			return new QQNodeDtrcPendingEmailUserConfirmation('dtrc_pending_email_user_confirmation', null, null);
+		}
+		/**
 		 * @return QQNodeDtrcResources
 		 */
 		static public function DtrcResources() {

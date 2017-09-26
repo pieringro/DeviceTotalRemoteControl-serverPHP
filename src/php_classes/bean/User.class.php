@@ -6,12 +6,14 @@ class UserTO {
     public $email;
     public $pass;
     public $lang;
+    public $inactive;
 
     public function __toString() {
         return "UserTO : {"
                 . $this->email . ", "
                 . $this->pass.", "
-                . $this->lang
+                . $this->lang.", "
+                . $this->inactive
                 . "}";
     }
 
