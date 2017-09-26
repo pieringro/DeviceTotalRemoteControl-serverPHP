@@ -25,6 +25,12 @@ define('LOG_MODULE', ROOT_WEB . "/engine/log/Log.class.php");
 define('LOG_PATH_FILE', ROOT_WEB . "/engine/log/Log.txt");
 
 
-//---- Codici di errore condivisi con il client
+// ============== Codici di errore condivisi con il client ===========
 define('DEVICE_EXISTS', "0");
+
+// ==============
+
+//conferma indirizzo email utente appena registrato
+define('EMAIL_CONFIRMATION_FUNCTION', $_SERVER['SERVER_NAME']."/website/EmailConfirmation.php");
+define('EMAIL_KEY_NAME', "key");
 
