@@ -10,14 +10,14 @@ require_once (LOG_MODULE);
 
 function sendConfirmationEmail($to, $link, &$msg){
     
-    $subject = 'the subject';
+    $subject = ResourcesManager::getResource("email_subject");
     $headers = 'From: pierprogramm@altervista.org' . "\r\n" .
             'Reply-To: pierprogramm@altervista.org' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
     
-    $message = sprintf(ResourcesManager::getResource("email_body"), $to, $link);
+    $bodyMessage = sprintf(ResourcesManager::getResource("email_body"), $to, $link);
     try{
-        $result = mail($to, $subject, $message, $headers);
+        $result = mail($to, $subject, $bodyMessage, $headers);
     } catch (Exception $e) {
         $msg = ResourcesManager::getResource("email_general_error");
         error($msg);
