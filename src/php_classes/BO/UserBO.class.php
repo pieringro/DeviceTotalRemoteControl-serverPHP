@@ -1,5 +1,7 @@
 <?php
-require_once ("../../config/constants.php");
+if(!defined('ROOT_WEB')){
+    require_once ("../../config/constants.php");
+}
 require_once(ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once(__INCLUDES__ . "/prepend.inc.php");

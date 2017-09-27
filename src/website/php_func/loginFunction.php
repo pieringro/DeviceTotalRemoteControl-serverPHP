@@ -17,9 +17,10 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
             $userBO = new UserBO();
             $result = $userBO->loginUser($userTO);
 
-            if($result == "inactive"){
+            if($result === "inactive"){
                 //TODO utenza non ancora attiva, in attesa della verifica dell'email
                 //visualizzo una pagina ad-hoc per questo stato (frontend, task 101)
+                echo "Utente ancora non attivo.";
             }
             else if ($result) {
                 header("Location: ../HomePage.php");
