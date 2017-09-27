@@ -50,19 +50,24 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
                 $result = $userBO->newUser($userTO);
 
                 if ($result) {
-                    
                     $link = $userBO->getLinkToActivateThisUser($email);
-                    
                     //invia email
                     $result = sendConfirmationEmail($userTO->email, $link, $msg);
-
                     if($result){
                         $msg = ResourcesManager::getResource("just_sign_up_message");
                         header("Location: ../LoginPage.php?message=$msg");
                     }
                 }
                 else{
-                    $msg = "Unable to create new user. ".$userBO->lastErrorMessage;
+                    if($userBO->lastErrorMessage == USER_ALREADY_EXISTS){
+                        //l'utente gia' esiste
+                        $msg = ResourcesManager::getResource("user_already_exists");
+                    }
+                    else{
+                        //errore generico
+                        $msg = "Unable to create new user. ".$userBO->lastErrorMessage;
+                    }
+                    
                     error($msg);
                     $log->lwrite($msg);
                 }

@@ -16,29 +16,41 @@ class UserBO {
     public $lastErrorMessage;
     
     public function newUser($userTO){
-        $result = false;
+        $result = true;
         
         if(($userTO instanceof UserTO)){
-            //logica di criptazione della password da salvare
-            $userTO->pass = @crypt($userTO->pass);
-            $dtrcUser = new DtrcUsers();
-            $dtrcUser->InitDataWithTO($userTO);
-            try{
-                $dtrcUser->Save();
-                $result = true;
-            } catch (Exception $e){
-                //salvo il message dell'exception nel log
-                $msg = "Exception while saving new user.";
+            
+            //controllo che l'utente non esista gia'
+            $otherUser = DtrcUsers::LoadByEmail($userTO->email);
+            if((isset($otherUser) && $otherUser instanceof DtrcUsers)){
+                $msg = USER_ALREADY_EXISTS;
                 $this->lastErrorMessage = $msg;
-                $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO");
+                $this->log->lwrite("$msg ($userTO)");
                 $result = false;
+            }
+            
+            //effettua creazione record utente
+            if($result){
+                //logica di criptazione della password da salvare
+                $userTO->pass = @crypt($userTO->pass);
+                $dtrcUser = new DtrcUsers();
+                $dtrcUser->InitDataWithTO($userTO);
+                try{
+                    $dtrcUser->Save();
+                    $result = true;
+                } catch (Exception $e){
+                    //salvo il message dell'exception nel log
+                    $msg = "Exception while saving new user.";
+                    $this->lastErrorMessage = $msg;
+                    $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO");
+                    $result = false;
+                }
             }
             
             //crea una corrispondenza su DtrcPendingEmailUserConfirmation
             if($result){
                 $dtrcPendingEmail = new DtrcPendingEmailUserConfirmation();
                 $dtrcPendingEmail->EmailUser = $userTO->email;
-                
                 try{
                     $dtrcPendingEmail->Save();
                     $result = true;
@@ -139,7 +151,7 @@ class UserBO {
         $dtrcPendingEmail = DtrcPendingEmailUserConfirmation::LoadFromEmailUser($emailUser);
         if(isset($dtrcPendingEmail) && $dtrcPendingEmail instanceof DtrcPendingEmailUserConfirmation){
             $cryptString = @crypt($dtrcPendingEmail->EmailUser, $dtrcPendingEmail->Id);
-            $link = sprintf("{0}?{1}={2}", EMAIL_CONFIRMATION_FUNCTION, EMAIL_KEY_NAME, $cryptString);
+            $link = sprintf("%s?%s=%s", EMAIL_CONFIRMATION_FUNCTION, EMAIL_KEY_NAME, $cryptString);
         }
         return $link;
     }

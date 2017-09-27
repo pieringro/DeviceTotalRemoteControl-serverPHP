@@ -27,7 +27,7 @@ define('LOG_PATH_FILE', ROOT_WEB . "/engine/log/Log.txt");
 
 // ============== Codici di errore condivisi con il client ===========
 define('DEVICE_EXISTS', "0");
-
+define('USER_ALREADY_EXISTS', "1");
 // ==============
 
 //conferma indirizzo email utente appena registrato
