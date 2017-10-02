@@ -1,4 +1,5 @@
 <?php
+require_once('../config/constants.php');
 
 
 
@@ -8,5 +9,6 @@
 //trovata la corrispondenza, elimino il record di dtrc_pending_email_user_confirmation
 //e abilito l'utente su dtrc_users (flag inactive)
 
-$cryptString = $_GET[EMAIL_KEY_NAME];
+//occorre creare una BO per le pending email
 
+$cryptString = $_GET[EMAIL_KEY_NAME];
