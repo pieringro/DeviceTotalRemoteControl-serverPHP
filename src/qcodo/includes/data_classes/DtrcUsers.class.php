@@ -57,6 +57,7 @@
                         $this->Email = $userTO->email;
                         $this->Pass = $userTO->pass;
                         $this->Lang = $userTO->lang;
+                        $this->Inactive = 1;
                     }
                 }
                 
