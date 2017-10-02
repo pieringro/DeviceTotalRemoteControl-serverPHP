@@ -11,8 +11,8 @@ require_once (LOG_MODULE);
 function sendConfirmationEmail($to, $link, &$msg){
     
     $subject = ResourcesManager::getResource("email_subject");
-    $headers = 'From: pierprogramm@altervista.org' . "\r\n" .
-            'Reply-To: pierprogramm@altervista.org' . "\r\n" .
+    $headers = 'From: noreply-dtrc@altervista.org' . "\r\n" .
+            'Reply-To: noreply-dtrc@altervista.org' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
     
     $bodyMessage = sprintf(ResourcesManager::getResource("email_body"), $to, $link);
