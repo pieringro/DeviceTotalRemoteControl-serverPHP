@@ -15,35 +15,10 @@ if(isset($cryptedString)){
     if($match){
         $msg = ResourcesManager::getResource("user_activated");
         header("Location: LoginPage.php?message=$msg");
-        die();
+    }
+    else{
+        header("Location: LoginPage.php");
     }
 }
-//trovata la corrispondenza, elimino il record di dtrc_pending_email_user_confirmation
-//e abilito l'utente su dtrc_users (flag inactive)
 
 ?>
-
-
-<html>
-    <head>
-        <title></title>
-    </head>
-    
-    <body>
-<?php
-        if($match) {
-?>
-        <p>
-            
-        </p>
-<?php
-        }
-?>
-    </body>
-    
-</html>
-
-
-
-
-

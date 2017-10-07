@@ -20,7 +20,9 @@ class PendingEmailBO {
     
     
     /**
-     * 
+     * Prova a trovare una corrispondenza della stringa criptata, tra le 
+     * conferme email pendenti. Se la trova, allora elimina il record di email
+     * pendente e attiva l'utente.
      */
     public function decrypt($cryptedString){
         $result = false;
