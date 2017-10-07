@@ -31,6 +31,6 @@ define('USER_ALREADY_EXISTS', "1");
 // ==============
 
 //conferma indirizzo email utente appena registrato
-define('EMAIL_CONFIRMATION_FUNCTION', $_SERVER['SERVER_NAME']."/website/EmailConfirmation.php");
+define('EMAIL_CONFIRMATION_FUNCTION', $_SERVER['SERVER_NAME']."/DTRC/website/EmailConfirmation.php");
 define('EMAIL_KEY_NAME', "key");
 

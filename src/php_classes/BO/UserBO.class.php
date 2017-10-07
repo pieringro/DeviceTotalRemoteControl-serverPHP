@@ -68,18 +68,27 @@ class UserBO {
         return $result;
     }
     
-    public function activeUser($userTO){
+    public function activeUser($userTO_or_email){
         $result = false;
-        if(($userTO instanceof UserTO)){
+        if(($userTO_or_email instanceof UserTO)){
             try{
-                DtrcUsers::ActiveUser($userTO->email);
-                $result = true;
+                $result = DtrcUsers::ActiveUser($userTO_or_email->email);
             } catch (Exception $e) {
-                $msg = "Exception while activating user ".$userTO->email.".";
+                $msg = "Exception while activating user ".$userTO_or_email->email.".";
                 $this->lastErrorMessage = $msg;
-                $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO");
+                $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO_or_email");
                 $result = false;
-            }            
+            }
+        }
+        else if(is_string($userTO_or_email)){
+            try{
+                $result = DtrcUsers::ActiveUser($userTO_or_email);
+            } catch (Exception $e) {
+                $msg = "Exception while activating user {$userTO_or_email}.";
+                $this->lastErrorMessage = $msg;
+                $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO_or_email");
+                $result = false;
+            }
         }
         return $result;
     }

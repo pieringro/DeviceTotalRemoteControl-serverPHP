@@ -44,11 +44,12 @@
                     $dtrcUser = parent::Load($strEmail);
                     $dtrcUser->ActiveThisUser();
                     try{
-                        $dtrcUser->Save(false, true);
+                        $result = $dtrcUser->Save();
                     } catch (QCallerException $objExc) {
                         $objExc->IncrementOffset();
                         throw $objExc;
                     }
+                    return $result;
                 }
                 
                 
@@ -84,7 +85,10 @@
                         if ($blnForceUpdate) {//is in update
                             return false;
                         }
-                        return parent::Save($blnForceInsert, $blnForceUpdate);
+                        $resultParent = parent::Save($blnForceInsert, $blnForceUpdate);
+                        if($resultParent == null){
+                            return true;
+                        }
                     }
                 }
                 
