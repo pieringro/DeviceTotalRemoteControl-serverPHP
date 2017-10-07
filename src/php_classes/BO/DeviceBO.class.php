@@ -38,8 +38,8 @@ class DeviceBO {
                         //salvo il message dell'exception nel log
                         $msg = "Exception while saving new device. ";
                         $this->lastErrorMessage = $msg;
-                        $this->log->lwrite("$msg - Exception: ".$e->getMessage()." "
-                                .$e->getTraceAsString()." User: $userTO");
+                        $this->log->lwrite("$msg - Exception: ".$e->getMessage()."\n "
+                                .$e->getTraceAsString()."\n User: $userTO");
                         return false;
                     }
                 }
@@ -70,13 +70,11 @@ class DeviceBO {
             if(isset($deviceTO->emailUser)){
                 $qcodoEntity = new DtrcDevices();
                 $qcodoEntity->InitDataWithTO($deviceTO);
-                
                 try{
                     $updateResult = $qcodoEntity->Save(false, true);
                     if(is_bool($updateResult) && !$updateResult){
                         $msg = "Device does not exist.";
                         $this->lastErrorMessage = $msg;
-                        error($msg);
                         $this->log->lwrite($msg);
                         return false;
                     }
@@ -84,7 +82,6 @@ class DeviceBO {
                 } catch(Exception $e){
                     $msg = "Unable to update token.";
                     $this->lastErrorMessage = $msg;
-                    error($msg." Exception: ".$e->getMessage());
                     $this->log->lwrite($msg);
                     return false;
                 }
@@ -93,7 +90,6 @@ class DeviceBO {
         if(!isset($this->lastErrorMessage)){
             $msg = "Unable to update token for this device.";
             $this->lastErrorMessage = $msg;
-            error($msg);
             $this->log->lwrite($msg);
         }
         return false;

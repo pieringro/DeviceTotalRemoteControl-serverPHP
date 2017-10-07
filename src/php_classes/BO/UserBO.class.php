@@ -51,10 +51,8 @@ class UserBO {
             
             //crea una corrispondenza su DtrcPendingEmailUserConfirmation
             if($result){
-                $dtrcPendingEmail = new DtrcPendingEmailUserConfirmation();
-                $dtrcPendingEmail->EmailUser = $userTO->email;
                 try{
-                    $dtrcPendingEmail->Save();
+                    $this->createMatchUser($userTO);
                     $result = true;
                 } catch (Exception $e){
                     //salvo il message dell'exception nel log
@@ -71,8 +69,15 @@ class UserBO {
     public function activeUser($userTO_or_email){
         $result = false;
         if(($userTO_or_email instanceof UserTO)){
+            $emailUser = $userTO_or_email->email;
+        }
+        else if(is_string($userTO_or_email)){
+            $emailUser = $userTO_or_email;
+        }
+        
+        if(isset($emailUser)){
             try{
-                $result = DtrcUsers::ActiveUser($userTO_or_email->email);
+                $result = DtrcUsers::ActiveUser($emailUser);
             } catch (Exception $e) {
                 $msg = "Exception while activating user ".$userTO_or_email->email.".";
                 $this->lastErrorMessage = $msg;
@@ -80,16 +85,7 @@ class UserBO {
                 $result = false;
             }
         }
-        else if(is_string($userTO_or_email)){
-            try{
-                $result = DtrcUsers::ActiveUser($userTO_or_email);
-            } catch (Exception $e) {
-                $msg = "Exception while activating user {$userTO_or_email}.";
-                $this->lastErrorMessage = $msg;
-                $this->log->lwrite("$msg - ".$e->getMessage()." , ".$e->getTraceAsString()." User: $userTO_or_email");
-                $result = false;
-            }
-        }
+        
         return $result;
     }
     
@@ -152,6 +148,56 @@ class UserBO {
     }
     
     
+    
+    
+    // <editor-fold defaultstate="collapsed" desc="using of DTRCPendingEmailUserConfirmation">
+    
+    /**
+     * Prova a trovare una corrispondenza della stringa criptata, tra le 
+     * conferme email pendenti. Se la trova, allora elimina il record di email
+     * pendente e attiva l'utente.
+     */
+    public function decrypt($cryptedString){
+        $result = false;
+        
+        $pendingEmailUserConfMatched = null;
+        $allPendingEmailUserConf = DtrcPendingEmailUserConfirmation::LoadAll();
+        foreach($allPendingEmailUserConf as $aPendingEmailUserConf){
+            $uuidRecord = $aPendingEmailUserConf->Id;
+            $emailUserRecord = $aPendingEmailUserConf->EmailUser;
+            $cryptedStringRecord = crypt($emailUserRecord, $uuidRecord);
+            if($cryptedString === $cryptedStringRecord){
+                $result = true;
+                $pendingEmailUserConfMatched = $aPendingEmailUserConf;
+                break;
+            }
+        }
+        
+        //elimino il record corrispondente se e' stato trovato e aggiorno l'utente con Inactive
+        if($result && isset($pendingEmailUserConfMatched)){
+            $result = $this->activeUser($pendingEmailUserConfMatched->EmailUser);
+            if($result){
+                $pendingEmailUserConfMatched->Delete();
+            }
+        }
+        
+        return $result;
+    }
+    
+    
+    
+    
+    public function createMatchUser($userTO){
+        if(isset($userTO) && $userTO instanceof UserTO){
+            $dtrcPendingEmail = new DtrcPendingEmailUserConfirmation();
+            $dtrcPendingEmail->EmailUser = $userTO->email;
+            $dtrcPendingEmail->Save();
+        }
+    }
+    
+    
+    
+    
     /**
      * Prendo il uuid memorizzato nella tabella dtrc_pending_email_user_confirmation
      * lo uso per criptare una stringa (chiave uuid, valore email)
@@ -166,6 +212,12 @@ class UserBO {
         }
         return $link;
     }
+    
+    
+    // </editor-fold>
+    
+    
+    
     
     public function __destruct() {
         $this->log->lclose();

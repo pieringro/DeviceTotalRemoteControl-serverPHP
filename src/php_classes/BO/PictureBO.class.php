@@ -3,7 +3,7 @@
 require_once(ROOT_WEB . "/php_classes/bean/Picture.class.php");
 require_once(ROOT_WEB . "/php_classes/bean/Device.class.php");
 require_once(__INCLUDES__ . "/prepend.inc.php");
-require_once(__DATA_CLASSES__ . "/DtrcUsers.class.php");
+require_once(__DATA_CLASSES__ . "/DtrcFiles.class.php");
 require_once(LOG_MODULE);
 
 class PictureBO {

@@ -46,9 +46,9 @@ class DtrcDevices extends DtrcDevicesGen {
 
     public function Save($blnForceInsert = false, $blnForceUpdate = false) {
         //check if exists a Device with the same id
-        $otherDevice = DtrcDevices::LoadFromId($this->Id);
+        $otherDevice = DtrcDevices::Load($this->strId, $this->strEmailUser);
 
-        if (isset($otherDevice) && $otherDevice->strEmailUser == $this->strEmailUser) {
+        if (isset($otherDevice)) {
             //exist an other device with same id
             if ($blnForceUpdate) {//is in update
                 return $this->Update();

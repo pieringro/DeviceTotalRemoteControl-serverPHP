@@ -52,7 +52,7 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
                 if ($result) {
                     $link = $userBO->getLinkToActivateThisUser($email);
                     //invia email
-                    $result = sendConfirmationEmail($userTO->email, $link, $msg);
+                    $result = sendConfirmationEmail($email, $link, $msg);
                     if($result){
                         $msg = ResourcesManager::getResource("just_sign_up_message");
                         header("Location: ../LoginPage.php?message=$msg");
