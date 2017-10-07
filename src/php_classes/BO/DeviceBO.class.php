@@ -77,7 +77,7 @@ class DeviceBO {
                         $msg = "Device does not exist.";
                         $this->lastErrorMessage = $msg;
                         error($msg);
-                        $log->lwrite($msg);
+                        $this->log->lwrite($msg);
                         return false;
                     }
                     return true;
@@ -85,7 +85,7 @@ class DeviceBO {
                     $msg = "Unable to update token.";
                     $this->lastErrorMessage = $msg;
                     error($msg." Exception: ".$e->getMessage());
-                    $log->lwrite($msg);
+                    $this->log->lwrite($msg);
                     return false;
                 }
             }
@@ -94,7 +94,7 @@ class DeviceBO {
             $msg = "Unable to update token for this device.";
             $this->lastErrorMessage = $msg;
             error($msg);
-            $log->lwrite($msg);
+            $this->log->lwrite($msg);
         }
         return false;
     }
