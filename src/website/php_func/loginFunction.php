@@ -3,9 +3,12 @@ require_once ("../../config/constants.php");
 require_once (ROOT_WEB . "/php_func/clientComunication.php");
 require_once (ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once (ROOT_WEB . "/php_classes/BO/UserBO.class.php");
+require_once (ROOT_WEB.'/engine/resources/ResourcesManager.class.php');
 require_once (LOG_MODULE);
 
 
+$result = true;
+$msg = "";
 if (isset($_POST['email']) && isset($_POST['pass'])) {
     try {
         $email = $_POST['email'];
@@ -15,37 +18,51 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
         $userTO = User::getUserTOFromJson($dataJson);
         if(isset($userTO->email) && isset($userTO->pass)){
             $userBO = new UserBO();
-            $result = $userBO->loginUser($userTO);
+            $resultLogin = $userBO->loginUser($userTO);
 
-            if($result === "inactive"){
-                //TODO utenza non ancora attiva, in attesa della verifica dell'email
-                //visualizzo una pagina ad-hoc per questo stato (frontend, task 101)
-                echo "Utente ancora non attivo.";
+            if($resultLogin === "inactive"){
+                $result = false;
+                $msg = ResourcesManager::getResource("user_inactive");
             }
-            else if ($result) {
+            else if ($resultLogin) {
+                $result = true;
                 header("Location: ../HomePage.php");
             }
             else{
-                $msg = "Unable to perform login. ".$userBO->lastErrorMessage;
-                error($msg);
-                $log->lwrite($msg);
+                $msgForLog = "Unable to perform login. ".$userBO->lastErrorMessage;
+                error($msgForLog);
+                $log->lwrite($msgForLog);
+                $result = false;
+                $msg = ResourcesManager::getResource("login_failed");
             }
         }
         else {
-            $msg = "Unable to perform login. Missing user data.";
-            error($msg);
-            $log->lwrite($msg);
+            $msgForLog = "Unable to perform login. Missing user data.";
+            error($msgForLog);
+            $log->lwrite($msgForLog);
+            $result = false;
+            $msg = ResourcesManager::getResource("login_failed");
         }
-        
     } catch (Exception $e) {
-        $msg = "Unexpected server error.";
-        error($msg);
-        $log->lwrite("$msg - Exception: ".$e->getMessage()." , ".$e->getTraceAsString());
+        $msgForLog = "Unexpected server error.";
+        error($msgForLog);
+        $log->lwrite("$msgForLog - Exception: ".$e->getMessage()." , ".$e->getTraceAsString());
+        $result = false;
+        $msg = ResourcesManager::getResource("server_error");
     }
 } else {
-    $msg = "No data passed.";
-    error($msg);
-    $log->lwrite($msg);
+    $msgForLog = "No data passed.";
+    error($msgForLog);
+    $log->lwrite($msgForLog);
+    $result = false;
+    $msg = ResourcesManager::getResource("login_failed");
 }
 
 $log->lclose();
+
+if($result){
+    header("Location: ../HomePage.php");
+}
+else{
+    header("Location: ../LoginPage.php?message=$msg");
+}
