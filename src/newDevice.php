@@ -21,7 +21,7 @@ require_once ("config/constants.php");
 require_once ("php_func/clientComunication.php");
 require_once ("php_classes/bean/Device.class.php");
 require_once ("php_classes/BO/DeviceBO.class.php");
-require_once("./checkAPIKey.php");
+require_once ("./checkAPIKey.php");
 require_once (LOG_MODULE);
 
 if(isset($_POST['apikey']) && !CheckAPIKey($_POST['apikey'])){
@@ -44,9 +44,14 @@ if (isset($_POST['data'])) {
             ok();
         }
         else{
-            $msg = "Error while creating new device. ".$deviceBO->lastErrorMessage;
+            if($deviceBO->lastErrorMessage === DEVICE_EXISTS){
+                $msg = $deviceBO->lastErrorMessage;
+            }
+            else{
+                $msg = "Error while creating new device. ".$deviceBO->lastErrorMessage;
+                $log->lwrite("$msg");
+            }
             error($msg);
-            $log->lwrite("$msg");
         }
     } catch (Exception $e) {
         //meglio scrivere nel log il messaggio di eccezione $e->getMessage()
