@@ -4,29 +4,8 @@ require_once (ROOT_WEB . "/php_func/clientComunication.php");
 require_once (ROOT_WEB . "/php_classes/bean/User.class.php");
 require_once (ROOT_WEB . "/php_classes/BO/UserBO.class.php");
 require_once (ROOT_WEB . '/engine/resources/ResourcesManager.class.php');
+require_once (ROOT_WEB . "/php_func/emailSending.php");
 require_once (LOG_MODULE);
-
-
-
-function sendConfirmationEmail($to, $link, &$msg){
-    
-    $subject = ResourcesManager::getResource("email_subject");
-    $headers = 'From: noreply-dtrc@altervista.org' . "\r\n" .
-            'Reply-To: noreply-dtrc@altervista.org' . "\r\n" .
-            'X-Mailer: PHP/' . phpversion();
-    
-    $bodyMessage = sprintf(ResourcesManager::getResource("email_body"), $to, $link);
-    try{
-        $result = mail($to, $subject, $bodyMessage, $headers);
-    } catch (Exception $e) {
-        $msg = ResourcesManager::getResource("email_general_error");
-        error($msg);
-        $log->lwrite("$msg - Exception: ".$e->getMessage()." , ".$e->getTraceAsString());
-        $result = false;
-    }
-    
-    return $result;
-}
 
 
 if (isset($_POST['email']) && isset($_POST['pass'])) {
@@ -51,7 +30,6 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
 
                 if ($result) {
                     $link = $userBO->getLinkToActivateThisUser($email);
-                    //invia email
                     $result = sendConfirmationEmail($email, $link, $msg);
                     if($result){
                         $msg = ResourcesManager::getResource("just_sign_up_message");

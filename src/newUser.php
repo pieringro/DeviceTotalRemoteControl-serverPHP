@@ -19,14 +19,34 @@ if (isset($_POST['data'])) {
         $userTO = User::getUserTOFromJson($_POST['data']);
 
         if(isset($userTO->email) && isset($userTO->pass)){
-            $userBO = new UserBO();
-            $result = $userBO->newUser($userTO);
-            
-            if ($result) {
-                ok();
+            $email = $userTO->email;
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $userBO = new UserBO();
+                $result = $userBO->newUser($userTO);
+
+                if ($result) {
+                    $link = $userBO->getLinkToActivateThisUser($email);
+                    $result = sendConfirmationEmail($email, $link, $msg);
+                    if($result){
+                        $msg = ResourcesManager::getResource("just_sign_up_message");
+                        ok();
+                    }
+                }
+                else{
+                    if($userBO->lastErrorMessage == USER_ALREADY_EXISTS){
+                        //l'utente gia' esiste
+                        $msg = ResourcesManager::getResource("user_already_exists");
+                    }
+                    else{
+                        //errore generico
+                        $msg = "Unable to create new user. ".$userBO->lastErrorMessage;
+                    }
+                    error($msg);
+                    $log->lwrite($msg);
+                }
             }
             else{
-                $msg = "Unable to create new user. ".$userBO->lastErrorMessage;
+                $msg = "Validation error email $email";
                 error($msg);
                 $log->lwrite($msg);
             }
