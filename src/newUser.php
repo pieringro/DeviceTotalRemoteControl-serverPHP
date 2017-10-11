@@ -1,9 +1,11 @@
 <?php
 require_once ("config/constants.php");
-require_once ("php_func/clientComunication.php");
-require_once ("php_classes/bean/User.class.php");
-require_once ("php_classes/BO/UserBO.class.php");
-require_once("./checkAPIKey.php");
+require_once (ROOT_WEB . "/php_func/clientComunication.php");
+require_once (ROOT_WEB . "/php_func/emailSending.php");
+require_once (ROOT_WEB . "/php_classes/bean/User.class.php");
+require_once (ROOT_WEB . "/php_classes/BO/UserBO.class.php");
+require_once (ROOT_WEB . '/engine/resources/ResourcesManager.class.php');
+require_once (ROOT_WEB . "/checkAPIKey.php");
 require_once (LOG_MODULE);
 
 if(isset($_POST['apikey']) && !CheckAPIKey($_POST['apikey'])){
