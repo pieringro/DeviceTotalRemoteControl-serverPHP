@@ -201,7 +201,7 @@ class UserBO {
     /**
      * Prendo il uuid memorizzato nella tabella dtrc_pending_email_user_confirmation
      * lo uso per criptare una stringa (chiave uuid, valore email)
-     * creo il link alla pagina EmailConfirmation, alla quale passo in GET la stringa
+     * creo il link per la pagina EmailConfirmation, alla quale passo in GET la stringa
      */
     public function getLinkToActivateThisUser($emailUser){
         $link = "";

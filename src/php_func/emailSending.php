@@ -5,8 +5,7 @@ if(!defined('ROOT_WEB')){
 require_once (ROOT_WEB . '/engine/resources/ResourcesManager.class.php');
 require_once (LOG_MODULE);
 
-define('FROM_EMAIL_ADDRESS', 'noreply-dtrc@altervista.org');
-define('REPLY_TO_EMAIL_ADDRESS', 'noreply-dtrc@altervista.org');
+
 
 function sendConfirmationEmail($to, $link, &$msg){
     

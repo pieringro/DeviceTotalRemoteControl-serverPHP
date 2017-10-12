@@ -34,3 +34,6 @@ define('USER_ALREADY_EXISTS', "1");
 define('EMAIL_CONFIRMATION_FUNCTION', $_SERVER['SERVER_NAME']."/DTRC/website/EmailConfirmation.php");
 define('EMAIL_KEY_NAME', "key");
 
+define('FROM_EMAIL_ADDRESS', 'noreply-dtrc@altervista.org');
+define('REPLY_TO_EMAIL_ADDRESS', 'noreply-dtrc@altervista.org');
+
